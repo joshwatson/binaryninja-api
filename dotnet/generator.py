@@ -245,6 +245,13 @@ namespace BinaryNinja
                     param.type.target.type_class == TypeClass.NamedTypeReferenceClass and
                     str(param.type.target.named_type_reference.name) in opaque_structs):
                 out.write(f'_{param.type.target.named_type_reference.name}*')
+            elif (param.type.type_class == TypeClass.PointerTypeClass and
+                    param.type.target.type_class == TypeClass.NamedTypeReferenceClass and
+                    param.type.target.named_type_reference.type_class == NamedTypeReferenceClass.EnumNamedTypeClass):
+                name = str(param.type.target.named_type_reference.name)
+                if len(name) > 2 and name[2:].startswith('BN'):
+                    name = name[2:]
+                out.write(f'{name}*')
             else:
                 output_type(out, param.type)
             if i < len(type_.parameters) - 1:
