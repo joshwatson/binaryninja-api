@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.InteropServices;
 
 namespace BinaryNinja
@@ -83,20 +82,20 @@ namespace BinaryNinja
 		public unsafe struct BNBinaryDataNotification
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, ulong, ulong> dataWritten;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, ulong, ulong> dataInserted;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, ulong, ulong> dataRemoved;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNFunction*> functionAdded;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNFunction*> functionRemoved;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNFunction*> functionUpdated;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNFunction*> functionUpdateRequested;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNDataVariable*> dataVariableAdded;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNDataVariable*> dataVariableRemoved;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNDataVariable*> dataVariableUpdated;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, StringType, ulong, ulong> stringFound;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, StringType, ulong, ulong> stringRemoved;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNQualifiedName*, BNType*> typeDefined;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNQualifiedName*, BNType*> typeUndefined;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataWrittenDelegate dataWritten;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataInsertedDelegate dataInserted;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataRemovedDelegate dataRemoved;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_functionAddedDelegate functionAdded;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_functionRemovedDelegate functionRemoved;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_functionUpdatedDelegate functionUpdated;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_functionUpdateRequestedDelegate functionUpdateRequested;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataVariableAddedDelegate dataVariableAdded;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataVariableRemovedDelegate dataVariableRemoved;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataVariableUpdatedDelegate dataVariableUpdated;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_stringFoundDelegate stringFound;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_stringRemovedDelegate stringRemoved;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_typeDefinedDelegate typeDefined;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_typeUndefinedDelegate typeUndefined;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -141,161 +140,161 @@ namespace BinaryNinja
 		public unsafe struct BNCustomArchitecture
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNArchitecture*> init;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, Endianness> getEndianness;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getAddressSize;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getDefaultIntegerSize;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getInstructionAlignment;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getMaxInstructionLength;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getOpcodeDisplayLength;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, BNArchitecture*> getAssociatedArchitectureByAddress;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, BNInstructionInfo*, bool> getInstructionInfo;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong*, BNInstructionTextToken**, ulong*, bool> getInstructionText;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<BNInstructionTextToken*, ulong> freeInstructionText;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong*, BNLowLevelILFunction*, bool> getInstructionLowLevelIL;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, char*> getRegisterName;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, char*> getFlagName;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, char*> getFlagWriteTypeName;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, char*> getSemanticFlagClassName;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, char*> getSemanticFlagGroupName;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getFullWidthRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getAllRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getAllFlags;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getAllFlagWriteTypes;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getAllSemanticFlagClasses;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getAllSemanticFlagGroups;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, uint, FlagRole> getFlagRole;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, LowLevelILFlagCondition, uint, ulong*, uint*> getFlagsRequiredForFlagCondition;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, ulong*, uint*> getFlagsRequiredForSemanticFlagGroup;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, ulong*, BNFlagConditionForSemanticClass*> getFlagConditionsForSemanticFlagGroup;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNFlagConditionForSemanticClass*> freeFlagConditionsForSemanticFlagGroup;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, ulong*, uint*> getFlagsWrittenByFlagWriteType;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, uint> getSemanticClassForFlagWriteType;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, LowLevelILOperation, ulong, uint, uint, BNRegisterOrConstant*, ulong, BNLowLevelILFunction*, ulong> getFlagWriteLowLevelIL;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, LowLevelILFlagCondition, uint, BNLowLevelILFunction*, ulong> getFlagConditionLowLevelIL;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, BNLowLevelILFunction*, ulong> getSemanticFlagGroupLowLevelIL;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, uint*> freeRegisterList;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, uint, BNRegisterInfo*> getRegisterInfo;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint> getStackPointerRegister;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint> getLinkRegister;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getGlobalRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, char*> getRegisterStackName;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getAllRegisterStacks;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, uint, BNRegisterStackInfo*> getRegisterStackInfo;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, char*> getIntrinsicName;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getAllIntrinsics;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, ulong*, BNNameAndType*> getIntrinsicInputs;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNNameAndType*, ulong> freeNameAndTypeList;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint, ulong*, BNTypeWithConfidence*> getIntrinsicOutputs;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNTypeWithConfidence*, ulong> freeTypeList;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char*, ulong, BNDataBuffer*, char**, bool> assemble;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, bool> isNeverBranchPatchAvailable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, bool> isAlwaysBranchPatchAvailable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, bool> isInvertBranchPatchAvailable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, bool> isSkipAndReturnZeroPatchAvailable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, bool> isSkipAndReturnValuePatchAvailable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, bool> convertToNop;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, bool> alwaysBranch;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, bool> invertBranch;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, ulong, bool> skipAndReturnValue;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_initDelegate init;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getEndiannessDelegate getEndianness;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAddressSizeDelegate getAddressSize;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getDefaultIntegerSizeDelegate getDefaultIntegerSize;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getInstructionAlignmentDelegate getInstructionAlignment;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getMaxInstructionLengthDelegate getMaxInstructionLength;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getOpcodeDisplayLengthDelegate getOpcodeDisplayLength;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAssociatedArchitectureByAddressDelegate getAssociatedArchitectureByAddress;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getInstructionInfoDelegate getInstructionInfo;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getInstructionTextDelegate getInstructionText;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_freeInstructionTextDelegate freeInstructionText;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getInstructionLowLevelILDelegate getInstructionLowLevelIL;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getRegisterNameDelegate getRegisterName;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagNameDelegate getFlagName;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagWriteTypeNameDelegate getFlagWriteTypeName;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getSemanticFlagClassNameDelegate getSemanticFlagClassName;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getSemanticFlagGroupNameDelegate getSemanticFlagGroupName;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFullWidthRegistersDelegate getFullWidthRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAllRegistersDelegate getAllRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAllFlagsDelegate getAllFlags;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAllFlagWriteTypesDelegate getAllFlagWriteTypes;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAllSemanticFlagClassesDelegate getAllSemanticFlagClasses;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAllSemanticFlagGroupsDelegate getAllSemanticFlagGroups;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagRoleDelegate getFlagRole;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagsRequiredForFlagConditionDelegate getFlagsRequiredForFlagCondition;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagsRequiredForSemanticFlagGroupDelegate getFlagsRequiredForSemanticFlagGroup;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagConditionsForSemanticFlagGroupDelegate getFlagConditionsForSemanticFlagGroup;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_freeFlagConditionsForSemanticFlagGroupDelegate freeFlagConditionsForSemanticFlagGroup;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagsWrittenByFlagWriteTypeDelegate getFlagsWrittenByFlagWriteType;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getSemanticClassForFlagWriteTypeDelegate getSemanticClassForFlagWriteType;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagWriteLowLevelILDelegate getFlagWriteLowLevelIL;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getFlagConditionLowLevelILDelegate getFlagConditionLowLevelIL;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getSemanticFlagGroupLowLevelILDelegate getSemanticFlagGroupLowLevelIL;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_freeRegisterListDelegate freeRegisterList;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getRegisterInfoDelegate getRegisterInfo;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getStackPointerRegisterDelegate getStackPointerRegister;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getLinkRegisterDelegate getLinkRegister;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getGlobalRegistersDelegate getGlobalRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getRegisterStackNameDelegate getRegisterStackName;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAllRegisterStacksDelegate getAllRegisterStacks;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getRegisterStackInfoDelegate getRegisterStackInfo;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getIntrinsicNameDelegate getIntrinsicName;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getAllIntrinsicsDelegate getAllIntrinsics;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getIntrinsicInputsDelegate getIntrinsicInputs;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_freeNameAndTypeListDelegate freeNameAndTypeList;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_getIntrinsicOutputsDelegate getIntrinsicOutputs;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_freeTypeListDelegate freeTypeList;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_assembleDelegate assemble;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_isNeverBranchPatchAvailableDelegate isNeverBranchPatchAvailable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_isAlwaysBranchPatchAvailableDelegate isAlwaysBranchPatchAvailable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_isInvertBranchPatchAvailableDelegate isInvertBranchPatchAvailable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_isSkipAndReturnZeroPatchAvailableDelegate isSkipAndReturnZeroPatchAvailable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_isSkipAndReturnValuePatchAvailableDelegate isSkipAndReturnValuePatchAvailable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_convertToNopDelegate convertToNop;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_alwaysBranchDelegate alwaysBranch;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_invertBranchDelegate invertBranch;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_skipAndReturnValueDelegate skipAndReturnValue;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNCustomBinaryView
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, bool> init;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> freeObject;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, void*, ulong, ulong, ulong> read;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, void*, ulong, ulong> write;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, void*, ulong, ulong> insert;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, ulong, ulong> remove;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, ModificationStatus> getModification;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, bool> isValidOffset;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, bool> isOffsetReadable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, bool> isOffsetWritable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, bool> isOffsetExecutable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, bool> isOffsetBackedByFile;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, ulong> getNextValidOffset;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getStart;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getLength;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getEntryPoint;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, bool> isExecutable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, Endianness> getDefaultEndianness;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, bool> isRelocatable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getAddressSize;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNFileAccessor*, bool> save;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_initDelegate init;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_freeObjectDelegate freeObject;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_readDelegate read;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_writeDelegate write;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_insertDelegate insert;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_removeDelegate remove;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_getModificationDelegate getModification;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_isValidOffsetDelegate isValidOffset;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_isOffsetReadableDelegate isOffsetReadable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_isOffsetWritableDelegate isOffsetWritable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_isOffsetExecutableDelegate isOffsetExecutable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_isOffsetBackedByFileDelegate isOffsetBackedByFile;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_getNextValidOffsetDelegate getNextValidOffset;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_getStartDelegate getStart;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_getLengthDelegate getLength;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_getEntryPointDelegate getEntryPoint;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_isExecutableDelegate isExecutable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_getDefaultEndiannessDelegate getDefaultEndianness;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_isRelocatableDelegate isRelocatable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_getAddressSizeDelegate getAddressSize;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_saveDelegate save;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNCustomBinaryViewType
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNBinaryView*> create;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, bool> isValidForData;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryViewType_createDelegate create;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryViewType_isValidForDataDelegate isValidForData;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNCustomCallingConvention
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> freeObject;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getCallerSavedRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getCalleeSavedRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getIntegerArgumentRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getFloatArgumentRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, uint*> freeRegisterList;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, bool> areArgumentRegistersSharedIndex;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, bool> isStackReservedForArgumentRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, bool> isStackAdjustedOnReturn;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint> getIntegerReturnValueRegister;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint> getHighIntegerReturnValueRegister;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint> getFloatReturnValueRegister;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, uint> getGlobalPointerRegister;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, uint*> getImplicitlyDefinedRegisters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, uint, BNFunction*, BNRegisterValue*> getIncomingRegisterValue;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, uint, BNFunction*, BNRegisterValue*> getIncomingFlagValue;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNVariable*, BNFunction*, BNVariable*> getIncomingVariableForParameterVariable;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNVariable*, BNFunction*, BNVariable*> getParameterVariableForIncomingVariable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_freeObjectDelegate freeObject;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getCallerSavedRegistersDelegate getCallerSavedRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getCalleeSavedRegistersDelegate getCalleeSavedRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getIntegerArgumentRegistersDelegate getIntegerArgumentRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getFloatArgumentRegistersDelegate getFloatArgumentRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_freeRegisterListDelegate freeRegisterList;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_areArgumentRegistersSharedIndexDelegate areArgumentRegistersSharedIndex;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_isStackReservedForArgumentRegistersDelegate isStackReservedForArgumentRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_isStackAdjustedOnReturnDelegate isStackAdjustedOnReturn;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getIntegerReturnValueRegisterDelegate getIntegerReturnValueRegister;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getHighIntegerReturnValueRegisterDelegate getHighIntegerReturnValueRegister;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getFloatReturnValueRegisterDelegate getFloatReturnValueRegister;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getGlobalPointerRegisterDelegate getGlobalPointerRegister;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getImplicitlyDefinedRegistersDelegate getImplicitlyDefinedRegisters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getIncomingRegisterValueDelegate getIncomingRegisterValue;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getIncomingFlagValueDelegate getIncomingFlagValue;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getIncomingVariableForParameterVariableDelegate getIncomingVariableForParameterVariable;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getParameterVariableForIncomingVariableDelegate getParameterVariableForIncomingVariable;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNCustomDataRenderer
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> freeObject;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, ulong, BNType*, BNType**, ulong, bool> isValidForData;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, ulong, BNType*, BNInstructionTextToken*, ulong, ulong, ulong*, BNType**, ulong, BNDisassemblyTextLine*> getLinesForData;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomDataRenderer_freeObjectDelegate freeObject;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomDataRenderer_isValidForDataDelegate isValidForData;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomDataRenderer_getLinesForDataDelegate getLinesForData;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNCustomFlowGraph
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> prepareForLayout;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> populateNodes;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> completeLayout;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNFlowGraph*> update;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_prepareForLayoutDelegate prepareForLayout;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_populateNodesDelegate populateNodes;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_completeLayoutDelegate completeLayout;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_updateDelegate update;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNCustomRelocationHandler
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> freeObject;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNArchitecture*, BNRelocationInfo*, ulong, bool> getRelocationInfo;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNArchitecture*, BNRelocation*, byte*, ulong, bool> applyRelocation;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, byte*, ulong, ulong, BNLowLevelILFunction*, BNRelocation*, ulong> getOperandForExternalRelocation;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomRelocationHandler_freeObjectDelegate freeObject;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomRelocationHandler_getRelocationInfoDelegate getRelocationInfo;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomRelocationHandler_applyRelocationDelegate applyRelocation;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomRelocationHandler_getOperandForExternalRelocationDelegate getOperandForExternalRelocation;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNCustomTransform
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, BNTransformParameterInfo*> getParameters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<BNTransformParameterInfo*, ulong> freeParameters;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNDataBuffer*, BNDataBuffer*, BNTransformParameter*, ulong, bool> decode;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNDataBuffer*, BNDataBuffer*, BNTransformParameter*, ulong, bool> encode;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomTransform_getParametersDelegate getParameters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomTransform_freeParametersDelegate freeParameters;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomTransform_decodeDelegate decode;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomTransform_encodeDelegate encode;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -336,16 +335,16 @@ namespace BinaryNinja
 		public unsafe struct BNDownloadInstanceCallbacks
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> destroyInstance;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char*, int> performRequest;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNDownloadInstanceCallbacks_destroyInstanceDelegate destroyInstance;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNDownloadInstanceCallbacks_performRequestDelegate performRequest;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNDownloadInstanceOutputCallbacks
 		{
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<byte*, ulong, void*, ulong> writeCallback;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNDownloadInstanceOutputCallbacks_writeCallbackDelegate writeCallback;
 			public void* writeContext;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, ulong, bool> progressCallback;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNDownloadInstanceOutputCallbacks_progressCallbackDelegate progressCallback;
 			public void* progressContext;
 		}
 
@@ -356,7 +355,7 @@ namespace BinaryNinja
 		public unsafe struct BNDownloadProviderCallbacks
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNDownloadInstance*> createInstance;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNDownloadProviderCallbacks_createInstanceDelegate createInstance;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -374,9 +373,9 @@ namespace BinaryNinja
 		public unsafe struct BNFileAccessor
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getLength;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, void*, ulong, ulong, ulong> read;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong, void*, ulong, ulong> write;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNFileAccessor_getLengthDelegate getLength;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNFileAccessor_readDelegate read;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNFileAccessor_writeDelegate write;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -442,8 +441,8 @@ namespace BinaryNinja
 		public unsafe struct BNFunctionRecognizer
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNFunction*, BNLowLevelILFunction*, bool> recognizeLowLevelIL;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNFunction*, BNMediumLevelILFunction*, bool> recognizeMediumLevelIL;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNFunctionRecognizer_recognizeLowLevelILDelegate recognizeLowLevelIL;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNFunctionRecognizer_recognizeMediumLevelILDelegate recognizeMediumLevelIL;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -514,20 +513,20 @@ namespace BinaryNinja
 		public unsafe struct BNInteractionHandlerCallbacks
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, char*, char*> showPlainTextReport;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, char*, char*, char*> showMarkdownReport;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, char*, char*, char*> showHTMLReport;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, char*, BNFlowGraph*> showGraphReport;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, char*, BNReportCollection*> showReportCollection;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char**, char*, char*, bool> getTextLineInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, long*, char*, char*, bool> getIntegerInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, char*, char*, BNBinaryView*, ulong, bool> getAddressInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong*, char*, char*, char**, ulong, bool> getChoiceInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char**, char*, char*, bool> getOpenFileNameInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char**, char*, char*, char*, bool> getSaveFileNameInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char**, char*, char*, bool> getDirectoryNameInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNFormInputField*, ulong, char*, bool> getFormInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char*, char*, MessageBoxButtonSet, MessageBoxIcon, MessageBoxButtonResult> showMessageBox;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_showPlainTextReportDelegate showPlainTextReport;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_showMarkdownReportDelegate showMarkdownReport;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_showHTMLReportDelegate showHTMLReport;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_showGraphReportDelegate showGraphReport;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_showReportCollectionDelegate showReportCollection;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_getTextLineInputDelegate getTextLineInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_getIntegerInputDelegate getIntegerInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_getAddressInputDelegate getAddressInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_getChoiceInputDelegate getChoiceInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_getOpenFileNameInputDelegate getOpenFileNameInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_getSaveFileNameInputDelegate getSaveFileNameInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_getDirectoryNameInputDelegate getDirectoryNameInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_getFormInputDelegate getFormInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_showMessageBoxDelegate showMessageBox;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -552,9 +551,9 @@ namespace BinaryNinja
 		public unsafe struct BNLogListener
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, LogLevel, char*> log;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> close;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, LogLevel> getLogLevel;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNLogListener_logDelegate log;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNLogListener_closeDelegate close;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNLogListener_getLogLevelDelegate getLogLevel;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -594,7 +593,7 @@ namespace BinaryNinja
 		public unsafe struct BNMainThreadCallbacks
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNMainThreadAction*> addAction;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNMainThreadCallbacks_addActionDelegate addAction;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -674,18 +673,18 @@ namespace BinaryNinja
 		public unsafe struct BNNavigationHandler
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char*> getCurrentView;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, ulong> getCurrentOffset;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char*, ulong, bool> navigate;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNNavigationHandler_getCurrentViewDelegate getCurrentView;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNNavigationHandler_getCurrentOffsetDelegate getCurrentOffset;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNNavigationHandler_navigateDelegate navigate;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNObjectDestructionCallbacks
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*> destructBinaryView;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNFileMetadata*> destructFileMetadata;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNFunction*> destructFunction;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNObjectDestructionCallbacks_destructBinaryViewDelegate destructBinaryView;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNObjectDestructionCallbacks_destructFileMetadataDelegate destructFileMetadata;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNObjectDestructionCallbacks_destructFunctionDelegate destructFunction;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -720,22 +719,22 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.LPStr)] public string description;
 			public PluginCommandType type;
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*> defaultCommand;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, ulong> addressCommand;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, ulong, ulong> rangeCommand;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNFunction*> functionCommand;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNLowLevelILFunction*> lowLevelILFunctionCommand;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNLowLevelILFunction*, ulong> lowLevelILInstructionCommand;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNMediumLevelILFunction*> mediumLevelILFunctionCommand;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*, BNMediumLevelILFunction*, ulong> mediumLevelILInstructionCommand;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, bool> defaultIsValid;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, ulong, bool> addressIsValid;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, ulong, ulong, bool> rangeIsValid;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNFunction*, bool> functionIsValid;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNLowLevelILFunction*, bool> lowLevelILFunctionIsValid;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNLowLevelILFunction*, ulong, bool> lowLevelILInstructionIsValid;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNMediumLevelILFunction*, bool> mediumLevelILFunctionIsValid;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNBinaryView*, BNMediumLevelILFunction*, ulong, bool> mediumLevelILInstructionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_defaultCommandDelegate defaultCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_addressCommandDelegate addressCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_rangeCommandDelegate rangeCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_functionCommandDelegate functionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_lowLevelILFunctionCommandDelegate lowLevelILFunctionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_lowLevelILInstructionCommandDelegate lowLevelILInstructionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILFunctionCommandDelegate mediumLevelILFunctionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILInstructionCommandDelegate mediumLevelILInstructionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_defaultIsValidDelegate defaultIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_addressIsValidDelegate addressIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_rangeIsValidDelegate rangeIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_functionIsValidDelegate functionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_lowLevelILFunctionIsValidDelegate lowLevelILFunctionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_lowLevelILInstructionIsValidDelegate lowLevelILInstructionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILFunctionIsValidDelegate mediumLevelILFunctionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILInstructionIsValidDelegate mediumLevelILInstructionIsValid;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -894,22 +893,22 @@ namespace BinaryNinja
 		public unsafe struct BNScriptingInstanceCallbacks
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> destroyInstance;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char*, ScriptingProviderExecuteResult> executeScriptInput;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*> setCurrentBinaryView;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNFunction*> setCurrentFunction;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBasicBlock*> setCurrentBasicBlock;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, ulong> setCurrentAddress;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, ulong, ulong> setCurrentSelection;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_destroyInstanceDelegate destroyInstance;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_executeScriptInputDelegate executeScriptInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentBinaryViewDelegate setCurrentBinaryView;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentFunctionDelegate setCurrentFunction;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentBasicBlockDelegate setCurrentBasicBlock;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentAddressDelegate setCurrentAddress;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentSelectionDelegate setCurrentSelection;
 		}
 
 		[StructLayout(Layout.Sequential)]
 		public unsafe struct BNScriptingOutputListener
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, char*> output;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, char*> error;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, ScriptingProviderInputReadyState> inputReadyStateChanged;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingOutputListener_outputDelegate output;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingOutputListener_errorDelegate error;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingOutputListener_inputReadyStateChangedDelegate inputReadyStateChanged;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -919,7 +918,7 @@ namespace BinaryNinja
 		public unsafe struct BNScriptingProviderCallbacks
 		{
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, BNScriptingInstance*> createInstance;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingProviderCallbacks_createInstanceDelegate createInstance;
 		}
 
 		[StructLayout(Layout.Sequential)]
@@ -1025,10 +1024,10 @@ namespace BinaryNinja
 		{
 			public ActionType type;
 			public void* context;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*> freeObject;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*> undo;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Action<void*, BNBinaryView*> redo;
-			[MarshalAs(UnmanagedType.FunctionPtr)] public Func<void*, char*> serialize;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNUndoAction_freeObjectDelegate freeObject;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNUndoAction_undoDelegate undo;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNUndoAction_redoDelegate redo;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNUndoAction_serializeDelegate serialize;
 		}
 
 		[StructLayout(Layout.Sequential)]

@@ -1,7 +1,11 @@
-from binaryninja import Architecture, Endianness, Type, TypeClass, NamedTypeReferenceClass, Structure, StructureMember, TypeParserResult, FunctionParameter
-from argparse import ArgumentParser, Namespace, FileType
+from argparse import ArgumentParser, FileType, Namespace
+
+from binaryninja import (Architecture, Endianness, FunctionParameter,
+                         NamedTypeReferenceClass, Structure, StructureMember,
+                         Type, TypeClass, TypeParserResult)
 
 keywords = ['params', 'base', 'ref', 'event']
+
 
 class GeneratorArchitecture(Architecture):
     name = "generator"
@@ -58,7 +62,7 @@ def output_type(out, type_: Type, is_return_type: bool = False, is_callback: boo
     elif type_.type_class == TypeClass.PointerTypeClass:
         if is_callback or type_.target.type_class == TypeClass.VoidTypeClass:
             out.write('void*')
-        elif (type_.target.type_class == TypeClass.IntegerTypeClass and 
+        elif (type_.target.type_class == TypeClass.IntegerTypeClass and
                 type_.target.width == 1 and type_.target.signed):
             out.write('char*')
         elif type_.target.type_class == TypeClass.FunctionTypeClass:
@@ -68,9 +72,11 @@ def output_type(out, type_: Type, is_return_type: bool = False, is_callback: boo
             for i, x in enumerate(type_.target.parameters):
                 output_type(out, x.type)
                 if i < len(type_.target.parameters) - 1:
-                    out.write(f' {x.name if x.name not in keywords else f"_{x.name}"}, ')
+                    out.write(
+                        f' {x.name if x.name not in keywords else f"_{x.name}"}, ')
                 else:
-                    out.write(f' {x.name if x.name not in keywords else f"_{x.name}"}')
+                    out.write(
+                        f' {x.name if x.name not in keywords else f"_{x.name}"}')
             out.write(');\n')
         elif type_.target.type_class == TypeClass.NamedTypeReferenceClass:
             out.write(f'{type_.target.named_type_reference.name}*')
@@ -85,18 +91,18 @@ def main(args: Namespace):
     header = args.header.read()
     out = args.out
     enum = args.enum
+    delegates = args.delegates
 
     arch: Architecture = Architecture['generator']
 
-    source: TypeParserResult = arch.standalone_platform.parse_types_from_source(header)
+    source: TypeParserResult = arch.standalone_platform.parse_types_from_source(
+        header)
 
     types = source.types
-    vars_ = source.variables
     funcs = source.functions
 
     out.write(
-        '''using System;
-using System.Runtime.InteropServices;
+        '''using System.Runtime.InteropServices;
 
 namespace BinaryNinja
 {
@@ -106,28 +112,39 @@ namespace BinaryNinja
 ''')
 
     enum.write(
-        '''
+        '''namespace BinaryNinja
+{
+'''
+    )
+
+    delegates.write(
+        '''using System.Runtime.InteropServices;
+
 namespace BinaryNinja
 {
 '''
     )
 
+
     out.write('\t\t// Type definitions\n')
 
     structs_to_process = sorted(list({t for t in types}))
+    delegate_list = {}
 
     for name in structs_to_process:
         type_ = types[name]
 
         if type_.type_class == TypeClass.StructureTypeClass:
-            unsafe: bool = None is not next((m for m in type_.structure.members if m.type.type_class == TypeClass.PointerTypeClass), None)
+            unsafe: bool = None is not next(
+                (m for m in type_.structure.members if m.type.type_class == TypeClass.PointerTypeClass), None)
 
-            out.write(f'\t\t[StructLayout(Layout.Sequential)]\n\t\tpublic{" unsafe " if unsafe else " "}struct {name}')
+            out.write(
+                f'\t\t[StructLayout(Layout.Sequential)]\n\t\tpublic{" unsafe " if unsafe else " "}struct {name}')
 
             if len(type_.structure.members) == 0:
                 out.write(' { };\n\n')
                 continue
-            
+
             out.write('\n\t\t{\n')
 
             for member in type_.structure.members:
@@ -140,29 +157,22 @@ namespace BinaryNinja
                 elif (member.type.type_class == TypeClass.PointerTypeClass and
                         member.type.target.type_class == TypeClass.FunctionTypeClass):
                     out.write(
-                        f'\t\t\t[MarshalAs(UnmanagedType.FunctionPtr)] public '
+                        f'\t\t\t[MarshalAs(UnmanagedType.FunctionPtr)] public {name}_{member.name}Delegate {member.name};\n'
                     )
-                    is_action = False
-                    if member.type.target.return_value.type_class == TypeClass.VoidTypeClass:
-                        out.write('Action')
-                        is_action = True
-                        if len(member.type.target.parameters):
-                            out.write('<')
-                    else:
-                        out.write('Func<')
+
+                    delegates.write('\tpublic unsafe delegate ')
+                    output_type(delegates, member.type.target.return_value, True)
+                    delegates.write(f' {name}_{member.name}Delegate(')
 
                     for j, p in enumerate(member.type.target.parameters):
-                        output_type(out, p.type)
-                        if not is_action or j < len(member.type.target.parameters) - 1:
-                            out.write(', ')
+                        output_type(delegates, p.type)
+                        if j < len(member.type.target.parameters) - 1:
+                            delegates.write(f' {p.name if p.name not in keywords else f"_{p.name}"}, ')
+                        else:
+                            delegates.write(f' {p.name if p.name not in keywords else f"_{p.name}"}')
 
-                    if not is_action:
-                        output_type(out, member.type.target.return_value, True)
-
-                    if not is_action or len(member.type.target.parameters):
-                        out.write(f'>')
-
-                    out.write(f' {member.name};\n')
+                    delegates.write(');\n')
+                    
 
                 elif member.type.type_class == TypeClass.ArrayTypeClass:
                     out.write(f'\t\tpublic fixed ')
@@ -176,7 +186,7 @@ namespace BinaryNinja
                     out.write(f' {member.name!s};\n')
 
             out.write('\t\t}\n\n')
-        
+
         elif type_.type_class == TypeClass.EnumerationTypeClass:
             if len(str(name)) > 2 and str(name).startswith('BN'):
                 name = str(name)[2:]
@@ -193,13 +203,14 @@ namespace BinaryNinja
 
     for name, type_ in funcs.items():
         out.write('\t\t')
-        out.write(r'[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]')
+        out.write(
+            r'[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]')
         out.write(f'\n\t\tpublic static extern unsafe ')
         output_type(out, type_.return_value, is_return_type=True)
         out.write(f' {name}(')
 
         for i, param in enumerate(type_.parameters):
-            if (param.type.type_class == TypeClass.PointerTypeClass and 
+            if (param.type.type_class == TypeClass.PointerTypeClass and
                     param.type.target.type_class == TypeClass.FunctionTypeClass):
                 is_action = False
                 if param.type.target.return_value.type_class == TypeClass.VoidTypeClass:
@@ -223,20 +234,25 @@ namespace BinaryNinja
             else:
                 output_type(out, param.type)
             if i < len(type_.parameters) - 1:
-                out.write(f' {param.name if param.name not in keywords else f"_{param.name}"}, ')
+                out.write(
+                    f' {param.name if param.name not in keywords else f"_{param.name}"}, ')
             else:
-                out.write(f' {param.name if param.name not in keywords else f"_{param.name}"}')
+                out.write(
+                    f' {param.name if param.name not in keywords else f"_{param.name}"}')
 
         out.write(');\n')
 
     out.write('\t}\n}\n')
     enum.write('}\n')
+    delegates.write('}\n')
+
 
 if __name__ == '__main__':
     parser = ArgumentParser('generator.py')
     parser.add_argument('header', type=FileType('r'))
     parser.add_argument('out', type=FileType('w'))
     parser.add_argument('enum', type=FileType('w'))
+    parser.add_argument('delegates', type=FileType('w'))
 
     args = parser.parse_args()
 

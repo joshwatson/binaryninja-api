@@ -1,4 +1,3 @@
-
 namespace BinaryNinja
 {
 	public enum ActionType
