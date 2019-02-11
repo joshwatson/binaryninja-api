@@ -388,12 +388,9 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNEnumerationMember
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			public ulong value;
+char*			public ulong value;
 			public bool isDefault;
 		}
-
-		public struct _BNEnumerationMember { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFileAccessor
@@ -439,20 +436,14 @@ namespace BinaryNinja
 		public unsafe struct BNFormInputField
 		{
 			public FormInputFieldType type;
-			[MarshalAs(UnmanagedType.LPStr)] public string prompt;
-			public BNBinaryView* view;
+char*			public BNBinaryView* view;
 			public ulong currentAddress;
 			public char** choices;
 			public ulong count;
-			[MarshalAs(UnmanagedType.LPStr)] public string ext;
-			[MarshalAs(UnmanagedType.LPStr)] public string defaultName;
-			public long intResult;
+char*char*			public long intResult;
 			public ulong addressResult;
-			[MarshalAs(UnmanagedType.LPStr)] public string stringResult;
-			public ulong indexResult;
+char*			public ulong indexResult;
 		}
-
-		public struct _BNFormInputField { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNFunction { };
@@ -460,14 +451,11 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFunctionParameter
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			public BNType* type;
+char*			public BNType* type;
 			public byte typeConfidence;
 			public bool defaultLocation;
 			public BNVariable location;
 		}
-
-		public struct _BNFunctionParameter { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFunctionRecognizer
@@ -534,8 +522,7 @@ namespace BinaryNinja
 		public unsafe struct BNInstructionTextToken
 		{
 			public InstructionTextTokenType type;
-			[MarshalAs(UnmanagedType.LPStr)] public string text;
-			public ulong value;
+char*			public ulong value;
 			public ulong size;
 			public ulong operand;
 			public InstructionTextTokenContext context;
@@ -544,8 +531,6 @@ namespace BinaryNinja
 			public char** typeNames;
 			public ulong namesCount;
 		}
-
-		public struct _BNInstructionTextToken { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNInteractionHandlerCallbacks
@@ -693,32 +678,23 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNameAndType
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			public BNType* type;
+char*			public BNType* type;
 			public byte typeConfidence;
 		}
-
-		public struct _BNNameAndType { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNameList
 		{
 			public char** name;
-			[MarshalAs(UnmanagedType.LPStr)] public string join;
-			public ulong nameCount;
+char*			public ulong nameCount;
 		}
-
-		public struct _BNNameList { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNameSpace
 		{
 			public char** name;
-			[MarshalAs(UnmanagedType.LPStr)] public string join;
-			public ulong nameCount;
+char*			public ulong nameCount;
 		}
-
-		public struct _BNNameSpace { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNNamedTypeReference { };
@@ -763,11 +739,8 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNPerformanceInfo
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			public double seconds;
+char*			public double seconds;
 		}
-
-		public struct _BNPerformanceInfo { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNPlatform { };
@@ -775,9 +748,7 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNPluginCommand
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			[MarshalAs(UnmanagedType.LPStr)] public string description;
-			public PluginCommandType type;
+char*char*			public PluginCommandType type;
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_defaultCommandDelegate defaultCommand;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_addressCommandDelegate addressCommand;
@@ -822,11 +793,8 @@ namespace BinaryNinja
 		public unsafe struct BNQualifiedName
 		{
 			public char** name;
-			[MarshalAs(UnmanagedType.LPStr)] public string join;
-			public ulong nameCount;
+char*			public ulong nameCount;
 		}
-
-		public struct _BNQualifiedName { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNQualifiedNameAndType
@@ -1012,13 +980,10 @@ namespace BinaryNinja
 			public uint sourceOperand;
 			public byte typeConfidence;
 			public BNType* type;
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			public ulong varIdentifier;
+char*			public ulong varIdentifier;
 			public long referencedOffset;
 			public ulong size;
 		}
-
-		public struct _BNStackVariableReference { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNStringReference
@@ -1035,12 +1000,9 @@ namespace BinaryNinja
 		public unsafe struct BNStructureMember
 		{
 			public BNType* type;
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			public ulong offset;
+char*			public ulong offset;
 			public byte typeConfidence;
 		}
-
-		public struct _BNStructureMember { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNSymbol { };
@@ -1062,21 +1024,14 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTransformParameter
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			public BNDataBuffer* value;
+char*			public BNDataBuffer* value;
 		}
-
-		public struct _BNTransformParameter { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTransformParameterInfo
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			[MarshalAs(UnmanagedType.LPStr)] public string longName;
-			public ulong fixedLength;
+char*char*			public ulong fixedLength;
 		}
-
-		public struct _BNTransformParameterInfo { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNType { };
@@ -1115,22 +1070,13 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNUpdateChannel
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			[MarshalAs(UnmanagedType.LPStr)] public string description;
-			[MarshalAs(UnmanagedType.LPStr)] public string latestVersion;
-		}
-
-		public struct _BNUpdateChannel { };
+char*char*char*		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNUpdateVersion
 		{
-			[MarshalAs(UnmanagedType.LPStr)] public string version;
-			[MarshalAs(UnmanagedType.LPStr)] public string notes;
-			public ulong time;
+char*char*			public ulong time;
 		}
-
-		public struct _BNUpdateVersion { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNValueRange
@@ -1153,12 +1099,9 @@ namespace BinaryNinja
 		{
 			public BNVariable var;
 			public BNType* type;
-			[MarshalAs(UnmanagedType.LPStr)] public string name;
-			public bool autoDefined;
+char*			public bool autoDefined;
 			public byte typeConfidence;
 		}
-
-		public struct _BNVariableNameAndType { };
 
 		// Function definitions
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1340,7 +1283,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNFlowGraph* BNCreateFunctionGraph(BNFunction* func, FunctionGraphType type, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNType* BNCreateFunctionType(BNTypeWithConfidence* returnValue, BNCallingConventionWithConfidence* callingConvention, _BNFunctionParameter* _params, ulong paramCount, BNBoolWithConfidence* varArg, BNOffsetWithConfidence* stackAdjust);
+		public static extern unsafe BNType* BNCreateFunctionType(BNTypeWithConfidence* returnValue, BNCallingConventionWithConfidence* callingConvention, BNFunctionParameter* _params, ulong paramCount, BNBoolWithConfidence* varArg, BNOffsetWithConfidence* stackAdjust);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNCreateIntegerType(ulong width, BNBoolWithConfidence* sign, char* altName);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1374,9 +1317,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNCreateNamedTypeReference(BNNamedTypeReference* nt, ulong width, ulong align);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNType* BNCreateNamedTypeReferenceFromType(BNBinaryView* view, _BNQualifiedName* name);
+		public static extern unsafe BNType* BNCreateNamedTypeReferenceFromType(BNBinaryView* view, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNType* BNCreateNamedTypeReferenceFromTypeAndId(char* id, _BNQualifiedName* name, BNType* type);
+		public static extern unsafe BNType* BNCreateNamedTypeReferenceFromTypeAndId(char* id, BNQualifiedName* name, BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNPlatform* BNCreatePlatform(BNArchitecture* arch, char* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1400,7 +1343,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNStructure* BNCreateStructureWithOptions(StructureType type, bool packed);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol* BNCreateSymbol(SymbolType type, char* shortName, char* fullName, char* rawName, ulong addr, SymbolBinding binding, _BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol* BNCreateSymbol(SymbolType type, char* shortName, char* fullName, char* rawName, ulong addr, SymbolBinding binding, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNTemporaryFile* BNCreateTemporaryFile();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1418,13 +1361,13 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNDataBufferToEscapedString(BNDataBuffer* buf);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNDecode(BNTransform* xform, BNDataBuffer* input, BNDataBuffer* output, _BNTransformParameter* _params, ulong paramCount);
+		public static extern unsafe bool BNDecode(BNTransform* xform, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNDecodeBase64(char* str);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNDecodeEscapedString(char* str);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNQualifiedName BNDefineAnalysisType(BNBinaryView* view, char* id, _BNQualifiedName* defaultName, BNType* type);
+		public static extern unsafe BNQualifiedName BNDefineAnalysisType(BNBinaryView* view, char* id, BNQualifiedName* defaultName, BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNDefineAutoSymbol(BNBinaryView* view, BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1438,7 +1381,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNDefineSymbolRelocation(BNBinaryView* view, BNArchitecture* arch, _BNRelocationInfo* info, BNSymbol* target, ulong reloc);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNDefineUserAnalysisType(BNBinaryView* view, _BNQualifiedName* name, BNType* type);
+		public static extern unsafe void BNDefineUserAnalysisType(BNBinaryView* view, BNQualifiedName* name, BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNDefineUserDataVariable(BNBinaryView* view, ulong addr, BNTypeWithConfidence* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1466,7 +1409,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNDuplicateType(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNEncode(BNTransform* xform, BNDataBuffer* input, BNDataBuffer* output, _BNTransformParameter* _params, ulong paramCount);
+		public static extern unsafe bool BNEncode(BNTransform* xform, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNExecuteMainThreadAction(BNMainThreadAction* action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1510,7 +1453,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeAnalysisInfo(BNAnalysisInfo* info);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeAnalysisPerformanceInfo(_BNPerformanceInfo* info, ulong count);
+		public static extern unsafe void BNFreeAnalysisPerformanceInfo(BNPerformanceInfo* info, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeArchitectureList(BNArchitecture** archs);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1560,7 +1503,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeEnumeration(BNEnumeration* e);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeEnumerationMemberList(_BNEnumerationMember* members, ulong count);
+		public static extern unsafe void BNFreeEnumerationMemberList(BNEnumerationMember* members, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeFileMetadata(BNFileMetadata* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1576,7 +1519,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeFlowGraphNodeOutgoingEdgeList(BNFlowGraphEdge* edges, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeFormInputResults(_BNFormInputField* fields, ulong count);
+		public static extern unsafe void BNFreeFormInputResults(BNFormInputField* fields, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeFunction(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1588,7 +1531,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeIndirectBranchList(BNIndirectBranchInfo* branches);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeInstructionText(_BNInstructionTextToken* tokens, ulong count);
+		public static extern unsafe void BNFreeInstructionText(BNInstructionTextToken* tokens, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeInstructionTextLines(BNInstructionTextLine* lines, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1610,11 +1553,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeMetadataValueStore(BNMetadataValueStore* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeNameAndTypeList(_BNNameAndType* nt, ulong count);
+		public static extern unsafe void BNFreeNameAndTypeList(BNNameAndType* nt, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeNameSpace(_BNNameSpace* name);
+		public static extern unsafe void BNFreeNameSpace(BNNameSpace* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeNameSpaceList(_BNNameSpace* nameSpace, ulong count);
+		public static extern unsafe void BNFreeNameSpaceList(BNNameSpace* nameSpace, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeNamedTypeReference(BNNamedTypeReference* nt);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1638,7 +1581,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreePossibleValueSet(BNPossibleValueSet* value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeQualifiedName(_BNQualifiedName* name);
+		public static extern unsafe void BNFreeQualifiedName(BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeQualifiedNameAndType(BNQualifiedNameAndType* obj);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1678,7 +1621,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeSegmentList(BNSegment** segments, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeStackVariableReferenceList(_BNStackVariableReference* refs, ulong count);
+		public static extern unsafe void BNFreeStackVariableReferenceList(BNStackVariableReference* refs, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeString(char* str);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1688,7 +1631,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeStructure(BNStructure* s);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeStructureMemberList(_BNStructureMember* members, ulong count);
+		public static extern unsafe void BNFreeStructureMemberList(BNStructureMember* members, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeSymbol(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1698,7 +1641,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeTemporaryFile(BNTemporaryFile* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeTransformParameterList(_BNTransformParameterInfo* _params, ulong count);
+		public static extern unsafe void BNFreeTransformParameterList(BNTransformParameterInfo* _params, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeTransformTypeList(BNTransform** xforms);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1706,17 +1649,17 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeTypeList(BNQualifiedNameAndType* types, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeTypeParameterList(_BNFunctionParameter* types, ulong count);
+		public static extern unsafe void BNFreeTypeParameterList(BNFunctionParameter* types, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeTypeParserResult(BNTypeParserResult* result);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeUpdateChannelList(_BNUpdateChannel* list, ulong count);
+		public static extern unsafe void BNFreeUpdateChannelList(BNUpdateChannel* list, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeUpdateChannelVersionList(_BNUpdateVersion* list, ulong count);
+		public static extern unsafe void BNFreeUpdateChannelVersionList(BNUpdateVersion* list, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeVariableNameAndType(_BNVariableNameAndType* var);
+		public static extern unsafe void BNFreeVariableNameAndType(BNVariableNameAndType* var);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeVariableNameAndTypeList(_BNVariableNameAndType* vars, ulong count);
+		public static extern unsafe void BNFreeVariableNameAndTypeList(BNVariableNameAndType* vars, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNVariable BNFromVariableIdentifier(ulong id);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1726,13 +1669,13 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBoolWithConfidence BNFunctionTypeCanReturn(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNGenerateAutoDebugTypeId(_BNQualifiedName* name);
+		public static extern unsafe char* BNGenerateAutoDebugTypeId(BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNGenerateAutoDemangledTypeId(_BNQualifiedName* name);
+		public static extern unsafe char* BNGenerateAutoDemangledTypeId(BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNGenerateAutoPlatformTypeId(BNPlatform* platform, _BNQualifiedName* name);
+		public static extern unsafe char* BNGenerateAutoPlatformTypeId(BNPlatform* platform, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNGenerateAutoTypeId(char* source, _BNQualifiedName* name);
+		public static extern unsafe char* BNGenerateAutoTypeId(char* source, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNGenerateMediumLevelILSSAForm(BNMediumLevelILFunction* func, bool analyzeConditionals, bool handleAliases, BNVariable* knownNotAliases, ulong knownNotAliasCount, BNVariable* knownAliases, ulong knownAliasCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1778,9 +1721,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNGetAnalysisTypeById(BNBinaryView* view, char* id);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNType* BNGetAnalysisTypeByName(BNBinaryView* view, _BNQualifiedName* name);
+		public static extern unsafe BNType* BNGetAnalysisTypeByName(BNBinaryView* view, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNGetAnalysisTypeId(BNBinaryView* view, _BNQualifiedName* name);
+		public static extern unsafe char* BNGetAnalysisTypeId(BNBinaryView* view, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNQualifiedNameAndType* BNGetAnalysisTypeList(BNBinaryView* view, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2076,7 +2019,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe int BNGetFlowGraphWidth(BNFlowGraph* graph);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNGetFormInput(_BNFormInputField* fields, ulong count, char* title);
+		public static extern unsafe bool BNGetFormInput(BNFormInputField* fields, ulong count, char* title);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint* BNGetFullWidthArchitectureRegisters(BNArchitecture* arch, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2196,7 +2139,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNLinearDisassemblyPosition BNGetLinearDisassemblyPositionForAddress(BNBinaryView* view, ulong addr, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNDisassemblyTextLine* BNGetLinesForData(void* ctxt, BNBinaryView* view, ulong addr, BNType* type, _BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
+		public static extern unsafe BNDisassemblyTextLine* BNGetLinesForData(void* ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBasicBlock* BNGetLowLevelILBasicBlockForInstruction(BNLowLevelILFunction* func, ulong i);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2450,7 +2393,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNPlatform* BNGetPlatformForViewType(BNBinaryViewType* type, uint id, BNArchitecture* arch);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNType* BNGetPlatformFunctionByName(BNPlatform* platform, _BNQualifiedName* name);
+		public static extern unsafe BNType* BNGetPlatformFunctionByName(BNPlatform* platform, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNQualifiedNameAndType* BNGetPlatformFunctions(BNPlatform* platform, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2476,11 +2419,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNSystemCallInfo* BNGetPlatformSystemCalls(BNPlatform* platform, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNType* BNGetPlatformTypeByName(BNPlatform* platform, _BNQualifiedName* name);
+		public static extern unsafe BNType* BNGetPlatformTypeByName(BNPlatform* platform, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNQualifiedNameAndType* BNGetPlatformTypes(BNPlatform* platform, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNType* BNGetPlatformVariableByName(BNPlatform* platform, _BNQualifiedName* name);
+		public static extern unsafe BNType* BNGetPlatformVariableByName(BNPlatform* platform, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNQualifiedNameAndType* BNGetPlatformVariables(BNPlatform* platform, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2570,7 +2513,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNVariableNameAndType* BNGetStackLayout(BNFunction* func, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNGetStackVariableAtFrameOffset(BNFunction* func, BNArchitecture* arch, ulong addr, long offset, _BNVariableNameAndType* var);
+		public static extern unsafe bool BNGetStackVariableAtFrameOffset(BNFunction* func, BNArchitecture* arch, ulong addr, long offset, BNVariableNameAndType* var);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNStackVariableReference* BNGetStackVariablesReferencedByInstruction(BNFunction* func, BNArchitecture* arch, ulong addr, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2592,9 +2535,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe SymbolBinding BNGetSymbolBinding(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol* BNGetSymbolByAddress(BNBinaryView* view, ulong addr, _BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol* BNGetSymbolByAddress(BNBinaryView* view, ulong addr, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol* BNGetSymbolByRawName(BNBinaryView* view, char* name, _BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol* BNGetSymbolByRawName(BNBinaryView* view, char* name, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNGetSymbolFullName(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2606,15 +2549,15 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe SymbolType BNGetSymbolType(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol** BNGetSymbols(BNBinaryView* view, ulong* count, _BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol** BNGetSymbols(BNBinaryView* view, ulong* count, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol** BNGetSymbolsByName(BNBinaryView* view, char* name, ulong* count, _BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol** BNGetSymbolsByName(BNBinaryView* view, char* name, ulong* count, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol** BNGetSymbolsInRange(BNBinaryView* view, ulong start, ulong len, ulong* count, _BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol** BNGetSymbolsInRange(BNBinaryView* view, ulong start, ulong len, ulong* count, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol** BNGetSymbolsOfType(BNBinaryView* view, SymbolType type, ulong* count, _BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol** BNGetSymbolsOfType(BNBinaryView* view, SymbolType type, ulong* count, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol** BNGetSymbolsOfTypeInRange(BNBinaryView* view, SymbolType type, ulong start, ulong len, ulong* count, _BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol** BNGetSymbolsOfTypeInRange(BNBinaryView* view, SymbolType type, ulong start, ulong len, ulong* count, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNGetTemporaryFileContents(BNTemporaryFile* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2640,7 +2583,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetTypeAlignment(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNGetTypeAndName(BNType* type, _BNQualifiedName* name);
+		public static extern unsafe char* BNGetTypeAndName(BNType* type, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNCallingConventionWithConfidence BNGetTypeCallingConvention(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2754,7 +2697,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsAnalysisChanged(BNFileMetadata* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNIsAnalysisTypeAutoDefined(BNBinaryView* view, _BNQualifiedName* name);
+		public static extern unsafe bool BNIsAnalysisTypeAutoDefined(BNBinaryView* view, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsArchitectureAlwaysBranchPatchAvailable(BNArchitecture* arch, byte* data, ulong addr, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3328,7 +3271,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNRemoveViewData(BNBinaryView* view, ulong offset, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRenameAnalysisType(BNBinaryView* view, _BNQualifiedName* oldName, _BNQualifiedName* newName);
+		public static extern unsafe void BNRenameAnalysisType(BNBinaryView* view, BNQualifiedName* oldName, BNQualifiedName* newName);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNReplaceEnumerationMember(BNEnumeration* e, ulong idx, char* name, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3592,7 +3535,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetTypeReferenceId(BNNamedTypeReference* nt, char* id);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNSetTypeReferenceName(BNNamedTypeReference* nt, _BNQualifiedName* name);
+		public static extern unsafe void BNSetTypeReferenceName(BNNamedTypeReference* nt, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetUserBasicBlockHighlight(BNBasicBlock* block, BNHighlightColor color);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3710,7 +3653,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNTypeSetMemberScope(BNType* type, BNMemberScopeWithConfidence* scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNTypeSetTypeName(BNType* type, _BNQualifiedName* name);
+		public static extern unsafe void BNTypeSetTypeName(BNType* type, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNTypeSetVolatile(BNType* type, BNBoolWithConfidence* vltl);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3724,7 +3667,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUndefineDataVariable(BNBinaryView* view, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNUndefineUserAnalysisType(BNBinaryView* view, _BNQualifiedName* name);
+		public static extern unsafe void BNUndefineUserAnalysisType(BNBinaryView* view, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUndefineUserDataVariable(BNBinaryView* view, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]

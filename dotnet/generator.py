@@ -162,9 +162,10 @@ namespace BinaryNinja
                 if (member.type.type_class == TypeClass.PointerTypeClass and
                         member.type.target.width == 1 and
                         member.type.target.signed):
-                    need_opaque_struct = True
-                    out.write(
-                        f'\t\t\t[MarshalAs(UnmanagedType.LPStr)] public string {member.name};\n')
+                    out.write('char*')
+                    # need_opaque_struct = True
+                    # out.write(
+                    #     f'\t\t\t[MarshalAs(UnmanagedType.LPStr)] public string {member.name};\n')
                 elif (member.type.type_class == TypeClass.PointerTypeClass and
                         member.type.target.type_class == TypeClass.FunctionTypeClass):
                     need_opaque_struct = True
