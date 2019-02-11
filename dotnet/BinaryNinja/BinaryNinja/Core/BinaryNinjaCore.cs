@@ -388,7 +388,8 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNEnumerationMember
 		{
-char*			public ulong value;
+public char* name;
+			public ulong value;
 			public bool isDefault;
 		}
 
@@ -436,13 +437,17 @@ char*			public ulong value;
 		public unsafe struct BNFormInputField
 		{
 			public FormInputFieldType type;
-char*			public BNBinaryView* view;
+public char* prompt;
+			public BNBinaryView* view;
 			public ulong currentAddress;
 			public char** choices;
 			public ulong count;
-char*char*			public long intResult;
+public char* ext;
+public char* defaultName;
+			public long intResult;
 			public ulong addressResult;
-char*			public ulong indexResult;
+public char* stringResult;
+			public ulong indexResult;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -451,7 +456,8 @@ char*			public ulong indexResult;
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFunctionParameter
 		{
-char*			public BNType* type;
+public char* name;
+			public BNType* type;
 			public byte typeConfidence;
 			public bool defaultLocation;
 			public BNVariable location;
@@ -522,7 +528,8 @@ char*			public BNType* type;
 		public unsafe struct BNInstructionTextToken
 		{
 			public InstructionTextTokenType type;
-char*			public ulong value;
+public char* text;
+			public ulong value;
 			public ulong size;
 			public ulong operand;
 			public InstructionTextTokenContext context;
@@ -678,7 +685,8 @@ char*			public ulong value;
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNameAndType
 		{
-char*			public BNType* type;
+public char* name;
+			public BNType* type;
 			public byte typeConfidence;
 		}
 
@@ -686,14 +694,16 @@ char*			public BNType* type;
 		public unsafe struct BNNameList
 		{
 			public char** name;
-char*			public ulong nameCount;
+public char* join;
+			public ulong nameCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNameSpace
 		{
 			public char** name;
-char*			public ulong nameCount;
+public char* join;
+			public ulong nameCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -739,7 +749,8 @@ char*			public ulong nameCount;
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNPerformanceInfo
 		{
-char*			public double seconds;
+public char* name;
+			public double seconds;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -748,7 +759,9 @@ char*			public double seconds;
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNPluginCommand
 		{
-char*char*			public PluginCommandType type;
+public char* name;
+public char* description;
+			public PluginCommandType type;
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_defaultCommandDelegate defaultCommand;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_addressCommandDelegate addressCommand;
@@ -793,7 +806,8 @@ char*char*			public PluginCommandType type;
 		public unsafe struct BNQualifiedName
 		{
 			public char** name;
-char*			public ulong nameCount;
+public char* join;
+			public ulong nameCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -980,7 +994,8 @@ char*			public ulong nameCount;
 			public uint sourceOperand;
 			public byte typeConfidence;
 			public BNType* type;
-char*			public ulong varIdentifier;
+public char* name;
+			public ulong varIdentifier;
 			public long referencedOffset;
 			public ulong size;
 		}
@@ -1000,7 +1015,8 @@ char*			public ulong varIdentifier;
 		public unsafe struct BNStructureMember
 		{
 			public BNType* type;
-char*			public ulong offset;
+public char* name;
+			public ulong offset;
 			public byte typeConfidence;
 		}
 
@@ -1024,13 +1040,16 @@ char*			public ulong offset;
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTransformParameter
 		{
-char*			public BNDataBuffer* value;
+public char* name;
+			public BNDataBuffer* value;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTransformParameterInfo
 		{
-char*char*			public ulong fixedLength;
+public char* name;
+public char* longName;
+			public ulong fixedLength;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1070,12 +1089,17 @@ char*char*			public ulong fixedLength;
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNUpdateChannel
 		{
-char*char*char*		}
+public char* name;
+public char* description;
+public char* latestVersion;
+		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNUpdateVersion
 		{
-char*char*			public ulong time;
+public char* version;
+public char* notes;
+			public ulong time;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1099,7 +1123,8 @@ char*char*			public ulong time;
 		{
 			public BNVariable var;
 			public BNType* type;
-char*			public bool autoDefined;
+public char* name;
+			public bool autoDefined;
 			public byte typeConfidence;
 		}
 
