@@ -125,18 +125,26 @@ namespace BinaryNinja
 '''
     )
 
-
     out.write('\t\t// Type definitions\n')
 
     structs_to_process = sorted(list({t for t in types}))
     delegate_list = {}
+    opaque_structs = set()
 
     for name in structs_to_process:
         type_ = types[name]
 
         if type_.type_class == TypeClass.StructureTypeClass:
             unsafe: bool = None is not next(
-                (m for m in type_.structure.members if m.type.type_class in (TypeClass.ArrayTypeClass, TypeClass.PointerTypeClass)), None)
+                (
+                    m
+                    for m in type_.structure.members
+                    if m.type.type_class in (
+                        TypeClass.ArrayTypeClass, TypeClass.PointerTypeClass
+                    )
+                ),
+                None
+            )
 
             out.write(
                 f'\t\t[StructLayout(LayoutKind.Sequential)]\n\t\tpublic{" unsafe " if unsafe else " "}struct {name}')
@@ -147,6 +155,8 @@ namespace BinaryNinja
 
             out.write('\n\t\t{\n')
 
+            need_opaque_struct = False
+
             for member in type_.structure.members:
                 member: StructureMember
                 if (member.type.type_class == TypeClass.PointerTypeClass and
@@ -156,30 +166,34 @@ namespace BinaryNinja
                         f'\t\t\t[MarshalAs(UnmanagedType.LPStr)] public string {member.name};\n')
                 elif (member.type.type_class == TypeClass.PointerTypeClass and
                         member.type.target.type_class == TypeClass.FunctionTypeClass):
+                    need_opaque_struct = True
                     out.write(
                         f'\t\t\t[MarshalAs(UnmanagedType.FunctionPtr)] public {name}_{member.name}Delegate {member.name};\n'
                     )
 
                     delegates.write('\tpublic unsafe delegate ')
-                    output_type(delegates, member.type.target.return_value, True)
+                    output_type(
+                        delegates, member.type.target.return_value, True)
                     delegates.write(f' {name}_{member.name}Delegate(')
 
                     for j, p in enumerate(member.type.target.parameters):
                         output_type(delegates, p.type)
                         if j < len(member.type.target.parameters) - 1:
-                            delegates.write(f' {p.name if p.name not in keywords else f"_{p.name}"}, ')
+                            delegates.write(
+                                f' {p.name if p.name not in keywords else f"_{p.name}"}, ')
                         else:
-                            delegates.write(f' {p.name if p.name not in keywords else f"_{p.name}"}')
+                            delegates.write(
+                                f' {p.name if p.name not in keywords else f"_{p.name}"}')
 
                     delegates.write(');\n')
-                    
 
                 elif member.type.type_class == TypeClass.ArrayTypeClass:
                     if member.type.element_type.type_class == TypeClass.IntegerTypeClass:
                         out.write(f'\t\t\tpublic fixed ')
                     else:
-                        out.write(f'\t\t\t[MarshalAs(UnmanagedType.LPArray, SizeConst = {member.type.count})] public ')
-                    
+                        out.write(
+                            f'\t\t\t[MarshalAs(UnmanagedType.LPArray, SizeConst = {member.type.count})] public ')
+
                     output_type(out, member.type.element_type)
 
                     if member.type.element_type.type_class == TypeClass.IntegerTypeClass:
@@ -195,6 +209,10 @@ namespace BinaryNinja
 
             out.write('\t\t}\n\n')
 
+            if need_opaque_struct:
+                out.write(f'\t\tpublic struct _{name} {{ }};\n\n')
+                opaque_structs.add(str(name))
+
         elif type_.type_class == TypeClass.EnumerationTypeClass:
             if len(str(name)) > 2 and str(name).startswith('BN'):
                 name = str(name)[2:]
@@ -206,6 +224,8 @@ namespace BinaryNinja
                 else:
                     enum.write(f'\t\t{x.name} = {x.value}\n')
             enum.write('\t}\n')
+
+    print(opaque_structs)
 
     out.write('\t\t// Function definitions\n')
 
@@ -220,25 +240,11 @@ namespace BinaryNinja
         for i, param in enumerate(type_.parameters):
             if (param.type.type_class == TypeClass.PointerTypeClass and
                     param.type.target.type_class == TypeClass.FunctionTypeClass):
-                is_action = False
-                if param.type.target.return_value.type_class == TypeClass.VoidTypeClass:
-                    out.write('Action')
-                    is_action = True
-                    if len(param.type.target.parameters):
-                        out.write('<')
-                else:
-                    out.write('Func<')
-
-                for j, p in enumerate(param.type.target.parameters):
-                    output_type(out, p.type)
-                    if not is_action or j < len(param.type.target.parameters) - 1:
-                        out.write(', ')
-
-                if param.type.target.return_value.type_class != TypeClass.VoidTypeClass:
-                    output_type(out, param.type.target.return_value, True)
-
-                if not is_action or len(param.type.target.parameters):
-                    out.write(f'> ')
+                out.write(f'[MarshalAs(UnmanagedType.FunctionPtr)] {param.name}Delegate')
+            elif (param.type.type_class == TypeClass.PointerTypeClass and
+                    param.type.target.type_class == TypeClass.NamedTypeReferenceClass and
+                    str(param.type.target.named_type_reference.name) in opaque_structs):
+                out.write(f'_{param.type.target.named_type_reference.name}*')
             else:
                 output_type(out, param.type)
             if i < len(type_.parameters) - 1:
