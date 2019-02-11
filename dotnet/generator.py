@@ -136,10 +136,10 @@ namespace BinaryNinja
 
         if type_.type_class == TypeClass.StructureTypeClass:
             unsafe: bool = None is not next(
-                (m for m in type_.structure.members if m.type.type_class == TypeClass.PointerTypeClass), None)
+                (m for m in type_.structure.members if m.type.type_class in (TypeClass.ArrayTypeClass, TypeClass.PointerTypeClass)), None)
 
             out.write(
-                f'\t\t[StructLayout(Layout.Sequential)]\n\t\tpublic{" unsafe " if unsafe else " "}struct {name}')
+                f'\t\t[StructLayout(LayoutKind.Sequential)]\n\t\tpublic{" unsafe " if unsafe else " "}struct {name}')
 
             if len(type_.structure.members) == 0:
                 out.write(' { };\n\n')
@@ -175,9 +175,17 @@ namespace BinaryNinja
                     
 
                 elif member.type.type_class == TypeClass.ArrayTypeClass:
-                    out.write(f'\t\tpublic fixed ')
+                    if member.type.element_type.type_class == TypeClass.IntegerTypeClass:
+                        out.write(f'\t\t\tpublic fixed ')
+                    else:
+                        out.write(f'\t\t\t[MarshalAs(UnmanagedType.LPArray, SizeConst = {member.type.count})] public ')
+                    
                     output_type(out, member.type.element_type)
-                    out.write(f' {member.name}[{member.type.count:d}];\n')
+
+                    if member.type.element_type.type_class == TypeClass.IntegerTypeClass:
+                        out.write(f' {member.name}[{member.type.count:d}];\n')
+                    else:
+                        out.write(f'[] {member.name};\n')
                 else:
                     out.write('\t\t\tpublic ')
                     output_type(out, member.type, var_name=member.name)

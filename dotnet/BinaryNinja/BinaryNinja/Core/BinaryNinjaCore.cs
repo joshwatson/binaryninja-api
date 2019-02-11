@@ -6,7 +6,7 @@ namespace BinaryNinja
 	{
 
 		// Type definitions
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNActiveAnalysisInfo
 		{
 			public BNFunction* func;
@@ -15,17 +15,17 @@ namespace BinaryNinja
 			public ulong submitCount;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNAddressRange
 		{
 			public ulong start;
 			public ulong end;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNAnalysisCompletionEvent { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNAnalysisInfo
 		{
 			public AnalysisState state;
@@ -34,7 +34,7 @@ namespace BinaryNinja
 			public ulong count;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNAnalysisParameters
 		{
 			public ulong maxAnalysisTime;
@@ -45,7 +45,7 @@ namespace BinaryNinja
 			public bool suppressNewAutoFunctionAnalysis;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNAnalysisProgress
 		{
 			public AnalysisState state;
@@ -53,23 +53,23 @@ namespace BinaryNinja
 			public ulong total;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNArchitecture { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNArchitectureAndAddress
 		{
 			public BNArchitecture* arch;
 			public ulong address;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNBackgroundTask { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNBasicBlock { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNBasicBlockEdge
 		{
 			public BranchType type;
@@ -78,7 +78,7 @@ namespace BinaryNinja
 			public bool fallThrough;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNBinaryDataNotification
 		{
 			public void* context;
@@ -98,36 +98,36 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_typeUndefinedDelegate typeUndefined;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNBinaryReader { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNBinaryView { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNBinaryViewType { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNBinaryWriter { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNBoolWithConfidence
 		{
 			public bool value;
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNCallingConvention { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCallingConventionWithConfidence
 		{
 			public BNCallingConvention* convention;
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNConstantReference
 		{
 			public long value;
@@ -136,7 +136,7 @@ namespace BinaryNinja
 			public bool intermediate;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCustomArchitecture
 		{
 			public void* context;
@@ -199,7 +199,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomArchitecture_skipAndReturnValueDelegate skipAndReturnValue;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCustomBinaryView
 		{
 			public void* context;
@@ -226,7 +226,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_saveDelegate save;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCustomBinaryViewType
 		{
 			public void* context;
@@ -234,7 +234,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryViewType_isValidForDataDelegate isValidForData;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCustomCallingConvention
 		{
 			public void* context;
@@ -258,7 +258,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomCallingConvention_getParameterVariableForIncomingVariableDelegate getParameterVariableForIncomingVariable;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCustomDataRenderer
 		{
 			public void* context;
@@ -267,7 +267,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomDataRenderer_getLinesForDataDelegate getLinesForData;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCustomFlowGraph
 		{
 			public void* context;
@@ -277,7 +277,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_updateDelegate update;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCustomRelocationHandler
 		{
 			public void* context;
@@ -287,7 +287,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomRelocationHandler_getOperandForExternalRelocationDelegate getOperandForExternalRelocation;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCustomTransform
 		{
 			public void* context;
@@ -297,16 +297,16 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomTransform_encodeDelegate encode;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNDataBuffer { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNDataRenderer { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNDataRendererContainer { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNDataVariable
 		{
 			public ulong address;
@@ -315,10 +315,10 @@ namespace BinaryNinja
 			public byte typeConfidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNDisassemblySettings { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNDisassemblyTextLine
 		{
 			public ulong addr;
@@ -328,10 +328,10 @@ namespace BinaryNinja
 			public BNHighlightColor highlight;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNDownloadInstance { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNDownloadInstanceCallbacks
 		{
 			public void* context;
@@ -339,7 +339,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNDownloadInstanceCallbacks_performRequestDelegate performRequest;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNDownloadInstanceOutputCallbacks
 		{
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNDownloadInstanceOutputCallbacks_writeCallbackDelegate writeCallback;
@@ -348,20 +348,20 @@ namespace BinaryNinja
 			public void* progressContext;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNDownloadProvider { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNDownloadProviderCallbacks
 		{
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNDownloadProviderCallbacks_createInstanceDelegate createInstance;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNEnumeration { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNEnumerationMember
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string name;
@@ -369,7 +369,7 @@ namespace BinaryNinja
 			public bool isDefault;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFileAccessor
 		{
 			public void* context;
@@ -378,20 +378,20 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNFileAccessor_writeDelegate write;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNFileMetadata { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNFlagConditionForSemanticClass
 		{
 			public uint semanticClass;
 			public LowLevelILFlagCondition condition;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNFlowGraph { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFlowGraphEdge
 		{
 			public BranchType type;
@@ -401,13 +401,13 @@ namespace BinaryNinja
 			public bool backEdge;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNFlowGraphLayoutRequest { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNFlowGraphNode { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFormInputField
 		{
 			public FormInputFieldType type;
@@ -424,10 +424,10 @@ namespace BinaryNinja
 			public ulong indexResult;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNFunction { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFunctionParameter
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string name;
@@ -437,7 +437,7 @@ namespace BinaryNinja
 			public BNVariable location;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFunctionRecognizer
 		{
 			public void* context;
@@ -445,7 +445,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNFunctionRecognizer_recognizeMediumLevelILDelegate recognizeMediumLevelIL;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNHighlightColor
 		{
 			public HighlightColorStyle style;
@@ -458,14 +458,14 @@ namespace BinaryNinja
 			public byte alpha;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNILBranchInstructionAndDependence
 		{
 			public ulong branch;
 			public ILBranchDependence dependence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNIndirectBranchInfo
 		{
 			public BNArchitecture* sourceArch;
@@ -475,26 +475,26 @@ namespace BinaryNinja
 			public bool autoDefined;
 		}
 
-		[StructLayout(Layout.Sequential)]
-		public struct BNInstructionInfo
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNInstructionInfo
 		{
 			public ulong length;
 			public ulong branchCount;
 			public bool archTransitionByTargetAddr;
 			public bool branchDelay;
-		public fixed BranchType branchType[3];
-		public fixed ulong branchTarget[3];
-		public fixed BNArchitecture* branchArch[3];
+			[MarshalAs(UnmanagedType.LPArray, SizeConst = 3)] public BranchType[] branchType;
+			public fixed ulong branchTarget[3];
+			[MarshalAs(UnmanagedType.LPArray, SizeConst = 3)] public BNArchitecture*[] branchArch;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNInstructionTextLine
 		{
 			public BNInstructionTextToken* tokens;
 			public ulong count;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNInstructionTextToken
 		{
 			public InstructionTextTokenType type;
@@ -509,7 +509,7 @@ namespace BinaryNinja
 			public ulong namesCount;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNInteractionHandlerCallbacks
 		{
 			public void* context;
@@ -529,7 +529,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNInteractionHandlerCallbacks_showMessageBoxDelegate showMessageBox;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNLinearDisassemblyLine
 		{
 			public LinearDisassemblyLineType type;
@@ -539,7 +539,7 @@ namespace BinaryNinja
 			public BNDisassemblyTextLine contents;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNLinearDisassemblyPosition
 		{
 			public BNFunction* function;
@@ -547,7 +547,7 @@ namespace BinaryNinja
 			public ulong address;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNLogListener
 		{
 			public void* context;
@@ -556,7 +556,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNLogListener_getLogLevelDelegate getLogLevel;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNLookupTableEntry
 		{
 			public long* fromValues;
@@ -564,21 +564,21 @@ namespace BinaryNinja
 			public long toValue;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNLowLevelILFunction { };
 
-		[StructLayout(Layout.Sequential)]
-		public struct BNLowLevelILInstruction
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNLowLevelILInstruction
 		{
 			public LowLevelILOperation operation;
 			public ulong size;
 			public uint flags;
 			public uint sourceOperand;
-		public fixed ulong operands[4];
+			public fixed ulong operands[4];
 			public ulong address;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNLowLevelILLabel
 		{
 			public bool resolved;
@@ -586,30 +586,30 @@ namespace BinaryNinja
 			public ulong operand;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMainThreadAction { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNMainThreadCallbacks
 		{
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNMainThreadCallbacks_addActionDelegate addAction;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMediumLevelILFunction { };
 
-		[StructLayout(Layout.Sequential)]
-		public struct BNMediumLevelILInstruction
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNMediumLevelILInstruction
 		{
 			public MediumLevelILOperation operation;
 			public uint sourceOperand;
 			public ulong size;
-		public fixed ulong operands[5];
+			public fixed ulong operands[5];
 			public ulong address;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMediumLevelILLabel
 		{
 			public bool resolved;
@@ -617,24 +617,24 @@ namespace BinaryNinja
 			public ulong operand;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMemberAccessWithConfidence
 		{
 			public MemberAccess value;
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMemberScopeWithConfidence
 		{
 			public MemberScope value;
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMetadata { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNMetadataValueStore
 		{
 			public ulong size;
@@ -642,7 +642,7 @@ namespace BinaryNinja
 			public BNMetadata** values;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNameAndType
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string name;
@@ -650,7 +650,7 @@ namespace BinaryNinja
 			public byte typeConfidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNameList
 		{
 			public char** name;
@@ -658,7 +658,7 @@ namespace BinaryNinja
 			public ulong nameCount;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNameSpace
 		{
 			public char** name;
@@ -666,10 +666,10 @@ namespace BinaryNinja
 			public ulong nameCount;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNNamedTypeReference { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNNavigationHandler
 		{
 			public void* context;
@@ -678,7 +678,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNNavigationHandler_navigateDelegate navigate;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNObjectDestructionCallbacks
 		{
 			public void* context;
@@ -687,14 +687,14 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNObjectDestructionCallbacks_destructFunctionDelegate destructFunction;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNOffsetWithConfidence
 		{
 			public long value;
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNParameterVariablesWithConfidence
 		{
 			public BNVariable* vars;
@@ -702,17 +702,17 @@ namespace BinaryNinja
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNPerformanceInfo
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string name;
 			public double seconds;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNPlatform { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNPluginCommand
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string name;
@@ -737,14 +737,14 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILInstructionIsValidDelegate mediumLevelILInstructionIsValid;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNPoint
 		{
 			public float x;
 			public float y;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNPossibleValueSet
 		{
 			public RegisterValueType state;
@@ -756,7 +756,7 @@ namespace BinaryNinja
 			public ulong count;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNQualifiedName
 		{
 			public char** name;
@@ -764,21 +764,21 @@ namespace BinaryNinja
 			public ulong nameCount;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNQualifiedNameAndType
 		{
 			public BNQualifiedName name;
 			public BNType* type;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRange
 		{
 			public ulong start;
 			public ulong end;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNReferenceSource
 		{
 			public BNFunction* func;
@@ -786,7 +786,7 @@ namespace BinaryNinja
 			public ulong addr;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRegisterInfo
 		{
 			public uint fullWidthRegister;
@@ -795,7 +795,7 @@ namespace BinaryNinja
 			public ImplicitRegisterExtend extend;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRegisterOrConstant
 		{
 			public bool constant;
@@ -803,7 +803,7 @@ namespace BinaryNinja
 			public ulong value;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNRegisterSetWithConfidence
 		{
 			public uint* regs;
@@ -811,7 +811,7 @@ namespace BinaryNinja
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRegisterStackAdjustment
 		{
 			public uint regStack;
@@ -819,7 +819,7 @@ namespace BinaryNinja
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRegisterStackInfo
 		{
 			public uint firstStorageReg;
@@ -829,7 +829,7 @@ namespace BinaryNinja
 			public uint stackTopReg;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRegisterValue
 		{
 			public RegisterValueType state;
@@ -837,20 +837,20 @@ namespace BinaryNinja
 			public long offset;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRegisterValueWithConfidence
 		{
 			public BNRegisterValue value;
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRelocation { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRelocationHandler { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNRelocationInfo
 		{
 			public RelocationType type;
@@ -869,27 +869,27 @@ namespace BinaryNinja
 			public ulong address;
 			public ulong target;
 			public bool dataRelocation;
-		public fixed byte relocationDataCache[8];
+			public fixed byte relocationDataCache[8];
 			public BNRelocationInfo* prev;
 			public BNRelocationInfo* next;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRepoPlugin { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNReportCollection { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRepository { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRepositoryManager { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNScriptingInstance { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNScriptingInstanceCallbacks
 		{
 			public void* context;
@@ -902,7 +902,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentSelectionDelegate setCurrentSelection;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNScriptingOutputListener
 		{
 			public void* context;
@@ -911,30 +911,30 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingOutputListener_inputReadyStateChangedDelegate inputReadyStateChanged;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNScriptingProvider { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNScriptingProviderCallbacks
 		{
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingProviderCallbacks_createInstanceDelegate createInstance;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNSection { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNSegment { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNSizeWithConfidence
 		{
 			public ulong value;
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNStackVariableReference
 		{
 			public uint sourceOperand;
@@ -946,7 +946,7 @@ namespace BinaryNinja
 			public ulong size;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNStringReference
 		{
 			public StringType type;
@@ -954,10 +954,10 @@ namespace BinaryNinja
 			public ulong length;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNStructure { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNStructureMember
 		{
 			public BNType* type;
@@ -966,10 +966,10 @@ namespace BinaryNinja
 			public byte typeConfidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNSymbol { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNSystemCallInfo
 		{
 			public uint number;
@@ -977,20 +977,20 @@ namespace BinaryNinja
 			public BNType* type;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNTemporaryFile { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNTransform { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTransformParameter
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string name;
 			public BNDataBuffer* value;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTransformParameterInfo
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string name;
@@ -998,10 +998,10 @@ namespace BinaryNinja
 			public ulong fixedLength;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNType { };
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTypeParserResult
 		{
 			public BNQualifiedNameAndType* types;
@@ -1012,14 +1012,14 @@ namespace BinaryNinja
 			public ulong functionCount;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTypeWithConfidence
 		{
 			public BNType* type;
 			public byte confidence;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNUndoAction
 		{
 			public ActionType type;
@@ -1030,7 +1030,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNUndoAction_serializeDelegate serialize;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNUpdateChannel
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string name;
@@ -1038,7 +1038,7 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.LPStr)] public string latestVersion;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNUpdateVersion
 		{
 			[MarshalAs(UnmanagedType.LPStr)] public string version;
@@ -1046,7 +1046,7 @@ namespace BinaryNinja
 			public ulong time;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNValueRange
 		{
 			public ulong start;
@@ -1054,7 +1054,7 @@ namespace BinaryNinja
 			public ulong step;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNVariable
 		{
 			public VariableSourceType type;
@@ -1062,7 +1062,7 @@ namespace BinaryNinja
 			public long storage;
 		}
 
-		[StructLayout(Layout.Sequential)]
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNVariableNameAndType
 		{
 			public BNVariable var;
