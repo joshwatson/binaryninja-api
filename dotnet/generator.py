@@ -162,7 +162,7 @@ namespace BinaryNinja
                 if (member.type.type_class == TypeClass.PointerTypeClass and
                         member.type.target.width == 1 and
                         member.type.target.signed):
-                    out.write('char*')
+                    out.write(f'public char* {member.name};\n')
                     # need_opaque_struct = True
                     # out.write(
                     #     f'\t\t\t[MarshalAs(UnmanagedType.LPStr)] public string {member.name};\n')
