@@ -162,10 +162,8 @@ namespace BinaryNinja
                 if (member.type.type_class == TypeClass.PointerTypeClass and
                         member.type.target.width == 1 and
                         member.type.target.signed):
-                    out.write(f'public char* {member.name};\n')
-                    # need_opaque_struct = True
-                    # out.write(
-                    #     f'\t\t\t[MarshalAs(UnmanagedType.LPStr)] public string {member.name};\n')
+                    out.write(f'\t\t\tpublic char* {member.name};\n')
+
                 elif (member.type.type_class == TypeClass.PointerTypeClass and
                         member.type.target.type_class == TypeClass.FunctionTypeClass):
                     need_opaque_struct = True
@@ -173,21 +171,7 @@ namespace BinaryNinja
                         f'\t\t\t[MarshalAs(UnmanagedType.FunctionPtr)] public {name}_{member.name}Delegate {member.name};\n'
                     )
 
-                    delegates.write('\tpublic unsafe delegate ')
-                    output_type(
-                        delegates, member.type.target.return_value, True)
-                    delegates.write(f' {name}_{member.name}Delegate(')
-
-                    for j, p in enumerate(member.type.target.parameters):
-                        output_type(delegates, p.type)
-                        if j < len(member.type.target.parameters) - 1:
-                            delegates.write(
-                                f' {p.name if p.name not in keywords else f"_{p.name}"}, ')
-                        else:
-                            delegates.write(
-                                f' {p.name if p.name not in keywords else f"_{p.name}"}')
-
-                    delegates.write(');\n')
+                    delegate_list[f'{name}_{member.name}Delegate'] = member.type.target
 
                 elif member.type.type_class == TypeClass.ArrayTypeClass:
                     need_opaque_struct = True
@@ -227,6 +211,25 @@ namespace BinaryNinja
                 else:
                     enum.write(f'\t\t{x.name} = {x.value}\n')
             enum.write('\t}\n')
+
+    out.write('\t\t// Delegate definitions\n')
+
+    for name, delegate in delegate_list.items():
+        out.write('\t\tpublic unsafe delegate ')
+        output_type(
+            out, delegate.return_value, True)
+        out.write(f' {name}(')
+
+        for j, p in enumerate(delegate.parameters):
+            output_type(out, p.type)
+            if j < len(delegate.parameters) - 1:
+                out.write(
+                    f' {p.name if p.name not in keywords else f"_{p.name}"}, ')
+            else:
+                out.write(
+                    f' {p.name if p.name not in keywords else f"_{p.name}"}')
+
+        out.write(');\n')
 
     out.write('\t\t// Function definitions\n')
 
