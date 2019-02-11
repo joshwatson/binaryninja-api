@@ -189,6 +189,7 @@ namespace BinaryNinja
                     delegates.write(');\n')
 
                 elif member.type.type_class == TypeClass.ArrayTypeClass:
+                    need_opaque_struct = True
                     if member.type.element_type.type_class == TypeClass.IntegerTypeClass:
                         out.write(f'\t\t\tpublic fixed ')
                     else:
@@ -225,8 +226,6 @@ namespace BinaryNinja
                 else:
                     enum.write(f'\t\t{x.name} = {x.value}\n')
             enum.write('\t}\n')
-
-    print(opaque_structs)
 
     out.write('\t\t// Function definitions\n')
 

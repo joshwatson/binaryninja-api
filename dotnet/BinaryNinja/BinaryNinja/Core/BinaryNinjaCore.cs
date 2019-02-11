@@ -521,6 +521,8 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.LPArray, SizeConst = 3)] public BNArchitecture*[] branchArch;
 		}
 
+		public struct _BNInstructionInfo { };
+
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNInstructionTextLine
 		{
@@ -618,6 +620,8 @@ namespace BinaryNinja
 			public ulong address;
 		}
 
+		public struct _BNLowLevelILInstruction { };
+
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNLowLevelILLabel
 		{
@@ -650,6 +654,8 @@ namespace BinaryNinja
 			public fixed ulong operands[5];
 			public ulong address;
 		}
+
+		public struct _BNMediumLevelILInstruction { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMediumLevelILLabel
@@ -931,6 +937,8 @@ namespace BinaryNinja
 			public BNRelocationInfo* prev;
 			public BNRelocationInfo* next;
 		}
+
+		public struct _BNRelocationInfo { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRepoPlugin { };
@@ -1426,9 +1434,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNDefineImportedFunction(BNBinaryView* view, BNSymbol* importAddressSym, BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNDefineRelocation(BNBinaryView* view, BNArchitecture* arch, BNRelocationInfo* info, ulong target, ulong reloc);
+		public static extern unsafe void BNDefineRelocation(BNBinaryView* view, BNArchitecture* arch, _BNRelocationInfo* info, ulong target, ulong reloc);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNDefineSymbolRelocation(BNBinaryView* view, BNArchitecture* arch, BNRelocationInfo* info, BNSymbol* target, ulong reloc);
+		public static extern unsafe void BNDefineSymbolRelocation(BNBinaryView* view, BNArchitecture* arch, _BNRelocationInfo* info, BNSymbol* target, ulong reloc);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNDefineUserAnalysisType(BNBinaryView* view, _BNQualifiedName* name, BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2152,7 +2160,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNHighlightColor BNGetInstructionHighlight(BNFunction* func, BNArchitecture* arch, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNGetInstructionInfo(BNArchitecture* arch, byte* data, ulong addr, ulong maxLen, BNInstructionInfo* result);
+		public static extern unsafe bool BNGetInstructionInfo(BNArchitecture* arch, byte* data, ulong addr, ulong maxLen, _BNInstructionInfo* result);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetInstructionLength(BNBinaryView* view, BNArchitecture* arch, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3300,7 +3308,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNRelocationHandlerGetOperandForExternalRelocation(BNRelocationHandler* handler, byte* data, ulong addr, ulong length, BNLowLevelILFunction* il, BNRelocation* relocation);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNRelocationHandlerGetRelocationInfo(BNRelocationHandler* handler, BNBinaryView* data, BNArchitecture* arch, BNRelocationInfo* info, ulong infoCount);
+		public static extern unsafe bool BNRelocationHandlerGetRelocationInfo(BNRelocationHandler* handler, BNBinaryView* data, BNArchitecture* arch, _BNRelocationInfo* info, ulong infoCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRemoveAnalysisFunction(BNBinaryView* view, BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
