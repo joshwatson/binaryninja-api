@@ -9,7 +9,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNActiveAnalysisInfo
 		{
-			public BNFunction* func;
 			public ulong analysisTime;
 			public ulong updateCount;
 			public ulong submitCount;
@@ -28,9 +27,7 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNAnalysisInfo
 		{
-			public AnalysisState state;
 			public ulong analysisTime;
-			public BNActiveAnalysisInfo* activeInfo;
 			public ulong count;
 		}
 
@@ -48,7 +45,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNAnalysisProgress
 		{
-			public AnalysisState state;
 			public ulong count;
 			public ulong total;
 		}
@@ -59,7 +55,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNArchitectureAndAddress
 		{
-			public BNArchitecture* arch;
 			public ulong address;
 		}
 
@@ -72,8 +67,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNBasicBlockEdge
 		{
-			public BranchType type;
-			public BNBasicBlock* target;
 			public bool backEdge;
 			public bool fallThrough;
 		}
@@ -125,7 +118,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNCallingConventionWithConfidence
 		{
-			public BNCallingConvention* convention;
 			public byte confidence;
 		}
 
@@ -328,7 +320,6 @@ namespace BinaryNinja
 		public unsafe struct BNDataVariable
 		{
 			public ulong address;
-			public BNType* type;
 			public bool autoDiscovered;
 			public byte typeConfidence;
 		}
@@ -341,9 +332,7 @@ namespace BinaryNinja
 		{
 			public ulong addr;
 			public ulong instrIndex;
-			public BNInstructionTextToken* tokens;
 			public ulong count;
-			public BNHighlightColor highlight;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -411,7 +400,6 @@ namespace BinaryNinja
 		public struct BNFlagConditionForSemanticClass
 		{
 			public uint semanticClass;
-			public LowLevelILFlagCondition condition;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -420,9 +408,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFlowGraphEdge
 		{
-			public BranchType type;
-			public BNFlowGraphNode* target;
-			public BNPoint* points;
 			public ulong pointCount;
 			public bool backEdge;
 		}
@@ -436,9 +421,7 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNFormInputField
 		{
-			public FormInputFieldType type;
 			public char* prompt;
-			public BNBinaryView* view;
 			public ulong currentAddress;
 			public char** choices;
 			public ulong count;
@@ -457,10 +440,8 @@ namespace BinaryNinja
 		public unsafe struct BNFunctionParameter
 		{
 			public char* name;
-			public BNType* type;
 			public byte typeConfidence;
 			public bool defaultLocation;
-			public BNVariable location;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -476,9 +457,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNHighlightColor
 		{
-			public HighlightColorStyle style;
-			public HighlightStandardColor color;
-			public HighlightStandardColor mixColor;
 			public byte mix;
 			public byte r;
 			public byte g;
@@ -490,15 +468,12 @@ namespace BinaryNinja
 		public struct BNILBranchInstructionAndDependence
 		{
 			public ulong branch;
-			public ILBranchDependence dependence;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNIndirectBranchInfo
 		{
-			public BNArchitecture* sourceArch;
 			public ulong sourceAddr;
-			public BNArchitecture* destArch;
 			public ulong destAddr;
 			public bool autoDefined;
 		}
@@ -520,19 +495,16 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNInstructionTextLine
 		{
-			public BNInstructionTextToken* tokens;
 			public ulong count;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNInstructionTextToken
 		{
-			public InstructionTextTokenType type;
 			public char* text;
 			public ulong value;
 			public ulong size;
 			public ulong operand;
-			public InstructionTextTokenContext context;
 			public byte confidence;
 			public ulong address;
 			public char** typeNames;
@@ -564,18 +536,12 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNLinearDisassemblyLine
 		{
-			public LinearDisassemblyLineType type;
-			public BNFunction* function;
-			public BNBasicBlock* block;
 			public ulong lineOffset;
-			public BNDisassemblyTextLine contents;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNLinearDisassemblyPosition
 		{
-			public BNFunction* function;
-			public BNBasicBlock* block;
 			public ulong address;
 		}
 
@@ -604,7 +570,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNLowLevelILInstruction
 		{
-			public LowLevelILOperation operation;
 			public ulong size;
 			public uint flags;
 			public uint sourceOperand;
@@ -640,7 +605,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNMediumLevelILInstruction
 		{
-			public MediumLevelILOperation operation;
 			public uint sourceOperand;
 			public ulong size;
 			public fixed ulong operands[5];
@@ -660,14 +624,12 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMemberAccessWithConfidence
 		{
-			public MemberAccess value;
 			public byte confidence;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMemberScopeWithConfidence
 		{
-			public MemberScope value;
 			public byte confidence;
 		}
 
@@ -686,7 +648,6 @@ namespace BinaryNinja
 		public unsafe struct BNNameAndType
 		{
 			public char* name;
-			public BNType* type;
 			public byte typeConfidence;
 		}
 
@@ -741,7 +702,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNParameterVariablesWithConfidence
 		{
-			public BNVariable* vars;
 			public ulong count;
 			public byte confidence;
 		}
@@ -761,7 +721,6 @@ namespace BinaryNinja
 		{
 			public char* name;
 			public char* description;
-			public PluginCommandType type;
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_defaultCommandDelegate defaultCommand;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_addressCommandDelegate addressCommand;
@@ -793,12 +752,9 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNPossibleValueSet
 		{
-			public RegisterValueType state;
 			public long value;
 			public long offset;
-			public BNValueRange* ranges;
 			public long* valueSet;
-			public BNLookupTableEntry* table;
 			public ulong count;
 		}
 
@@ -813,8 +769,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNQualifiedNameAndType
 		{
-			public BNQualifiedName name;
-			public BNType* type;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -827,8 +781,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNReferenceSource
 		{
-			public BNFunction* func;
-			public BNArchitecture* arch;
 			public ulong addr;
 		}
 
@@ -838,7 +790,6 @@ namespace BinaryNinja
 			public uint fullWidthRegister;
 			public ulong offset;
 			public ulong size;
-			public ImplicitRegisterExtend extend;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -878,7 +829,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRegisterValue
 		{
-			public RegisterValueType state;
 			public long value;
 			public long offset;
 		}
@@ -886,7 +836,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNRegisterValueWithConfidence
 		{
-			public BNRegisterValue value;
 			public byte confidence;
 		}
 
@@ -899,7 +848,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNRelocationInfo
 		{
-			public RelocationType type;
 			public bool pcRelative;
 			public bool baseRelative;
 			public ulong _base;
@@ -916,8 +864,6 @@ namespace BinaryNinja
 			public ulong target;
 			public bool dataRelocation;
 			public fixed byte relocationDataCache[8];
-			public BNRelocationInfo* prev;
-			public BNRelocationInfo* next;
 		}
 
 		public struct _BNRelocationInfo { };
@@ -993,7 +939,6 @@ namespace BinaryNinja
 		{
 			public uint sourceOperand;
 			public byte typeConfidence;
-			public BNType* type;
 			public char* name;
 			public ulong varIdentifier;
 			public long referencedOffset;
@@ -1003,7 +948,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNStringReference
 		{
-			public StringType type;
 			public ulong start;
 			public ulong length;
 		}
@@ -1014,7 +958,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNStructureMember
 		{
-			public BNType* type;
 			public char* name;
 			public ulong offset;
 			public byte typeConfidence;
@@ -1027,8 +970,6 @@ namespace BinaryNinja
 		public unsafe struct BNSystemCallInfo
 		{
 			public uint number;
-			public BNQualifiedName name;
-			public BNType* type;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1041,7 +982,6 @@ namespace BinaryNinja
 		public unsafe struct BNTransformParameter
 		{
 			public char* name;
-			public BNDataBuffer* value;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1058,9 +998,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTypeParserResult
 		{
-			public BNQualifiedNameAndType* types;
-			public BNQualifiedNameAndType* variables;
-			public BNQualifiedNameAndType* functions;
 			public ulong typeCount;
 			public ulong variableCount;
 			public ulong functionCount;
@@ -1069,14 +1006,12 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTypeWithConfidence
 		{
-			public BNType* type;
 			public byte confidence;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNUndoAction
 		{
-			public ActionType type;
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNUndoAction_freeObjectDelegate freeObject;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNUndoAction_undoDelegate undo;
@@ -1113,7 +1048,6 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNVariable
 		{
-			public VariableSourceType type;
 			public uint index;
 			public long storage;
 		}
@@ -1121,213 +1055,282 @@ namespace BinaryNinja
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNVariableNameAndType
 		{
-			public BNVariable var;
-			public BNType* type;
 			public char* name;
 			public bool autoDefined;
 			public byte typeConfidence;
 		}
 
-		// Delegate definitions
-		public unsafe delegate void BNBinaryDataNotification_dataWrittenDelegate(void* ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_dataInsertedDelegate(void* ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_dataRemovedDelegate(void* ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_functionAddedDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionRemovedDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionUpdatedDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionUpdateRequestedDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableAddedDelegate(void* ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableRemovedDelegate(void* ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableUpdatedDelegate(void* ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_stringFoundDelegate(void* ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_stringRemovedDelegate(void* ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_typeDefinedDelegate(void* ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
-		public unsafe delegate void BNBinaryDataNotification_typeUndefinedDelegate(void* ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
-		public unsafe delegate void BNCustomArchitecture_initDelegate(void* context, BNArchitecture* obj);
-		public unsafe delegate Endianness BNCustomArchitecture_getEndiannessDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getAddressSizeDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getDefaultIntegerSizeDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getInstructionAlignmentDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getMaxInstructionLengthDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getOpcodeDisplayLengthDelegate(void* ctxt);
-		public unsafe delegate BNArchitecture* BNCustomArchitecture_getAssociatedArchitectureByAddressDelegate(void* ctxt, ulong* addr);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionInfoDelegate(void* ctxt, byte* data, ulong addr, ulong maxLen, BNInstructionInfo* result);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionTextDelegate(void* ctxt, byte* data, ulong addr, ulong* len, BNInstructionTextToken** result, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeInstructionTextDelegate(BNInstructionTextToken* tokens, ulong count);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionLowLevelILDelegate(void* ctxt, byte* data, ulong addr, ulong* len, BNLowLevelILFunction* il);
-		public unsafe delegate char* BNCustomArchitecture_getRegisterNameDelegate(void* ctxt, uint reg);
-		public unsafe delegate char* BNCustomArchitecture_getFlagNameDelegate(void* ctxt, uint flag);
-		public unsafe delegate char* BNCustomArchitecture_getFlagWriteTypeNameDelegate(void* ctxt, uint flags);
-		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagClassNameDelegate(void* ctxt, uint semClass);
-		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagGroupNameDelegate(void* ctxt, uint semGroup);
-		public unsafe delegate uint* BNCustomArchitecture_getFullWidthRegistersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllRegistersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllFlagsDelegate(void* ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllFlagWriteTypesDelegate(void* ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagClassesDelegate(void* ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagGroupsDelegate(void* ctxt, ulong* count);
-		public unsafe delegate FlagRole BNCustomArchitecture_getFlagRoleDelegate(void* ctxt, uint flag, uint semClass);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForFlagConditionDelegate(void* ctxt, LowLevelILFlagCondition cond, uint semClass, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForSemanticFlagGroupDelegate(void* ctxt, uint semGroup, ulong* count);
-		public unsafe delegate BNFlagConditionForSemanticClass* BNCustomArchitecture_getFlagConditionsForSemanticFlagGroupDelegate(void* ctxt, uint semGroup, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeFlagConditionsForSemanticFlagGroupDelegate(void* ctxt, BNFlagConditionForSemanticClass* conditions);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsWrittenByFlagWriteTypeDelegate(void* ctxt, uint writeType, ulong* count);
-		public unsafe delegate uint BNCustomArchitecture_getSemanticClassForFlagWriteTypeDelegate(void* ctxt, uint writeType);
-		public unsafe delegate ulong BNCustomArchitecture_getFlagWriteLowLevelILDelegate(void* ctxt, LowLevelILOperation op, ulong size, uint flagWriteType, uint flag, BNRegisterOrConstant* operands, ulong operandCount, BNLowLevelILFunction* il);
-		public unsafe delegate ulong BNCustomArchitecture_getFlagConditionLowLevelILDelegate(void* ctxt, LowLevelILFlagCondition cond, uint semClass, BNLowLevelILFunction* il);
-		public unsafe delegate ulong BNCustomArchitecture_getSemanticFlagGroupLowLevelILDelegate(void* ctxt, uint semGroup, BNLowLevelILFunction* il);
-		public unsafe delegate void BNCustomArchitecture_freeRegisterListDelegate(void* ctxt, uint* regs);
-		public unsafe delegate void BNCustomArchitecture_getRegisterInfoDelegate(void* ctxt, uint reg, BNRegisterInfo* result);
-		public unsafe delegate uint BNCustomArchitecture_getStackPointerRegisterDelegate(void* ctxt);
-		public unsafe delegate uint BNCustomArchitecture_getLinkRegisterDelegate(void* ctxt);
-		public unsafe delegate uint* BNCustomArchitecture_getGlobalRegistersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate char* BNCustomArchitecture_getRegisterStackNameDelegate(void* ctxt, uint regStack);
-		public unsafe delegate uint* BNCustomArchitecture_getAllRegisterStacksDelegate(void* ctxt, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_getRegisterStackInfoDelegate(void* ctxt, uint regStack, BNRegisterStackInfo* result);
-		public unsafe delegate char* BNCustomArchitecture_getIntrinsicNameDelegate(void* ctxt, uint intrinsic);
-		public unsafe delegate uint* BNCustomArchitecture_getAllIntrinsicsDelegate(void* ctxt, ulong* count);
-		public unsafe delegate BNNameAndType* BNCustomArchitecture_getIntrinsicInputsDelegate(void* ctxt, uint intrinsic, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeNameAndTypeListDelegate(void* ctxt, BNNameAndType* nt, ulong count);
-		public unsafe delegate BNTypeWithConfidence* BNCustomArchitecture_getIntrinsicOutputsDelegate(void* ctxt, uint intrinsic, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeTypeListDelegate(void* ctxt, BNTypeWithConfidence* types, ulong count);
-		public unsafe delegate bool BNCustomArchitecture_assembleDelegate(void* ctxt, char* code, ulong addr, BNDataBuffer* result, char** errors);
-		public unsafe delegate bool BNCustomArchitecture_isNeverBranchPatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isAlwaysBranchPatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isInvertBranchPatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnZeroPatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnValuePatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_convertToNopDelegate(void* ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_alwaysBranchDelegate(void* ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_invertBranchDelegate(void* ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_skipAndReturnValueDelegate(void* ctxt, byte* data, ulong addr, ulong len, ulong value);
-		public unsafe delegate bool BNCustomBinaryView_initDelegate(void* ctxt);
-		public unsafe delegate void BNCustomBinaryView_freeObjectDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_readDelegate(void* ctxt, void* dest, ulong offset, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_writeDelegate(void* ctxt, ulong offset, void* src, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_insertDelegate(void* ctxt, ulong offset, void* src, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_removeDelegate(void* ctxt, ulong offset, ulong len);
-		public unsafe delegate ModificationStatus BNCustomBinaryView_getModificationDelegate(void* ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isValidOffsetDelegate(void* ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetReadableDelegate(void* ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetWritableDelegate(void* ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetExecutableDelegate(void* ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetBackedByFileDelegate(void* ctxt, ulong offset);
-		public unsafe delegate ulong BNCustomBinaryView_getNextValidOffsetDelegate(void* ctxt, ulong offset);
-		public unsafe delegate ulong BNCustomBinaryView_getStartDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getLengthDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getEntryPointDelegate(void* ctxt);
-		public unsafe delegate bool BNCustomBinaryView_isExecutableDelegate(void* ctxt);
-		public unsafe delegate Endianness BNCustomBinaryView_getDefaultEndiannessDelegate(void* ctxt);
-		public unsafe delegate bool BNCustomBinaryView_isRelocatableDelegate(void* ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getAddressSizeDelegate(void* ctxt);
-		public unsafe delegate bool BNCustomBinaryView_saveDelegate(void* ctxt, BNFileAccessor* accessor);
-		public unsafe delegate BNBinaryView* BNCustomBinaryViewType_createDelegate(void* ctxt, BNBinaryView* data);
-		public unsafe delegate bool BNCustomBinaryViewType_isValidForDataDelegate(void* ctxt, BNBinaryView* data);
-		public unsafe delegate void BNCustomCallingConvention_freeObjectDelegate(void* ctxt);
-		public unsafe delegate uint* BNCustomCallingConvention_getCallerSavedRegistersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getCalleeSavedRegistersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getIntegerArgumentRegistersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getFloatArgumentRegistersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate void BNCustomCallingConvention_freeRegisterListDelegate(void* ctxt, uint* regs);
-		public unsafe delegate bool BNCustomCallingConvention_areArgumentRegistersSharedIndexDelegate(void* ctxt);
-		public unsafe delegate bool BNCustomCallingConvention_isStackReservedForArgumentRegistersDelegate(void* ctxt);
-		public unsafe delegate bool BNCustomCallingConvention_isStackAdjustedOnReturnDelegate(void* ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getIntegerReturnValueRegisterDelegate(void* ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getHighIntegerReturnValueRegisterDelegate(void* ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getFloatReturnValueRegisterDelegate(void* ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getGlobalPointerRegisterDelegate(void* ctxt);
-		public unsafe delegate uint* BNCustomCallingConvention_getImplicitlyDefinedRegistersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingRegisterValueDelegate(void* ctxt, uint reg, BNFunction* func, BNRegisterValue* result);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingFlagValueDelegate(void* ctxt, uint flag, BNFunction* func, BNRegisterValue* result);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingVariableForParameterVariableDelegate(void* ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
-		public unsafe delegate void BNCustomCallingConvention_getParameterVariableForIncomingVariableDelegate(void* ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
-		public unsafe delegate void BNCustomDataRenderer_freeObjectDelegate(void* ctxt);
-		public unsafe delegate bool BNCustomDataRenderer_isValidForDataDelegate(void* ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
-		public unsafe delegate BNDisassemblyTextLine* BNCustomDataRenderer_getLinesForDataDelegate(void* ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
-		public unsafe delegate void BNCustomFlowGraph_prepareForLayoutDelegate(void* ctxt);
-		public unsafe delegate void BNCustomFlowGraph_populateNodesDelegate(void* ctxt);
-		public unsafe delegate void BNCustomFlowGraph_completeLayoutDelegate(void* ctxt);
-		public unsafe delegate BNFlowGraph* BNCustomFlowGraph_updateDelegate(void* ctxt);
-		public unsafe delegate void BNCustomRelocationHandler_freeObjectDelegate(void* ctxt);
-		public unsafe delegate bool BNCustomRelocationHandler_getRelocationInfoDelegate(void* ctxt, BNBinaryView* view, BNArchitecture* arch, BNRelocationInfo* result, ulong resultCount);
-		public unsafe delegate bool BNCustomRelocationHandler_applyRelocationDelegate(void* ctxt, BNBinaryView* view, BNArchitecture* arch, BNRelocation* reloc, byte* dest, ulong len);
-		public unsafe delegate ulong BNCustomRelocationHandler_getOperandForExternalRelocationDelegate(void* ctxt, byte* data, ulong addr, ulong length, BNLowLevelILFunction* il, BNRelocation* relocation);
-		public unsafe delegate BNTransformParameterInfo* BNCustomTransform_getParametersDelegate(void* ctxt, ulong* count);
-		public unsafe delegate void BNCustomTransform_freeParametersDelegate(BNTransformParameterInfo* _params, ulong count);
-		public unsafe delegate bool BNCustomTransform_decodeDelegate(void* ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
-		public unsafe delegate bool BNCustomTransform_encodeDelegate(void* ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
-		public unsafe delegate void BNDownloadInstanceCallbacks_destroyInstanceDelegate(void* ctxt);
-		public unsafe delegate int BNDownloadInstanceCallbacks_performRequestDelegate(void* ctxt, char* url);
-		public unsafe delegate ulong BNDownloadInstanceOutputCallbacks_writeCallbackDelegate(byte* data, ulong len, void* ctxt);
-		public unsafe delegate bool BNDownloadInstanceOutputCallbacks_progressCallbackDelegate(void* ctxt, ulong progress, ulong total);
-		public unsafe delegate BNDownloadInstance* BNDownloadProviderCallbacks_createInstanceDelegate(void* ctxt);
-		public unsafe delegate ulong BNFileAccessor_getLengthDelegate(void* ctxt);
-		public unsafe delegate ulong BNFileAccessor_readDelegate(void* ctxt, void* dest, ulong offset, ulong len);
-		public unsafe delegate ulong BNFileAccessor_writeDelegate(void* ctxt, ulong offset, void* src, ulong len);
-		public unsafe delegate bool BNFunctionRecognizer_recognizeLowLevelILDelegate(void* ctxt, BNBinaryView* data, BNFunction* func, BNLowLevelILFunction* il);
-		public unsafe delegate bool BNFunctionRecognizer_recognizeMediumLevelILDelegate(void* ctxt, BNBinaryView* data, BNFunction* func, BNMediumLevelILFunction* il);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showPlainTextReportDelegate(void* ctxt, BNBinaryView* view, char* title, char* contents);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showMarkdownReportDelegate(void* ctxt, BNBinaryView* view, char* title, char* contents, char* plaintext);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showHTMLReportDelegate(void* ctxt, BNBinaryView* view, char* title, char* contents, char* plaintext);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showGraphReportDelegate(void* ctxt, BNBinaryView* view, char* title, BNFlowGraph* graph);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showReportCollectionDelegate(void* ctxt, char* title, BNReportCollection* reports);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getTextLineInputDelegate(void* ctxt, char** result, char* prompt, char* title);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getIntegerInputDelegate(void* ctxt, long* result, char* prompt, char* title);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getAddressInputDelegate(void* ctxt, ulong* result, char* prompt, char* title, BNBinaryView* view, ulong currentAddr);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getChoiceInputDelegate(void* ctxt, ulong* result, char* prompt, char* title, char** choices, ulong count);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getOpenFileNameInputDelegate(void* ctxt, char** result, char* prompt, char* ext);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getSaveFileNameInputDelegate(void* ctxt, char** result, char* prompt, char* ext, char* defaultName);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getDirectoryNameInputDelegate(void* ctxt, char** result, char* prompt, char* defaultName);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getFormInputDelegate(void* ctxt, BNFormInputField* fields, ulong count, char* title);
-		public unsafe delegate MessageBoxButtonResult BNInteractionHandlerCallbacks_showMessageBoxDelegate(void* ctxt, char* title, char* text, MessageBoxButtonSet buttons, MessageBoxIcon icon);
-		public unsafe delegate void BNLogListener_logDelegate(void* ctxt, LogLevel level, char* msg);
-		public unsafe delegate void BNLogListener_closeDelegate(void* ctxt);
-		public unsafe delegate LogLevel BNLogListener_getLogLevelDelegate(void* ctxt);
-		public unsafe delegate void BNMainThreadCallbacks_addActionDelegate(void* ctxt, BNMainThreadAction* action);
-		public unsafe delegate char* BNNavigationHandler_getCurrentViewDelegate(void* ctxt);
-		public unsafe delegate ulong BNNavigationHandler_getCurrentOffsetDelegate(void* ctxt);
-		public unsafe delegate bool BNNavigationHandler_navigateDelegate(void* ctxt, char* view, ulong offset);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructBinaryViewDelegate(void* ctxt, BNBinaryView* view);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructFileMetadataDelegate(void* ctxt, BNFileMetadata* file);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructFunctionDelegate(void* ctxt, BNFunction* func);
-		public unsafe delegate void BNPluginCommand_defaultCommandDelegate(void* ctxt, BNBinaryView* view);
-		public unsafe delegate void BNPluginCommand_addressCommandDelegate(void* ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate void BNPluginCommand_rangeCommandDelegate(void* ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate void BNPluginCommand_functionCommandDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNPluginCommand_lowLevelILFunctionCommandDelegate(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate void BNPluginCommand_lowLevelILInstructionCommandDelegate(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate void BNPluginCommand_mediumLevelILFunctionCommandDelegate(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate void BNPluginCommand_mediumLevelILInstructionCommandDelegate(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate bool BNPluginCommand_defaultIsValidDelegate(void* ctxt, BNBinaryView* view);
-		public unsafe delegate bool BNPluginCommand_addressIsValidDelegate(void* ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate bool BNPluginCommand_rangeIsValidDelegate(void* ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate bool BNPluginCommand_functionIsValidDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate bool BNPluginCommand_lowLevelILFunctionIsValidDelegate(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate bool BNPluginCommand_lowLevelILInstructionIsValidDelegate(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate bool BNPluginCommand_mediumLevelILFunctionIsValidDelegate(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate bool BNPluginCommand_mediumLevelILInstructionIsValidDelegate(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate void BNScriptingInstanceCallbacks_destroyInstanceDelegate(void* ctxt);
-		public unsafe delegate ScriptingProviderExecuteResult BNScriptingInstanceCallbacks_executeScriptInputDelegate(void* ctxt, char* input);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBinaryViewDelegate(void* ctxt, BNBinaryView* view);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentFunctionDelegate(void* ctxt, BNFunction* func);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBasicBlockDelegate(void* ctxt, BNBasicBlock* block);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentAddressDelegate(void* ctxt, ulong addr);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentSelectionDelegate(void* ctxt, ulong begin, ulong end);
-		public unsafe delegate void BNScriptingOutputListener_outputDelegate(void* ctxt, char* text);
-		public unsafe delegate void BNScriptingOutputListener_errorDelegate(void* ctxt, char* text);
-		public unsafe delegate void BNScriptingOutputListener_inputReadyStateChangedDelegate(void* ctxt, ScriptingProviderInputReadyState state);
-		public unsafe delegate BNScriptingInstance* BNScriptingProviderCallbacks_createInstanceDelegate(void* ctxt);
-		public unsafe delegate void BNUndoAction_freeObjectDelegate(void* ctxt);
-		public unsafe delegate void BNUndoAction_undoDelegate(void* ctxt, BNBinaryView* data);
-		public unsafe delegate void BNUndoAction_redoDelegate(void* ctxt, BNBinaryView* data);
-		public unsafe delegate char* BNUndoAction_serializeDelegate(void* ctxt);
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNInstructionTextToken
+		{
+			public char* text;
+			public ulong value;
+			public ulong size;
+			public ulong operand;
+			public byte confidence;
+			public ulong address;
+			public char** typeNames;
+			public ulong namesCount;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNFlagConditionForSemanticClass
+		{
+			public uint semanticClass;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNRelocationInfo
+		{
+			public bool pcRelative;
+			public bool baseRelative;
+			public ulong _base;
+			public ulong size;
+			public ulong truncateSize;
+			public ulong nativeType;
+			public ulong addend;
+			public bool hasSign;
+			public bool implicitAddend;
+			public bool external;
+			public ulong symbolIndex;
+			public ulong sectionIndex;
+			public ulong address;
+			public ulong target;
+			public bool dataRelocation;
+			public fixed byte relocationDataCache[8];
+			public _BNRelocationInfo* prev;
+			public _BNRelocationInfo* next;
+		}
+
+		public struct _BNRelocationInfo { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNStackVariableReference
+		{
+			public uint sourceOperand;
+			public byte typeConfidence;
+			public char* name;
+			public ulong varIdentifier;
+			public long referencedOffset;
+			public ulong size;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNAnalysisInfo
+		{
+			public ulong analysisTime;
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNActiveAnalysisInfo
+		{
+			public ulong analysisTime;
+			public ulong updateCount;
+			public ulong submitCount;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNFunctionParameter
+		{
+			public char* name;
+			public byte typeConfidence;
+			public bool defaultLocation;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNDisassemblyTextLine
+		{
+			public ulong addr;
+			public ulong instrIndex;
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNPossibleValueSet
+		{
+			public long value;
+			public long offset;
+			public long* valueSet;
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNParameterVariablesWithConfidence
+		{
+			public ulong count;
+			public byte confidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNVariable
+		{
+			public uint index;
+			public long storage;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNFormInputField
+		{
+			public char* prompt;
+			public ulong currentAddress;
+			public char** choices;
+			public ulong count;
+			public char* ext;
+			public char* defaultName;
+			public long intResult;
+			public ulong addressResult;
+			public char* stringResult;
+			public ulong indexResult;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNHighlightColor
+		{
+			public byte mix;
+			public byte r;
+			public byte g;
+			public byte b;
+			public byte alpha;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNLowLevelILInstruction
+		{
+			public ulong size;
+			public uint flags;
+			public uint sourceOperand;
+			public fixed ulong operands[4];
+			public ulong address;
+		}
+
+		public struct _BNLowLevelILInstruction { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNStringReference
+		{
+			public ulong start;
+			public ulong length;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNQualifiedNameAndType
+		{
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNStructureMember
+		{
+			public char* name;
+			public ulong offset;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNAnalysisProgress
+		{
+			public ulong count;
+			public ulong total;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNFlowGraphEdge
+		{
+			public ulong pointCount;
+			public bool backEdge;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNBasicBlockEdge
+		{
+			public bool backEdge;
+			public bool fallThrough;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNPluginCommand
+		{
+			public char* name;
+			public char* description;
+			public void* context;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_defaultCommandDelegate defaultCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_addressCommandDelegate addressCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_rangeCommandDelegate rangeCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_functionCommandDelegate functionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_lowLevelILFunctionCommandDelegate lowLevelILFunctionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_lowLevelILInstructionCommandDelegate lowLevelILInstructionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILFunctionCommandDelegate mediumLevelILFunctionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILInstructionCommandDelegate mediumLevelILInstructionCommand;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_defaultIsValidDelegate defaultIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_addressIsValidDelegate addressIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_rangeIsValidDelegate rangeIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_functionIsValidDelegate functionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_lowLevelILFunctionIsValidDelegate lowLevelILFunctionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_lowLevelILInstructionIsValidDelegate lowLevelILInstructionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILFunctionIsValidDelegate mediumLevelILFunctionIsValid;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNPluginCommand_mediumLevelILInstructionIsValidDelegate mediumLevelILInstructionIsValid;
+		}
+
+		public struct _BNPluginCommand { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNRegisterValue
+		{
+			public long value;
+			public long offset;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNDataVariable
+		{
+			public ulong address;
+			public bool autoDiscovered;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNNameAndType
+		{
+			public char* name;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNMediumLevelILInstruction
+		{
+			public uint sourceOperand;
+			public ulong size;
+			public fixed ulong operands[5];
+			public ulong address;
+		}
+
+		public struct _BNMediumLevelILInstruction { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNInstructionTextLine
+		{
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNLinearDisassemblyLine
+		{
+			public ulong lineOffset;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNSystemCallInfo
+		{
+			public uint number;
+		}
+
 		// Function definitions
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAbortAnalysis(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAbortFlowGraphLayoutRequest(BNFlowGraphLayoutRequest* graph);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNAnalysisCompletionEvent* BNAddAnalysisCompletionEvent(BNBinaryView* view, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] callbackDelegate callback);
+		public static extern unsafe BNAnalysisCompletionEvent* BNAddAnalysisCompletionEvent(BNBinaryView* view, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] callbackDelegate0 callback);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddAnalysisOption(BNBinaryView* view, char* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1479,7 +1482,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNCreateDatabase(BNBinaryView* data, char* path);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNCreateDatabaseWithProgress(BNBinaryView* data, char* path, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate progress);
+		public static extern unsafe bool BNCreateDatabaseWithProgress(BNBinaryView* data, char* path, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNCreateDirectory(char* path, bool createSubdirectories);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1631,9 +1634,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNExecuteMainThreadAction(BNMainThreadAction* action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNMainThreadAction* BNExecuteOnMainThread(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate func);
+		public static extern unsafe BNMainThreadAction* BNExecuteOnMainThread(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNExecuteOnMainThreadAndWait(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate func);
+		public static extern unsafe void BNExecuteOnMainThreadAndWait(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ScriptingProviderExecuteResult BNExecuteScriptInput(BNScriptingInstance* instance, char* input);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1647,15 +1650,15 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextConstant(BNBinaryView* view, ulong start, ulong constant, ulong* result, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextConstantWithProgress(BNBinaryView* view, ulong start, ulong end, ulong constant, ulong* result, BNDisassemblySettings* settings, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate progress);
+		public static extern unsafe bool BNFindNextConstantWithProgress(BNBinaryView* view, ulong start, ulong end, ulong constant, ulong* result, BNDisassemblySettings* settings, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextData(BNBinaryView* view, ulong start, BNDataBuffer* data, ulong* result, FindFlag flags);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextDataWithProgress(BNBinaryView* view, ulong start, ulong end, BNDataBuffer* data, ulong* result, FindFlag flags, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate progress);
+		public static extern unsafe bool BNFindNextDataWithProgress(BNBinaryView* view, ulong start, ulong end, BNDataBuffer* data, ulong* result, FindFlag flags, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextText(BNBinaryView* view, ulong start, char* data, ulong* result, BNDisassemblySettings* settings, FindFlag flags);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextTextWithProgress(BNBinaryView* view, ulong start, ulong end, char* data, ulong* result, BNDisassemblySettings* settings, FindFlag flags, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate progress);
+		public static extern unsafe bool BNFindNextTextWithProgress(BNBinaryView* view, ulong start, ulong end, char* data, ulong* result, BNDisassemblySettings* settings, FindFlag flags, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFinishBackgroundTask(BNBackgroundTask* task);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3275,7 +3278,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBinaryView* BNOpenExistingDatabase(BNFileMetadata* file, char* path);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBinaryView* BNOpenExistingDatabaseWithProgress(BNFileMetadata* file, char* path, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate progress);
+		public static extern unsafe BNBinaryView* BNOpenExistingDatabaseWithProgress(BNFileMetadata* file, char* path, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNParseExpression(BNBinaryView* view, char* expression, ulong* offset, ulong here, char** errorString);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3393,7 +3396,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDownloadProvider* BNRegisterDownloadProvider(char* name, _BNDownloadProviderCallbacks* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterForPluginLoading(char* pluginApiName, [MarshalAs(UnmanagedType.FunctionPtr)] cbDelegate cb, void* ctx);
+		public static extern unsafe void BNRegisterForPluginLoading(char* pluginApiName, [MarshalAs(UnmanagedType.FunctionPtr)] cbDelegate0 cb, void* ctx);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterGenericDataRenderer(BNDataRendererContainer* container, BNDataRenderer* renderer);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3423,21 +3426,21 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterPlatformTypes(BNBinaryView* view, BNPlatform* platform);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommand(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate isValid, void* context);
+		public static extern unsafe void BNRegisterPluginCommand(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForAddress(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate isValid, void* context);
+		public static extern unsafe void BNRegisterPluginCommandForAddress(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForFunction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate isValid, void* context);
+		public static extern unsafe void BNRegisterPluginCommandForFunction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate1 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate1 isValid, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForLowLevelILFunction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate isValid, void* context);
+		public static extern unsafe void BNRegisterPluginCommandForLowLevelILFunction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate2 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate2 isValid, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForLowLevelILInstruction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate isValid, void* context);
+		public static extern unsafe void BNRegisterPluginCommandForLowLevelILInstruction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate3 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate3 isValid, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILFunction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate isValid, void* context);
+		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILFunction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate4 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate4 isValid, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILInstruction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate isValid, void* context);
+		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILInstruction(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate5 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate5 isValid, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForRange(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate isValid, void* context);
+		public static extern unsafe void BNRegisterPluginCommandForRange(char* name, char* description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate6 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate6 isValid, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterScriptingInstanceOutputListener(BNScriptingInstance* instance, _BNScriptingOutputListener* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3447,7 +3450,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterTypeSpecificDataRenderer(BNDataRendererContainer* container, BNDataRenderer* renderer);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterUndoActionType(char* name, void* typeContext, [MarshalAs(UnmanagedType.FunctionPtr)] deserializeDelegate deserialize);
+		public static extern unsafe void BNRegisterUndoActionType(char* name, void* typeContext, [MarshalAs(UnmanagedType.FunctionPtr)] deserializeDelegate0 deserialize);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNReleaseAdvancedFunctionAnalysisData(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3545,7 +3548,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNSaveAutoSnapshot(BNBinaryView* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSaveAutoSnapshotWithProgress(BNBinaryView* data, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate progress);
+		public static extern unsafe bool BNSaveAutoSnapshotWithProgress(BNBinaryView* data, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSaveLastRun();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3851,7 +3854,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNSkipAndReturnValue(BNBinaryView* view, BNArchitecture* arch, ulong addr, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNFlowGraphLayoutRequest* BNStartFlowGraphLayout(BNFlowGraph* graph, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate func);
+		public static extern unsafe BNFlowGraphLayoutRequest* BNStartFlowGraphLayout(BNFlowGraph* graph, void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNToVariableIdentifier(BNVariable* var);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3913,9 +3916,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUpdateMediumLevelILOperand(BNMediumLevelILFunction* func, ulong instr, ulong operandIndex, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe UpdateResult BNUpdateToLatestVersion(char* channel, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate progress, void* context);
+		public static extern unsafe UpdateResult BNUpdateToLatestVersion(char* channel, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe UpdateResult BNUpdateToVersion(char* channel, char* version, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate progress, void* context);
+		public static extern unsafe UpdateResult BNUpdateToVersion(char* channel, char* version, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, void* context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUpdatesChecked();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3923,11 +3926,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWasFunctionAutomaticallyDiscovered(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerEnqueue(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action);
+		public static extern unsafe void BNWorkerEnqueue(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate7 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerInteractiveEnqueue(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action);
+		public static extern unsafe void BNWorkerInteractiveEnqueue(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerPriorityEnqueue(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate action);
+		public static extern unsafe void BNWorkerPriorityEnqueue(void* ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWrite16(BNBinaryWriter* stream, ushort val);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3960,5 +3963,220 @@ namespace BinaryNinja
 		public static extern unsafe BNDataBuffer* BNZlibCompress(BNDataBuffer* buf);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNZlibDecompress(BNDataBuffer* buf);
+		// Delegate definitions
+		public unsafe delegate void BNBinaryDataNotification_dataWrittenDelegate(void* ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_dataInsertedDelegate(void* ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_dataRemovedDelegate(void* ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_functionAddedDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionRemovedDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionUpdatedDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionUpdateRequestedDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableAddedDelegate(void* ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableRemovedDelegate(void* ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableUpdatedDelegate(void* ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_stringFoundDelegate(void* ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_stringRemovedDelegate(void* ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_typeDefinedDelegate(void* ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
+		public unsafe delegate void BNBinaryDataNotification_typeUndefinedDelegate(void* ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
+		public unsafe delegate void BNCustomArchitecture_initDelegate(void* context, BNArchitecture* obj);
+		public unsafe delegate Endianness BNCustomArchitecture_getEndiannessDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getAddressSizeDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getDefaultIntegerSizeDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getInstructionAlignmentDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getMaxInstructionLengthDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getOpcodeDisplayLengthDelegate(void* ctxt);
+		public unsafe delegate BNArchitecture* BNCustomArchitecture_getAssociatedArchitectureByAddressDelegate(void* ctxt, ulong* addr);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionInfoDelegate(void* ctxt, byte* data, ulong addr, ulong maxLen, BNInstructionInfo* result);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionTextDelegate(void* ctxt, byte* data, ulong addr, ulong* len, BNInstructionTextToken** result, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeInstructionTextDelegate(BNInstructionTextToken* tokens, ulong count);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionLowLevelILDelegate(void* ctxt, byte* data, ulong addr, ulong* len, BNLowLevelILFunction* il);
+		public unsafe delegate char* BNCustomArchitecture_getRegisterNameDelegate(void* ctxt, uint reg);
+		public unsafe delegate char* BNCustomArchitecture_getFlagNameDelegate(void* ctxt, uint flag);
+		public unsafe delegate char* BNCustomArchitecture_getFlagWriteTypeNameDelegate(void* ctxt, uint flags);
+		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagClassNameDelegate(void* ctxt, uint semClass);
+		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagGroupNameDelegate(void* ctxt, uint semGroup);
+		public unsafe delegate uint* BNCustomArchitecture_getFullWidthRegistersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllRegistersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllFlagsDelegate(void* ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllFlagWriteTypesDelegate(void* ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagClassesDelegate(void* ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagGroupsDelegate(void* ctxt, ulong* count);
+		public unsafe delegate FlagRole BNCustomArchitecture_getFlagRoleDelegate(void* ctxt, uint flag, uint semClass);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForFlagConditionDelegate(void* ctxt, LowLevelILFlagCondition cond, uint semClass, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForSemanticFlagGroupDelegate(void* ctxt, uint semGroup, ulong* count);
+		public unsafe delegate BNFlagConditionForSemanticClass* BNCustomArchitecture_getFlagConditionsForSemanticFlagGroupDelegate(void* ctxt, uint semGroup, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeFlagConditionsForSemanticFlagGroupDelegate(void* ctxt, BNFlagConditionForSemanticClass* conditions);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsWrittenByFlagWriteTypeDelegate(void* ctxt, uint writeType, ulong* count);
+		public unsafe delegate uint BNCustomArchitecture_getSemanticClassForFlagWriteTypeDelegate(void* ctxt, uint writeType);
+		public unsafe delegate ulong BNCustomArchitecture_getFlagWriteLowLevelILDelegate(void* ctxt, LowLevelILOperation op, ulong size, uint flagWriteType, uint flag, BNRegisterOrConstant* operands, ulong operandCount, BNLowLevelILFunction* il);
+		public unsafe delegate ulong BNCustomArchitecture_getFlagConditionLowLevelILDelegate(void* ctxt, LowLevelILFlagCondition cond, uint semClass, BNLowLevelILFunction* il);
+		public unsafe delegate ulong BNCustomArchitecture_getSemanticFlagGroupLowLevelILDelegate(void* ctxt, uint semGroup, BNLowLevelILFunction* il);
+		public unsafe delegate void BNCustomArchitecture_freeRegisterListDelegate(void* ctxt, uint* regs);
+		public unsafe delegate void BNCustomArchitecture_getRegisterInfoDelegate(void* ctxt, uint reg, BNRegisterInfo* result);
+		public unsafe delegate uint BNCustomArchitecture_getStackPointerRegisterDelegate(void* ctxt);
+		public unsafe delegate uint BNCustomArchitecture_getLinkRegisterDelegate(void* ctxt);
+		public unsafe delegate uint* BNCustomArchitecture_getGlobalRegistersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate char* BNCustomArchitecture_getRegisterStackNameDelegate(void* ctxt, uint regStack);
+		public unsafe delegate uint* BNCustomArchitecture_getAllRegisterStacksDelegate(void* ctxt, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_getRegisterStackInfoDelegate(void* ctxt, uint regStack, BNRegisterStackInfo* result);
+		public unsafe delegate char* BNCustomArchitecture_getIntrinsicNameDelegate(void* ctxt, uint intrinsic);
+		public unsafe delegate uint* BNCustomArchitecture_getAllIntrinsicsDelegate(void* ctxt, ulong* count);
+		public unsafe delegate BNNameAndType* BNCustomArchitecture_getIntrinsicInputsDelegate(void* ctxt, uint intrinsic, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeNameAndTypeListDelegate(void* ctxt, BNNameAndType* nt, ulong count);
+		public unsafe delegate BNTypeWithConfidence* BNCustomArchitecture_getIntrinsicOutputsDelegate(void* ctxt, uint intrinsic, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeTypeListDelegate(void* ctxt, BNTypeWithConfidence* types, ulong count);
+		public unsafe delegate bool BNCustomArchitecture_assembleDelegate(void* ctxt, char* code, ulong addr, BNDataBuffer* result, char** errors);
+		public unsafe delegate bool BNCustomArchitecture_isNeverBranchPatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isAlwaysBranchPatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isInvertBranchPatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnZeroPatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnValuePatchAvailableDelegate(void* ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_convertToNopDelegate(void* ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_alwaysBranchDelegate(void* ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_invertBranchDelegate(void* ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_skipAndReturnValueDelegate(void* ctxt, byte* data, ulong addr, ulong len, ulong value);
+		public unsafe delegate bool BNCustomBinaryView_initDelegate(void* ctxt);
+		public unsafe delegate void BNCustomBinaryView_freeObjectDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_readDelegate(void* ctxt, void* dest, ulong offset, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_writeDelegate(void* ctxt, ulong offset, void* src, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_insertDelegate(void* ctxt, ulong offset, void* src, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_removeDelegate(void* ctxt, ulong offset, ulong len);
+		public unsafe delegate ModificationStatus BNCustomBinaryView_getModificationDelegate(void* ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isValidOffsetDelegate(void* ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetReadableDelegate(void* ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetWritableDelegate(void* ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetExecutableDelegate(void* ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetBackedByFileDelegate(void* ctxt, ulong offset);
+		public unsafe delegate ulong BNCustomBinaryView_getNextValidOffsetDelegate(void* ctxt, ulong offset);
+		public unsafe delegate ulong BNCustomBinaryView_getStartDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getLengthDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getEntryPointDelegate(void* ctxt);
+		public unsafe delegate bool BNCustomBinaryView_isExecutableDelegate(void* ctxt);
+		public unsafe delegate Endianness BNCustomBinaryView_getDefaultEndiannessDelegate(void* ctxt);
+		public unsafe delegate bool BNCustomBinaryView_isRelocatableDelegate(void* ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getAddressSizeDelegate(void* ctxt);
+		public unsafe delegate bool BNCustomBinaryView_saveDelegate(void* ctxt, BNFileAccessor* accessor);
+		public unsafe delegate BNBinaryView* BNCustomBinaryViewType_createDelegate(void* ctxt, BNBinaryView* data);
+		public unsafe delegate bool BNCustomBinaryViewType_isValidForDataDelegate(void* ctxt, BNBinaryView* data);
+		public unsafe delegate void BNCustomCallingConvention_freeObjectDelegate(void* ctxt);
+		public unsafe delegate uint* BNCustomCallingConvention_getCallerSavedRegistersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getCalleeSavedRegistersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getIntegerArgumentRegistersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getFloatArgumentRegistersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate void BNCustomCallingConvention_freeRegisterListDelegate(void* ctxt, uint* regs);
+		public unsafe delegate bool BNCustomCallingConvention_areArgumentRegistersSharedIndexDelegate(void* ctxt);
+		public unsafe delegate bool BNCustomCallingConvention_isStackReservedForArgumentRegistersDelegate(void* ctxt);
+		public unsafe delegate bool BNCustomCallingConvention_isStackAdjustedOnReturnDelegate(void* ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getIntegerReturnValueRegisterDelegate(void* ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getHighIntegerReturnValueRegisterDelegate(void* ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getFloatReturnValueRegisterDelegate(void* ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getGlobalPointerRegisterDelegate(void* ctxt);
+		public unsafe delegate uint* BNCustomCallingConvention_getImplicitlyDefinedRegistersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingRegisterValueDelegate(void* ctxt, uint reg, BNFunction* func, BNRegisterValue* result);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingFlagValueDelegate(void* ctxt, uint flag, BNFunction* func, BNRegisterValue* result);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingVariableForParameterVariableDelegate(void* ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
+		public unsafe delegate void BNCustomCallingConvention_getParameterVariableForIncomingVariableDelegate(void* ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
+		public unsafe delegate void BNCustomDataRenderer_freeObjectDelegate(void* ctxt);
+		public unsafe delegate bool BNCustomDataRenderer_isValidForDataDelegate(void* ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
+		public unsafe delegate BNDisassemblyTextLine* BNCustomDataRenderer_getLinesForDataDelegate(void* ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
+		public unsafe delegate void BNCustomFlowGraph_prepareForLayoutDelegate(void* ctxt);
+		public unsafe delegate void BNCustomFlowGraph_populateNodesDelegate(void* ctxt);
+		public unsafe delegate void BNCustomFlowGraph_completeLayoutDelegate(void* ctxt);
+		public unsafe delegate BNFlowGraph* BNCustomFlowGraph_updateDelegate(void* ctxt);
+		public unsafe delegate void BNCustomRelocationHandler_freeObjectDelegate(void* ctxt);
+		public unsafe delegate bool BNCustomRelocationHandler_getRelocationInfoDelegate(void* ctxt, BNBinaryView* view, BNArchitecture* arch, BNRelocationInfo* result, ulong resultCount);
+		public unsafe delegate bool BNCustomRelocationHandler_applyRelocationDelegate(void* ctxt, BNBinaryView* view, BNArchitecture* arch, BNRelocation* reloc, byte* dest, ulong len);
+		public unsafe delegate ulong BNCustomRelocationHandler_getOperandForExternalRelocationDelegate(void* ctxt, byte* data, ulong addr, ulong length, BNLowLevelILFunction* il, BNRelocation* relocation);
+		public unsafe delegate BNTransformParameterInfo* BNCustomTransform_getParametersDelegate(void* ctxt, ulong* count);
+		public unsafe delegate void BNCustomTransform_freeParametersDelegate(BNTransformParameterInfo* _params, ulong count);
+		public unsafe delegate bool BNCustomTransform_decodeDelegate(void* ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
+		public unsafe delegate bool BNCustomTransform_encodeDelegate(void* ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
+		public unsafe delegate void BNDownloadInstanceCallbacks_destroyInstanceDelegate(void* ctxt);
+		public unsafe delegate int BNDownloadInstanceCallbacks_performRequestDelegate(void* ctxt, char* url);
+		public unsafe delegate ulong BNDownloadInstanceOutputCallbacks_writeCallbackDelegate(byte* data, ulong len, void* ctxt);
+		public unsafe delegate bool BNDownloadInstanceOutputCallbacks_progressCallbackDelegate(void* ctxt, ulong progress, ulong total);
+		public unsafe delegate BNDownloadInstance* BNDownloadProviderCallbacks_createInstanceDelegate(void* ctxt);
+		public unsafe delegate ulong BNFileAccessor_getLengthDelegate(void* ctxt);
+		public unsafe delegate ulong BNFileAccessor_readDelegate(void* ctxt, void* dest, ulong offset, ulong len);
+		public unsafe delegate ulong BNFileAccessor_writeDelegate(void* ctxt, ulong offset, void* src, ulong len);
+		public unsafe delegate bool BNFunctionRecognizer_recognizeLowLevelILDelegate(void* ctxt, BNBinaryView* data, BNFunction* func, BNLowLevelILFunction* il);
+		public unsafe delegate bool BNFunctionRecognizer_recognizeMediumLevelILDelegate(void* ctxt, BNBinaryView* data, BNFunction* func, BNMediumLevelILFunction* il);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showPlainTextReportDelegate(void* ctxt, BNBinaryView* view, char* title, char* contents);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showMarkdownReportDelegate(void* ctxt, BNBinaryView* view, char* title, char* contents, char* plaintext);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showHTMLReportDelegate(void* ctxt, BNBinaryView* view, char* title, char* contents, char* plaintext);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showGraphReportDelegate(void* ctxt, BNBinaryView* view, char* title, BNFlowGraph* graph);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showReportCollectionDelegate(void* ctxt, char* title, BNReportCollection* reports);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getTextLineInputDelegate(void* ctxt, char** result, char* prompt, char* title);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getIntegerInputDelegate(void* ctxt, long* result, char* prompt, char* title);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getAddressInputDelegate(void* ctxt, ulong* result, char* prompt, char* title, BNBinaryView* view, ulong currentAddr);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getChoiceInputDelegate(void* ctxt, ulong* result, char* prompt, char* title, char** choices, ulong count);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getOpenFileNameInputDelegate(void* ctxt, char** result, char* prompt, char* ext);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getSaveFileNameInputDelegate(void* ctxt, char** result, char* prompt, char* ext, char* defaultName);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getDirectoryNameInputDelegate(void* ctxt, char** result, char* prompt, char* defaultName);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getFormInputDelegate(void* ctxt, BNFormInputField* fields, ulong count, char* title);
+		public unsafe delegate MessageBoxButtonResult BNInteractionHandlerCallbacks_showMessageBoxDelegate(void* ctxt, char* title, char* text, MessageBoxButtonSet buttons, MessageBoxIcon icon);
+		public unsafe delegate void BNLogListener_logDelegate(void* ctxt, LogLevel level, char* msg);
+		public unsafe delegate void BNLogListener_closeDelegate(void* ctxt);
+		public unsafe delegate LogLevel BNLogListener_getLogLevelDelegate(void* ctxt);
+		public unsafe delegate void BNMainThreadCallbacks_addActionDelegate(void* ctxt, BNMainThreadAction* action);
+		public unsafe delegate char* BNNavigationHandler_getCurrentViewDelegate(void* ctxt);
+		public unsafe delegate ulong BNNavigationHandler_getCurrentOffsetDelegate(void* ctxt);
+		public unsafe delegate bool BNNavigationHandler_navigateDelegate(void* ctxt, char* view, ulong offset);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructBinaryViewDelegate(void* ctxt, BNBinaryView* view);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructFileMetadataDelegate(void* ctxt, BNFileMetadata* file);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructFunctionDelegate(void* ctxt, BNFunction* func);
+		public unsafe delegate void BNPluginCommand_defaultCommandDelegate(void* ctxt, BNBinaryView* view);
+		public unsafe delegate void BNPluginCommand_addressCommandDelegate(void* ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate void BNPluginCommand_rangeCommandDelegate(void* ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate void BNPluginCommand_functionCommandDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNPluginCommand_lowLevelILFunctionCommandDelegate(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate void BNPluginCommand_lowLevelILInstructionCommandDelegate(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate void BNPluginCommand_mediumLevelILFunctionCommandDelegate(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate void BNPluginCommand_mediumLevelILInstructionCommandDelegate(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate bool BNPluginCommand_defaultIsValidDelegate(void* ctxt, BNBinaryView* view);
+		public unsafe delegate bool BNPluginCommand_addressIsValidDelegate(void* ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate bool BNPluginCommand_rangeIsValidDelegate(void* ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool BNPluginCommand_functionIsValidDelegate(void* ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate bool BNPluginCommand_lowLevelILFunctionIsValidDelegate(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate bool BNPluginCommand_lowLevelILInstructionIsValidDelegate(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate bool BNPluginCommand_mediumLevelILFunctionIsValidDelegate(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate bool BNPluginCommand_mediumLevelILInstructionIsValidDelegate(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate void BNScriptingInstanceCallbacks_destroyInstanceDelegate(void* ctxt);
+		public unsafe delegate ScriptingProviderExecuteResult BNScriptingInstanceCallbacks_executeScriptInputDelegate(void* ctxt, char* input);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBinaryViewDelegate(void* ctxt, BNBinaryView* view);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentFunctionDelegate(void* ctxt, BNFunction* func);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBasicBlockDelegate(void* ctxt, BNBasicBlock* block);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentAddressDelegate(void* ctxt, ulong addr);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentSelectionDelegate(void* ctxt, ulong begin, ulong end);
+		public unsafe delegate void BNScriptingOutputListener_outputDelegate(void* ctxt, char* text);
+		public unsafe delegate void BNScriptingOutputListener_errorDelegate(void* ctxt, char* text);
+		public unsafe delegate void BNScriptingOutputListener_inputReadyStateChangedDelegate(void* ctxt, ScriptingProviderInputReadyState state);
+		public unsafe delegate BNScriptingInstance* BNScriptingProviderCallbacks_createInstanceDelegate(void* ctxt);
+		public unsafe delegate void BNUndoAction_freeObjectDelegate(void* ctxt);
+		public unsafe delegate void BNUndoAction_undoDelegate(void* ctxt, BNBinaryView* data);
+		public unsafe delegate void BNUndoAction_redoDelegate(void* ctxt, BNBinaryView* data);
+		public unsafe delegate char* BNUndoAction_serializeDelegate(void* ctxt);
+		public unsafe delegate void callbackDelegate0(void* ctxt);
+		public unsafe delegate void progressDelegate0(void* ctxt, ulong progress, ulong total);
+		public unsafe delegate void funcDelegate0(void* ctxt);
+		public unsafe delegate bool progressDelegate1(void* ctxt, ulong progress, ulong total);
+		public unsafe delegate bool cbDelegate0(char* repoPath, char* pluginPath, void* ctx);
+		public unsafe delegate void actionDelegate0(void* ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate bool isValidDelegate0(void* ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate void actionDelegate1(void* ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate bool isValidDelegate1(void* ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void actionDelegate2(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate bool isValidDelegate2(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate void actionDelegate3(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate bool isValidDelegate3(void* ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate void actionDelegate4(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate bool isValidDelegate4(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate void actionDelegate5(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate bool isValidDelegate5(void* ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate void actionDelegate6(void* ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool isValidDelegate6(void* ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool deserializeDelegate0(void* ctxt, char* data, BNUndoAction* result);
+		public unsafe delegate void actionDelegate7(void* ctxt);
+		public unsafe delegate void actionDelegate8(void* ctxt);
 	}
 }
