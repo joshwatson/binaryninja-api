@@ -62,11 +62,19 @@ def output_type(out, type_: Type, is_return_type: bool = False, is_callback: boo
         else:
             out.write(f'{type_.named_type_reference.name}')
     elif type_.type_class == TypeClass.PointerTypeClass:
-        if is_callback or type_.target.type_class == TypeClass.VoidTypeClass:
-            out.write('void*')
+        if type_.target.type_class == TypeClass.PointerTypeClass and type_.target.target.type_class == TypeClass.IntegerTypeClass and type_.target.target.width == 1 and type_.target.target.signed:
+            out.write('char**')
+        elif is_callback or type_.target.type_class == TypeClass.VoidTypeClass:
+            if is_return_type:
+                out.write('void*')
+            else:
+                out.write('[MarshalAs(UnmanagedType.LPVoid)] byte[]')
         elif (type_.target.type_class == TypeClass.IntegerTypeClass and
                 type_.target.width == 1 and type_.target.signed):
-            out.write('char*')
+            if is_return_type:
+                out.write('char*')
+            else:
+                out.write('[MarshalAs(UnmanagedType.LPStr)] string')
         elif type_.target.type_class == TypeClass.FunctionTypeClass:
             out.write('public unsafe delegate ')
             output_type(out, type_, True, True)
@@ -182,7 +190,10 @@ namespace BinaryNinja
                             member.type.target.signed):
                         struct_string.write(
                             f'\t\t\tpublic char* {member.name};\n')
-
+                    elif (member.type.type_class == TypeClass.PointerTypeClass and
+                            member.type.target.type_class == TypeClass.VoidTypeClass):
+                        struct_string.write(    
+                            f'\t\t\tpublic void* {member.name};\n')
                     elif (member.type.type_class == TypeClass.PointerTypeClass and
                             member.type.target.type_class == TypeClass.FunctionTypeClass):
                         need_opaque_struct = True
