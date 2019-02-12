@@ -1061,6 +1061,89 @@ namespace BinaryNinja
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNQualifiedNameAndType
+		{
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNFlowGraphEdge
+		{
+			public ulong pointCount;
+			public bool backEdge;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNFunctionParameter
+		{
+			public char* name;
+			public byte typeConfidence;
+			public bool defaultLocation;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNLowLevelILInstruction
+		{
+			public ulong size;
+			public uint flags;
+			public uint sourceOperand;
+			public fixed ulong operands[4];
+			public ulong address;
+		}
+
+		public struct _BNLowLevelILInstruction { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNFlagConditionForSemanticClass
+		{
+			public uint semanticClass;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNStackVariableReference
+		{
+			public uint sourceOperand;
+			public byte typeConfidence;
+			public char* name;
+			public ulong varIdentifier;
+			public long referencedOffset;
+			public ulong size;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNNameAndType
+		{
+			public char* name;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNSystemCallInfo
+		{
+			public uint number;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNStringReference
+		{
+			public ulong start;
+			public ulong length;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNParameterVariablesWithConfidence
+		{
+			public ulong count;
+			public byte confidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNAnalysisProgress
+		{
+			public ulong count;
+			public ulong total;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNInstructionTextToken
 		{
 			public char* text;
@@ -1074,9 +1157,103 @@ namespace BinaryNinja
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct BNFlagConditionForSemanticClass
+		public unsafe struct BNLinearDisassemblyLine
 		{
-			public uint semanticClass;
+			public ulong lineOffset;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNRegisterValue
+		{
+			public long value;
+			public long offset;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNAnalysisInfo
+		{
+			public ulong analysisTime;
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNDisassemblyTextLine
+		{
+			public ulong addr;
+			public ulong instrIndex;
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNPossibleValueSet
+		{
+			public long value;
+			public long offset;
+			public long* valueSet;
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNDataVariable
+		{
+			public ulong address;
+			public bool autoDiscovered;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNVariable
+		{
+			public uint index;
+			public long storage;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNFormInputField
+		{
+			public char* prompt;
+			public ulong currentAddress;
+			public char** choices;
+			public ulong count;
+			public char* ext;
+			public char* defaultName;
+			public long intResult;
+			public ulong addressResult;
+			public char* stringResult;
+			public ulong indexResult;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNInstructionTextLine
+		{
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNStructureMember
+		{
+			public char* name;
+			public ulong offset;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNMediumLevelILInstruction
+		{
+			public uint sourceOperand;
+			public ulong size;
+			public fixed ulong operands[5];
+			public ulong address;
+		}
+
+		public struct _BNMediumLevelILInstruction { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNActiveAnalysisInfo
+		{
+			public ulong analysisTime;
+			public ulong updateCount;
+			public ulong submitCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1103,142 +1280,6 @@ namespace BinaryNinja
 		}
 
 		public struct _BNRelocationInfo { };
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNStackVariableReference
-		{
-			public uint sourceOperand;
-			public byte typeConfidence;
-			public char* name;
-			public ulong varIdentifier;
-			public long referencedOffset;
-			public ulong size;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNAnalysisInfo
-		{
-			public ulong analysisTime;
-			public ulong count;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNActiveAnalysisInfo
-		{
-			public ulong analysisTime;
-			public ulong updateCount;
-			public ulong submitCount;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNFunctionParameter
-		{
-			public char* name;
-			public byte typeConfidence;
-			public bool defaultLocation;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNDisassemblyTextLine
-		{
-			public ulong addr;
-			public ulong instrIndex;
-			public ulong count;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNPossibleValueSet
-		{
-			public long value;
-			public long offset;
-			public long* valueSet;
-			public ulong count;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNParameterVariablesWithConfidence
-		{
-			public ulong count;
-			public byte confidence;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct BNVariable
-		{
-			public uint index;
-			public long storage;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNFormInputField
-		{
-			public char* prompt;
-			public ulong currentAddress;
-			public char** choices;
-			public ulong count;
-			public char* ext;
-			public char* defaultName;
-			public long intResult;
-			public ulong addressResult;
-			public char* stringResult;
-			public ulong indexResult;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct BNHighlightColor
-		{
-			public byte mix;
-			public byte r;
-			public byte g;
-			public byte b;
-			public byte alpha;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNLowLevelILInstruction
-		{
-			public ulong size;
-			public uint flags;
-			public uint sourceOperand;
-			public fixed ulong operands[4];
-			public ulong address;
-		}
-
-		public struct _BNLowLevelILInstruction { };
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct BNStringReference
-		{
-			public ulong start;
-			public ulong length;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNQualifiedNameAndType
-		{
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNStructureMember
-		{
-			public char* name;
-			public ulong offset;
-			public byte typeConfidence;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct BNAnalysisProgress
-		{
-			public ulong count;
-			public ulong total;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNFlowGraphEdge
-		{
-			public ulong pointCount;
-			public bool backEdge;
-		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNBasicBlockEdge
@@ -1274,54 +1315,13 @@ namespace BinaryNinja
 		public struct _BNPluginCommand { };
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct BNRegisterValue
+		public struct BNHighlightColor
 		{
-			public long value;
-			public long offset;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNDataVariable
-		{
-			public ulong address;
-			public bool autoDiscovered;
-			public byte typeConfidence;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNNameAndType
-		{
-			public char* name;
-			public byte typeConfidence;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNMediumLevelILInstruction
-		{
-			public uint sourceOperand;
-			public ulong size;
-			public fixed ulong operands[5];
-			public ulong address;
-		}
-
-		public struct _BNMediumLevelILInstruction { };
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNInstructionTextLine
-		{
-			public ulong count;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNLinearDisassemblyLine
-		{
-			public ulong lineOffset;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNSystemCallInfo
-		{
-			public uint number;
+			public byte mix;
+			public byte r;
+			public byte g;
+			public byte b;
+			public byte alpha;
 		}
 
 		// Function definitions
