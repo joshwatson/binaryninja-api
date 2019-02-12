@@ -263,7 +263,14 @@ namespace BinaryNinja
         out.write(
             r'[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]')
         out.write(f'\n\t\tpublic static extern unsafe ')
-        output_type(out, type_.return_value, is_return_type=True)
+        
+        if (type_.return_value.type_class == TypeClass.PointerTypeClass and
+                type_.return_value.target.type_class == TypeClass.NamedTypeReferenceClass and
+                type_.return_value.target.named_type_reference.name in opaque_structs):
+            out.write(f'_{type_.return_value.target.named_type_reference.name}*')
+        else:
+            output_type(out, type_.return_value, is_return_type=True)
+
         out.write(f' {name}(')
 
         for i, param in enumerate(type_.parameters):
