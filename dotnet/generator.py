@@ -22,6 +22,7 @@ class GeneratorArchitecture(Architecture):
 
 GeneratorArchitecture.register()
 
+opaque_structs = set()
 
 def output_type(out, type_: Type, is_return_type: bool = False, is_callback: bool = False, var_name=''):
     if type_.type_class == TypeClass.BoolTypeClass:
@@ -80,7 +81,14 @@ def output_type(out, type_: Type, is_return_type: bool = False, is_callback: boo
                         f' {x.name if x.name not in keywords else f"_{x.name}"}')
             out.write(');\n')
         elif type_.target.type_class == TypeClass.NamedTypeReferenceClass:
-            out.write(f'{type_.target.named_type_reference.name}*')
+            name = str(type_.target.named_type_reference.name)
+            if type_.target.named_type_reference.type_class == NamedTypeReferenceClass.EnumNamedTypeClass:
+                if len(name) > 2 and name.startswith('BN'):
+                    name = name[2:]
+            elif name in opaque_structs:
+                name = '_' + name
+            
+            out.write(f'{name}*')
         else:
             output_type(out, type_.target)
             out.write('*')
@@ -131,7 +139,6 @@ namespace BinaryNinja
     structs_to_process = sorted(list({t for t in types}))
     seen = set()
     delegate_list = {}
-    opaque_structs = set()
 
     while structs_to_process:
         print(len(structs_to_process))
@@ -202,11 +209,12 @@ namespace BinaryNinja
                             struct_string.write(f'[] {member.name};\n')
                     elif (member.type.type_class == TypeClass.PointerTypeClass and
                             member.type.target.type_class == TypeClass.NamedTypeReferenceClass):
-                        if str(member.type.target.named_type_reference.name) not in seen:
+                        if (str(member.type.target.named_type_reference.name) not in seen and
+                                str(member.type.target.named_type_reference.name) != str(name)):
                             print(
                                 f'{name} {member.type.target.named_type_reference.name}*')
                             structs_to_process.add(name)
-                            continue
+                            break
                         elif str(member.type.target.named_type_reference.name) in opaque_structs:
                             struct_string.write(
                                 f'\t\t\tpublic _{member.type.target.named_type_reference.name}* {member.name};\n')
@@ -216,7 +224,7 @@ namespace BinaryNinja
                             print(
                                 f'{name} {member.type.named_type_reference.name}')
                             structs_to_process.add(name)
-                            continue
+                            break
                         elif str(member.type.named_type_reference.name) in opaque_structs:
                             need_opaque_struct = True
                             struct_string.write(
@@ -228,18 +236,19 @@ namespace BinaryNinja
                         if member.name in keywords:
                             member.name = f'_{member.name}'
                         struct_string.write(f' {member.name!s};\n')
+                else:
 
-                struct_string.write('\t\t}\n\n')
+                    struct_string.write('\t\t}\n\n')
 
-                if need_opaque_struct:
-                    struct_string.write(
-                        f'\t\tpublic struct _{name} {{ }};\n\n')
-                    opaque_structs.add(str(name))
-                    seen.add(f'_{name}')
+                    if need_opaque_struct:
+                        struct_string.write(
+                            f'\t\tpublic struct _{name} {{ }};\n\n')
+                        opaque_structs.add(str(name))
+                        seen.add(f'_{name}')
 
-                struct_string.seek(0)
-                out.write(struct_string.read())
-                seen.add(name)
+                    struct_string.seek(0)
+                    out.write(struct_string.read())
+                    seen.add(name)
 
             elif type_.type_class == TypeClass.EnumerationTypeClass:
                 seen.add(name)
