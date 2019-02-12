@@ -289,7 +289,6 @@ namespace BinaryNinja
                 signature = (*param.type.target.parameters, param.type.target.return_value)
 
                 if str(param.name) not in cbs:
-                    print(name, param.name)
                     cbs[str(param.name)] = [signature]
                     index_of = 0
                 else:
@@ -313,7 +312,6 @@ namespace BinaryNinja
                         cbs[str(param.name)].append(signature)
                         index_of = ii
 
-                print(name, param.name, index_of)
                 out.write(
                     f'[MarshalAs(UnmanagedType.FunctionPtr)] {param.name}Delegate{index_of}')
                 delegate_list[f'{param.name}Delegate{index_of}'] = param.type.target
@@ -324,15 +322,16 @@ namespace BinaryNinja
                 out.write(f'_{param.type.target.named_type_reference.name}*')
             elif param.type.type_class == TypeClass.EnumerationTypeClass:
                 enum_name = str(param.type.target.named_type_reference.name)
-                if len(enum_name) > 2 and enum_name[2:].startswith('BN'):
+                if len(enum_name) > 2 and enum_name.startswith('BN'):
                     enum_name = enum_name[2:]
                 out.write(f'{enum_name}*')
             elif (param.type.type_class == TypeClass.PointerTypeClass and
                     param.type.target.type_class == TypeClass.NamedTypeReferenceClass and
                     param.type.target.named_type_reference.type_class == NamedTypeReferenceClass.EnumNamedTypeClass):
                 enum_name = str(param.type.target.named_type_reference.name)
-                if len(enum_name) > 2 and enum_name[2:].startswith('BN'):
+                if len(enum_name) > 2 and enum_name.startswith('BN'):
                     enum_name = enum_name[2:]
+                print(f'{enum_name}*')
                 out.write(f'{enum_name}*')
             else:
                 output_type(out, param.type)
@@ -366,8 +365,6 @@ namespace BinaryNinja
     out.write('\t}\n}\n')
     enum.write('}\n')
     delegates.write('}\n')
-
-    print(*sorted(cbs.items(), key=lambda p: p[0]), sep='\n')
 
 if __name__ == '__main__':
     parser = ArgumentParser('generator.py')
