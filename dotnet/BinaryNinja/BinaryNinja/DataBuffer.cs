@@ -20,10 +20,7 @@ namespace BinaryNinja
         {
             unsafe
             {
-                fixed (byte* d = data)
-                {
-                    buffer = Core.BNCreateDataBuffer((void*)d, (ulong)data.Length);
-                }
+                buffer = Core.BNCreateDataBuffer(data, (ulong)data.Length);
             }
         }
 

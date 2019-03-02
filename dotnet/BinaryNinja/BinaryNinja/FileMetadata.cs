@@ -44,7 +44,17 @@ namespace BinaryNinja
         {
             unsafe
             {
-
+                var fmd = new FileMetadata(path);
+                var view = Core.BNOpenExistingDatabase(fmd.handle, path);
+                
+                if (view == null)
+                {
+                    return null;
+                }
+                else
+                {
+                    return new BinaryView(view);
+                }
             }
         }
     }

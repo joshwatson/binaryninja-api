@@ -1066,7 +1066,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAbortFlowGraphLayoutRequest(BNFlowGraphLayoutRequest* graph);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNAnalysisCompletionEvent* BNAddAnalysisCompletionEvent(BNBinaryView* view, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] callbackDelegate0 callback);
+		public static extern unsafe BNAnalysisCompletionEvent* BNAddAnalysisCompletionEvent(BNBinaryView* view, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] callbackDelegate0 callback);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddAnalysisOption(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1122,7 +1122,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAppendDataBuffer(BNDataBuffer* dest, BNDataBuffer* src);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNAppendDataBufferContents(BNDataBuffer* dest, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
+		public static extern unsafe void BNAppendDataBufferContents(BNDataBuffer* dest, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNApplyAutoDiscoveredFunctionType(BNFunction* func, BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1192,7 +1192,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBinaryView* BNCreateBinaryDataViewFromBuffer(BNFileMetadata* file, BNDataBuffer* buf);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBinaryView* BNCreateBinaryDataViewFromData(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
+		public static extern unsafe BNBinaryView* BNCreateBinaryDataViewFromData(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBinaryView* BNCreateBinaryDataViewFromFile(BNFileMetadata* file, _BNFileAccessor* accessor);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1212,13 +1212,13 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNFlowGraph* BNCreateCustomFlowGraph(_BNCustomFlowGraph* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNDataBuffer* BNCreateDataBuffer([MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
+		public static extern unsafe BNDataBuffer* BNCreateDataBuffer([MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataRenderer* BNCreateDataRenderer(_BNCustomDataRenderer* renderer);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNCreateDatabase(BNBinaryView* data, [MarshalAs(UnmanagedType.LPStr)] string path);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNCreateDatabaseWithProgress(BNBinaryView* data, [MarshalAs(UnmanagedType.LPStr)] string path, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
+		public static extern unsafe bool BNCreateDatabaseWithProgress(BNBinaryView* data, [MarshalAs(UnmanagedType.LPStr)] string path, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNCreateDirectory([MarshalAs(UnmanagedType.LPStr)] string path, bool createSubdirectories);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1370,9 +1370,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNExecuteMainThreadAction(BNMainThreadAction* action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNMainThreadAction* BNExecuteOnMainThread([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
+		public static extern unsafe BNMainThreadAction* BNExecuteOnMainThread([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNExecuteOnMainThreadAndWait([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
+		public static extern unsafe void BNExecuteOnMainThreadAndWait([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ScriptingProviderExecuteResult BNExecuteScriptInput(BNScriptingInstance* instance, [MarshalAs(UnmanagedType.LPStr)] string input);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1386,15 +1386,15 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextConstant(BNBinaryView* view, ulong start, ulong constant, ulong* result, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextConstantWithProgress(BNBinaryView* view, ulong start, ulong end, ulong constant, ulong* result, BNDisassemblySettings* settings, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
+		public static extern unsafe bool BNFindNextConstantWithProgress(BNBinaryView* view, ulong start, ulong end, ulong constant, ulong* result, BNDisassemblySettings* settings, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextData(BNBinaryView* view, ulong start, BNDataBuffer* data, ulong* result, FindFlag flags);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextDataWithProgress(BNBinaryView* view, ulong start, ulong end, BNDataBuffer* data, ulong* result, FindFlag flags, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
+		public static extern unsafe bool BNFindNextDataWithProgress(BNBinaryView* view, ulong start, ulong end, BNDataBuffer* data, ulong* result, FindFlag flags, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextText(BNBinaryView* view, ulong start, [MarshalAs(UnmanagedType.LPStr)] string data, ulong* result, BNDisassemblySettings* settings, FindFlag flags);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextTextWithProgress(BNBinaryView* view, ulong start, ulong end, [MarshalAs(UnmanagedType.LPStr)] string data, ulong* result, BNDisassemblySettings* settings, FindFlag flags, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
+		public static extern unsafe bool BNFindNextTextWithProgress(BNBinaryView* view, ulong start, ulong end, [MarshalAs(UnmanagedType.LPStr)] string data, ulong* result, BNDisassemblySettings* settings, FindFlag flags, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFinishBackgroundTask(BNBackgroundTask* task);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1580,7 +1580,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeStackVariableReferenceList(BNStackVariableReference* refs, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeString([MarshalAs(UnmanagedType.LPStr)] string str);
+		public static extern unsafe void BNFreeString(char* str);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeStringList(char** strs, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2096,7 +2096,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNLinearDisassemblyPosition BNGetLinearDisassemblyPositionForAddress(BNBinaryView* view, ulong addr, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNDisassemblyTextLine* BNGetLinesForData([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
+		public static extern unsafe BNDisassemblyTextLine* BNGetLinesForData([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBasicBlock* BNGetLowLevelILBasicBlockForInstruction(BNLowLevelILFunction* func, ulong i);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2644,7 +2644,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNInsertViewBuffer(BNBinaryView* view, ulong offset, BNDataBuffer* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNInsertViewData(BNBinaryView* view, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
+		public static extern unsafe ulong BNInsertViewData(BNBinaryView* view, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNInstallPendingUpdate(char** errors);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2766,7 +2766,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsUpdateInstallationPending();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNIsValidForData([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
+		public static extern unsafe bool BNIsValidForData([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsValidOffset(BNBinaryView* view, ulong offset);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3014,7 +3014,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBinaryView* BNOpenExistingDatabase(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPStr)] string path);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBinaryView* BNOpenExistingDatabaseWithProgress(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPStr)] string path, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
+		public static extern unsafe BNBinaryView* BNOpenExistingDatabaseWithProgress(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPStr)] string path, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNParseExpression(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string expression, ulong* offset, ulong here, char** errorString);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3094,7 +3094,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNReadBE64(BNBinaryReader* stream, ulong* result);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNReadData(BNBinaryReader* stream, [MarshalAs(UnmanagedType.LPVoid)] byte[] dest, ulong len);
+		public static extern unsafe bool BNReadData(BNBinaryReader* stream, [MarshalAs(UnmanagedType.LPArray)] byte[] dest, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNReadLE16(BNBinaryReader* stream, ushort* result);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3104,7 +3104,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNReadViewBuffer(BNBinaryView* view, ulong offset, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNReadViewData(BNBinaryView* view, [MarshalAs(UnmanagedType.LPVoid)] byte[] dest, ulong offset, ulong len);
+		public static extern unsafe ulong BNReadViewData(BNBinaryView* view, [MarshalAs(UnmanagedType.LPArray)] byte[] dest, ulong offset, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNReanalyzeAllFunctions(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3132,7 +3132,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDownloadProvider* BNRegisterDownloadProvider([MarshalAs(UnmanagedType.LPStr)] string name, _BNDownloadProviderCallbacks* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterForPluginLoading([MarshalAs(UnmanagedType.LPStr)] string pluginApiName, [MarshalAs(UnmanagedType.FunctionPtr)] cbDelegate0 cb, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctx);
+		public static extern unsafe void BNRegisterForPluginLoading([MarshalAs(UnmanagedType.LPStr)] string pluginApiName, [MarshalAs(UnmanagedType.FunctionPtr)] cbDelegate0 cb, [MarshalAs(UnmanagedType.LPArray)] byte[] ctx);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterGenericDataRenderer(BNDataRendererContainer* container, BNDataRenderer* renderer);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3162,21 +3162,21 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterPlatformTypes(BNBinaryView* view, BNPlatform* platform);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommand([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommand([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForAddress([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForAddress([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate1 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate1 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate1 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate1 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForLowLevelILFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate2 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate2 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForLowLevelILFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate2 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate2 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForLowLevelILInstruction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate3 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate3 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForLowLevelILInstruction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate3 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate3 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate4 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate4 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate4 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate4 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILInstruction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate5 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate5 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILInstruction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate5 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate5 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForRange([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate6 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate6 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForRange([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate6 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate6 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterScriptingInstanceOutputListener(BNScriptingInstance* instance, _BNScriptingOutputListener* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3186,7 +3186,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterTypeSpecificDataRenderer(BNDataRendererContainer* container, BNDataRenderer* renderer);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterUndoActionType([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPVoid)] byte[] typeContext, [MarshalAs(UnmanagedType.FunctionPtr)] deserializeDelegate0 deserialize);
+		public static extern unsafe void BNRegisterUndoActionType([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPArray)] byte[] typeContext, [MarshalAs(UnmanagedType.FunctionPtr)] deserializeDelegate0 deserialize);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNReleaseAdvancedFunctionAnalysisData(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3284,7 +3284,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNSaveAutoSnapshot(BNBinaryView* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSaveAutoSnapshotWithProgress(BNBinaryView* data, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
+		public static extern unsafe bool BNSaveAutoSnapshotWithProgress(BNBinaryView* data, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSaveLastRun();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3414,7 +3414,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetDataBufferByte(BNDataBuffer* buf, ulong offset, byte val);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNSetDataBufferContents(BNDataBuffer* buf, [MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
+		public static extern unsafe void BNSetDataBufferContents(BNDataBuffer* buf, [MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetDataBufferLength(BNDataBuffer* buf, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3590,7 +3590,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNSkipAndReturnValue(BNBinaryView* view, BNArchitecture* arch, ulong addr, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNFlowGraphLayoutRequest* BNStartFlowGraphLayout(BNFlowGraph* graph, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
+		public static extern unsafe BNFlowGraphLayoutRequest* BNStartFlowGraphLayout(BNFlowGraph* graph, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNToVariableIdentifier(BNVariable* var);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3652,9 +3652,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUpdateMediumLevelILOperand(BNMediumLevelILFunction* func, ulong instr, ulong operandIndex, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe UpdateResult BNUpdateToLatestVersion([MarshalAs(UnmanagedType.LPStr)] string channel, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe UpdateResult BNUpdateToLatestVersion([MarshalAs(UnmanagedType.LPStr)] string channel, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe UpdateResult BNUpdateToVersion([MarshalAs(UnmanagedType.LPStr)] string channel, [MarshalAs(UnmanagedType.LPStr)] string version, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
+		public static extern unsafe UpdateResult BNUpdateToVersion([MarshalAs(UnmanagedType.LPStr)] string channel, [MarshalAs(UnmanagedType.LPStr)] string version, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUpdatesChecked();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3662,11 +3662,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWasFunctionAutomaticallyDiscovered(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerEnqueue([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate7 action);
+		public static extern unsafe void BNWorkerEnqueue([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate7 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerInteractiveEnqueue([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
+		public static extern unsafe void BNWorkerInteractiveEnqueue([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerPriorityEnqueue([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
+		public static extern unsafe void BNWorkerPriorityEnqueue([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWrite16(BNBinaryWriter* stream, ushort val);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3682,7 +3682,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWriteBE64(BNBinaryWriter* stream, ulong val);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNWriteData(BNBinaryWriter* stream, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
+		public static extern unsafe bool BNWriteData(BNBinaryWriter* stream, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNWriteDataForDownloadInstance(BNDownloadInstance* instance, byte* data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3694,225 +3694,225 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNWriteViewBuffer(BNBinaryView* view, ulong offset, BNDataBuffer* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNWriteViewData(BNBinaryView* view, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
+		public static extern unsafe ulong BNWriteViewData(BNBinaryView* view, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNZlibCompress(BNDataBuffer* buf);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNZlibDecompress(BNDataBuffer* buf);
 		// Delegate definitions
-		public unsafe delegate void BNBinaryDataNotification_dataWrittenDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_dataInsertedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_dataRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_functionAddedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionUpdatedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionUpdateRequestedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableAddedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableUpdatedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_stringFoundDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_stringRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_typeDefinedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
-		public unsafe delegate void BNBinaryDataNotification_typeUndefinedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
-		public unsafe delegate void BNCustomArchitecture_initDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] context, BNArchitecture* obj);
-		public unsafe delegate Endianness BNCustomArchitecture_getEndiannessDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getAddressSizeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getDefaultIntegerSizeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getInstructionAlignmentDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getMaxInstructionLengthDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getOpcodeDisplayLengthDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate BNArchitecture* BNCustomArchitecture_getAssociatedArchitectureByAddressDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* addr);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionInfoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong maxLen, _BNInstructionInfo* result);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionTextDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong* len, BNInstructionTextToken** result, ulong* count);
+		public unsafe delegate void BNBinaryDataNotification_dataWrittenDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_dataInsertedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_dataRemovedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_functionAddedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionRemovedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionUpdatedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionUpdateRequestedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableAddedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableRemovedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableUpdatedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_stringFoundDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_stringRemovedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_typeDefinedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
+		public unsafe delegate void BNBinaryDataNotification_typeUndefinedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
+		public unsafe delegate void BNCustomArchitecture_initDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] context, BNArchitecture* obj);
+		public unsafe delegate Endianness BNCustomArchitecture_getEndiannessDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getAddressSizeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getDefaultIntegerSizeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getInstructionAlignmentDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getMaxInstructionLengthDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getOpcodeDisplayLengthDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate BNArchitecture* BNCustomArchitecture_getAssociatedArchitectureByAddressDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* addr);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionInfoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong maxLen, _BNInstructionInfo* result);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionTextDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong* len, BNInstructionTextToken** result, ulong* count);
 		public unsafe delegate void BNCustomArchitecture_freeInstructionTextDelegate(BNInstructionTextToken* tokens, ulong count);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong* len, BNLowLevelILFunction* il);
-		public unsafe delegate char* BNCustomArchitecture_getRegisterNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint reg);
-		public unsafe delegate char* BNCustomArchitecture_getFlagNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint flag);
-		public unsafe delegate char* BNCustomArchitecture_getFlagWriteTypeNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint flags);
-		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagClassNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semClass);
-		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagGroupNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semGroup);
-		public unsafe delegate uint* BNCustomArchitecture_getFullWidthRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllFlagsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllFlagWriteTypesDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagClassesDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagGroupsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate FlagRole BNCustomArchitecture_getFlagRoleDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint flag, uint semClass);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForFlagConditionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, LowLevelILFlagCondition cond, uint semClass, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semGroup, ulong* count);
-		public unsafe delegate BNFlagConditionForSemanticClass* BNCustomArchitecture_getFlagConditionsForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semGroup, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeFlagConditionsForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFlagConditionForSemanticClass* conditions);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsWrittenByFlagWriteTypeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint writeType, ulong* count);
-		public unsafe delegate uint BNCustomArchitecture_getSemanticClassForFlagWriteTypeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint writeType);
-		public unsafe delegate ulong BNCustomArchitecture_getFlagWriteLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, LowLevelILOperation op, ulong size, uint flagWriteType, uint flag, BNRegisterOrConstant* operands, ulong operandCount, BNLowLevelILFunction* il);
-		public unsafe delegate ulong BNCustomArchitecture_getFlagConditionLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, LowLevelILFlagCondition cond, uint semClass, BNLowLevelILFunction* il);
-		public unsafe delegate ulong BNCustomArchitecture_getSemanticFlagGroupLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semGroup, BNLowLevelILFunction* il);
-		public unsafe delegate void BNCustomArchitecture_freeRegisterListDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint* regs);
-		public unsafe delegate void BNCustomArchitecture_getRegisterInfoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint reg, BNRegisterInfo* result);
-		public unsafe delegate uint BNCustomArchitecture_getStackPointerRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate uint BNCustomArchitecture_getLinkRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate uint* BNCustomArchitecture_getGlobalRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate char* BNCustomArchitecture_getRegisterStackNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint regStack);
-		public unsafe delegate uint* BNCustomArchitecture_getAllRegisterStacksDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_getRegisterStackInfoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint regStack, BNRegisterStackInfo* result);
-		public unsafe delegate char* BNCustomArchitecture_getIntrinsicNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint intrinsic);
-		public unsafe delegate uint* BNCustomArchitecture_getAllIntrinsicsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate BNNameAndType* BNCustomArchitecture_getIntrinsicInputsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint intrinsic, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeNameAndTypeListDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNNameAndType* nt, ulong count);
-		public unsafe delegate BNTypeWithConfidence* BNCustomArchitecture_getIntrinsicOutputsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint intrinsic, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeTypeListDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNTypeWithConfidence* types, ulong count);
-		public unsafe delegate bool BNCustomArchitecture_assembleDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string code, ulong addr, BNDataBuffer* result, char** errors);
-		public unsafe delegate bool BNCustomArchitecture_isNeverBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isAlwaysBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isInvertBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnZeroPatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnValuePatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_convertToNopDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_alwaysBranchDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_invertBranchDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_skipAndReturnValueDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len, ulong value);
-		public unsafe delegate bool BNCustomBinaryView_initDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void BNCustomBinaryView_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_readDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPVoid)] byte[] dest, ulong offset, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_writeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_insertDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_removeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset, ulong len);
-		public unsafe delegate ModificationStatus BNCustomBinaryView_getModificationDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isValidOffsetDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetReadableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetWritableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetExecutableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetBackedByFileDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
-		public unsafe delegate ulong BNCustomBinaryView_getNextValidOffsetDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
-		public unsafe delegate ulong BNCustomBinaryView_getStartDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getLengthDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getEntryPointDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNCustomBinaryView_isExecutableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate Endianness BNCustomBinaryView_getDefaultEndiannessDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNCustomBinaryView_isRelocatableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getAddressSizeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNCustomBinaryView_saveDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, _BNFileAccessor* accessor);
-		public unsafe delegate BNBinaryView* BNCustomBinaryViewType_createDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
-		public unsafe delegate bool BNCustomBinaryViewType_isValidForDataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
-		public unsafe delegate void BNCustomCallingConvention_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate uint* BNCustomCallingConvention_getCallerSavedRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getCalleeSavedRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getIntegerArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getFloatArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate void BNCustomCallingConvention_freeRegisterListDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint* regs);
-		public unsafe delegate bool BNCustomCallingConvention_areArgumentRegistersSharedIndexDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNCustomCallingConvention_isStackReservedForArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNCustomCallingConvention_isStackAdjustedOnReturnDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getIntegerReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getHighIntegerReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getFloatReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getGlobalPointerRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate uint* BNCustomCallingConvention_getImplicitlyDefinedRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingRegisterValueDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint reg, BNFunction* func, BNRegisterValue* result);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingFlagValueDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint flag, BNFunction* func, BNRegisterValue* result);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingVariableForParameterVariableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
-		public unsafe delegate void BNCustomCallingConvention_getParameterVariableForIncomingVariableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
-		public unsafe delegate void BNCustomDataRenderer_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNCustomDataRenderer_isValidForDataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
-		public unsafe delegate BNDisassemblyTextLine* BNCustomDataRenderer_getLinesForDataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
-		public unsafe delegate void BNCustomFlowGraph_prepareForLayoutDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void BNCustomFlowGraph_populateNodesDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void BNCustomFlowGraph_completeLayoutDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate BNFlowGraph* BNCustomFlowGraph_updateDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void BNCustomRelocationHandler_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNCustomRelocationHandler_getRelocationInfoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNArchitecture* arch, _BNRelocationInfo* result, ulong resultCount);
-		public unsafe delegate bool BNCustomRelocationHandler_applyRelocationDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNArchitecture* arch, BNRelocation* reloc, byte* dest, ulong len);
-		public unsafe delegate ulong BNCustomRelocationHandler_getOperandForExternalRelocationDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong length, BNLowLevelILFunction* il, BNRelocation* relocation);
-		public unsafe delegate BNTransformParameterInfo* BNCustomTransform_getParametersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong* len, BNLowLevelILFunction* il);
+		public unsafe delegate char* BNCustomArchitecture_getRegisterNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint reg);
+		public unsafe delegate char* BNCustomArchitecture_getFlagNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint flag);
+		public unsafe delegate char* BNCustomArchitecture_getFlagWriteTypeNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint flags);
+		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagClassNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semClass);
+		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagGroupNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semGroup);
+		public unsafe delegate uint* BNCustomArchitecture_getFullWidthRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllFlagsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllFlagWriteTypesDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagClassesDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagGroupsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate FlagRole BNCustomArchitecture_getFlagRoleDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint flag, uint semClass);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForFlagConditionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, LowLevelILFlagCondition cond, uint semClass, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semGroup, ulong* count);
+		public unsafe delegate BNFlagConditionForSemanticClass* BNCustomArchitecture_getFlagConditionsForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semGroup, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeFlagConditionsForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFlagConditionForSemanticClass* conditions);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsWrittenByFlagWriteTypeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint writeType, ulong* count);
+		public unsafe delegate uint BNCustomArchitecture_getSemanticClassForFlagWriteTypeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint writeType);
+		public unsafe delegate ulong BNCustomArchitecture_getFlagWriteLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, LowLevelILOperation op, ulong size, uint flagWriteType, uint flag, BNRegisterOrConstant* operands, ulong operandCount, BNLowLevelILFunction* il);
+		public unsafe delegate ulong BNCustomArchitecture_getFlagConditionLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, LowLevelILFlagCondition cond, uint semClass, BNLowLevelILFunction* il);
+		public unsafe delegate ulong BNCustomArchitecture_getSemanticFlagGroupLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semGroup, BNLowLevelILFunction* il);
+		public unsafe delegate void BNCustomArchitecture_freeRegisterListDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint* regs);
+		public unsafe delegate void BNCustomArchitecture_getRegisterInfoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint reg, BNRegisterInfo* result);
+		public unsafe delegate uint BNCustomArchitecture_getStackPointerRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate uint BNCustomArchitecture_getLinkRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate uint* BNCustomArchitecture_getGlobalRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate char* BNCustomArchitecture_getRegisterStackNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint regStack);
+		public unsafe delegate uint* BNCustomArchitecture_getAllRegisterStacksDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_getRegisterStackInfoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint regStack, BNRegisterStackInfo* result);
+		public unsafe delegate char* BNCustomArchitecture_getIntrinsicNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint intrinsic);
+		public unsafe delegate uint* BNCustomArchitecture_getAllIntrinsicsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate BNNameAndType* BNCustomArchitecture_getIntrinsicInputsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint intrinsic, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeNameAndTypeListDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNNameAndType* nt, ulong count);
+		public unsafe delegate BNTypeWithConfidence* BNCustomArchitecture_getIntrinsicOutputsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint intrinsic, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeTypeListDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNTypeWithConfidence* types, ulong count);
+		public unsafe delegate bool BNCustomArchitecture_assembleDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string code, ulong addr, BNDataBuffer* result, char** errors);
+		public unsafe delegate bool BNCustomArchitecture_isNeverBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isAlwaysBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isInvertBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnZeroPatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnValuePatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_convertToNopDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_alwaysBranchDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_invertBranchDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_skipAndReturnValueDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len, ulong value);
+		public unsafe delegate bool BNCustomBinaryView_initDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void BNCustomBinaryView_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_readDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPArray)] byte[] dest, ulong offset, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_writeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_insertDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_removeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset, ulong len);
+		public unsafe delegate ModificationStatus BNCustomBinaryView_getModificationDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isValidOffsetDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetReadableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetWritableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetExecutableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetBackedByFileDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
+		public unsafe delegate ulong BNCustomBinaryView_getNextValidOffsetDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
+		public unsafe delegate ulong BNCustomBinaryView_getStartDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getLengthDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getEntryPointDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNCustomBinaryView_isExecutableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate Endianness BNCustomBinaryView_getDefaultEndiannessDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNCustomBinaryView_isRelocatableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getAddressSizeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNCustomBinaryView_saveDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, _BNFileAccessor* accessor);
+		public unsafe delegate BNBinaryView* BNCustomBinaryViewType_createDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate bool BNCustomBinaryViewType_isValidForDataDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate void BNCustomCallingConvention_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate uint* BNCustomCallingConvention_getCallerSavedRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getCalleeSavedRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getIntegerArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getFloatArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate void BNCustomCallingConvention_freeRegisterListDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint* regs);
+		public unsafe delegate bool BNCustomCallingConvention_areArgumentRegistersSharedIndexDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNCustomCallingConvention_isStackReservedForArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNCustomCallingConvention_isStackAdjustedOnReturnDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getIntegerReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getHighIntegerReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getFloatReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getGlobalPointerRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate uint* BNCustomCallingConvention_getImplicitlyDefinedRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingRegisterValueDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint reg, BNFunction* func, BNRegisterValue* result);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingFlagValueDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint flag, BNFunction* func, BNRegisterValue* result);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingVariableForParameterVariableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
+		public unsafe delegate void BNCustomCallingConvention_getParameterVariableForIncomingVariableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
+		public unsafe delegate void BNCustomDataRenderer_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNCustomDataRenderer_isValidForDataDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
+		public unsafe delegate BNDisassemblyTextLine* BNCustomDataRenderer_getLinesForDataDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
+		public unsafe delegate void BNCustomFlowGraph_prepareForLayoutDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void BNCustomFlowGraph_populateNodesDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void BNCustomFlowGraph_completeLayoutDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate BNFlowGraph* BNCustomFlowGraph_updateDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void BNCustomRelocationHandler_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNCustomRelocationHandler_getRelocationInfoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNArchitecture* arch, _BNRelocationInfo* result, ulong resultCount);
+		public unsafe delegate bool BNCustomRelocationHandler_applyRelocationDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNArchitecture* arch, BNRelocation* reloc, byte* dest, ulong len);
+		public unsafe delegate ulong BNCustomRelocationHandler_getOperandForExternalRelocationDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong length, BNLowLevelILFunction* il, BNRelocation* relocation);
+		public unsafe delegate BNTransformParameterInfo* BNCustomTransform_getParametersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
 		public unsafe delegate void BNCustomTransform_freeParametersDelegate(BNTransformParameterInfo* _params, ulong count);
-		public unsafe delegate bool BNCustomTransform_decodeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
-		public unsafe delegate bool BNCustomTransform_encodeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
-		public unsafe delegate void BNDownloadInstanceCallbacks_destroyInstanceDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate int BNDownloadInstanceCallbacks_performRequestDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string url);
-		public unsafe delegate ulong BNDownloadInstanceOutputCallbacks_writeCallbackDelegate(byte* data, ulong len, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNDownloadInstanceOutputCallbacks_progressCallbackDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong progress, ulong total);
-		public unsafe delegate BNDownloadInstance* BNDownloadProviderCallbacks_createInstanceDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNFileAccessor_getLengthDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNFileAccessor_readDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPVoid)] byte[] dest, ulong offset, ulong len);
-		public unsafe delegate ulong BNFileAccessor_writeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
-		public unsafe delegate bool BNFunctionRecognizer_recognizeLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data, BNFunction* func, BNLowLevelILFunction* il);
-		public unsafe delegate bool BNFunctionRecognizer_recognizeMediumLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data, BNFunction* func, BNMediumLevelILFunction* il);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showPlainTextReportDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showMarkdownReportDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents, [MarshalAs(UnmanagedType.LPStr)] string plaintext);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showHTMLReportDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents, [MarshalAs(UnmanagedType.LPStr)] string plaintext);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showGraphReportDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, BNFlowGraph* graph);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showReportCollectionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string title, BNReportCollection* reports);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getTextLineInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getIntegerInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, long* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getAddressInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, BNBinaryView* view, ulong currentAddr);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getChoiceInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, char** choices, ulong count);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getOpenFileNameInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getSaveFileNameInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getDirectoryNameInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getFormInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFormInputField* fields, ulong count, [MarshalAs(UnmanagedType.LPStr)] string title);
-		public unsafe delegate MessageBoxButtonResult BNInteractionHandlerCallbacks_showMessageBoxDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string text, MessageBoxButtonSet buttons, MessageBoxIcon icon);
-		public unsafe delegate void BNLogListener_logDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, LogLevel level, [MarshalAs(UnmanagedType.LPStr)] string msg);
-		public unsafe delegate void BNLogListener_closeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate LogLevel BNLogListener_getLogLevelDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void BNMainThreadCallbacks_addActionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNMainThreadAction* action);
-		public unsafe delegate char* BNNavigationHandler_getCurrentViewDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ulong BNNavigationHandler_getCurrentOffsetDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool BNNavigationHandler_navigateDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string view, ulong offset);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructBinaryViewDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructFileMetadataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFileMetadata* file);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructFunctionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFunction* func);
-		public unsafe delegate void BNScriptingInstanceCallbacks_destroyInstanceDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate ScriptingProviderExecuteResult BNScriptingInstanceCallbacks_executeScriptInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string input);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBinaryViewDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentFunctionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFunction* func);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBasicBlockDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBasicBlock* block);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentAddressDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong addr);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentSelectionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong begin, ulong end);
-		public unsafe delegate void BNScriptingOutputListener_outputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text);
-		public unsafe delegate void BNScriptingOutputListener_errorDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text);
-		public unsafe delegate void BNScriptingOutputListener_inputReadyStateChangedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ScriptingProviderInputReadyState state);
-		public unsafe delegate BNScriptingInstance* BNScriptingProviderCallbacks_createInstanceDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void BNUndoAction_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void BNUndoAction_undoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
-		public unsafe delegate void BNUndoAction_redoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
-		public unsafe delegate char* BNUndoAction_serializeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void BNPluginCommand_defaultCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view);
-		public unsafe delegate void BNPluginCommand_addressCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate void BNPluginCommand_rangeCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate void BNPluginCommand_functionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNPluginCommand_lowLevelILFunctionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate void BNPluginCommand_lowLevelILInstructionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate void BNPluginCommand_mediumLevelILFunctionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate void BNPluginCommand_mediumLevelILInstructionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate bool BNPluginCommand_defaultIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view);
-		public unsafe delegate bool BNPluginCommand_addressIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate bool BNPluginCommand_rangeIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate bool BNPluginCommand_functionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate bool BNPluginCommand_lowLevelILFunctionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate bool BNPluginCommand_lowLevelILInstructionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate bool BNPluginCommand_mediumLevelILFunctionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate bool BNPluginCommand_mediumLevelILInstructionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate void callbackDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void progressDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong progress, ulong total);
-		public unsafe delegate void funcDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate bool progressDelegate1([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong progress, ulong total);
-		public unsafe delegate bool cbDelegate0([MarshalAs(UnmanagedType.LPStr)] string repoPath, [MarshalAs(UnmanagedType.LPStr)] string pluginPath, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctx);
-		public unsafe delegate void actionDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate bool isValidDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate void actionDelegate1([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate bool isValidDelegate1([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void actionDelegate2([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate bool isValidDelegate2([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate void actionDelegate3([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate bool isValidDelegate3([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate void actionDelegate4([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate bool isValidDelegate4([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate void actionDelegate5([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate bool isValidDelegate5([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate void actionDelegate6([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate bool isValidDelegate6([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate bool deserializeDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string data, _BNUndoAction* result);
-		public unsafe delegate void actionDelegate7([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
-		public unsafe delegate void actionDelegate8([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNCustomTransform_decodeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
+		public unsafe delegate bool BNCustomTransform_encodeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
+		public unsafe delegate void BNDownloadInstanceCallbacks_destroyInstanceDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate int BNDownloadInstanceCallbacks_performRequestDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string url);
+		public unsafe delegate ulong BNDownloadInstanceOutputCallbacks_writeCallbackDelegate(byte* data, ulong len, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNDownloadInstanceOutputCallbacks_progressCallbackDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong progress, ulong total);
+		public unsafe delegate BNDownloadInstance* BNDownloadProviderCallbacks_createInstanceDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNFileAccessor_getLengthDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNFileAccessor_readDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPArray)] byte[] dest, ulong offset, ulong len);
+		public unsafe delegate ulong BNFileAccessor_writeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
+		public unsafe delegate bool BNFunctionRecognizer_recognizeLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data, BNFunction* func, BNLowLevelILFunction* il);
+		public unsafe delegate bool BNFunctionRecognizer_recognizeMediumLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data, BNFunction* func, BNMediumLevelILFunction* il);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showPlainTextReportDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showMarkdownReportDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents, [MarshalAs(UnmanagedType.LPStr)] string plaintext);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showHTMLReportDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents, [MarshalAs(UnmanagedType.LPStr)] string plaintext);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showGraphReportDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, BNFlowGraph* graph);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showReportCollectionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string title, BNReportCollection* reports);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getTextLineInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getIntegerInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, long* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getAddressInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, BNBinaryView* view, ulong currentAddr);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getChoiceInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, char** choices, ulong count);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getOpenFileNameInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getSaveFileNameInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getDirectoryNameInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getFormInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFormInputField* fields, ulong count, [MarshalAs(UnmanagedType.LPStr)] string title);
+		public unsafe delegate MessageBoxButtonResult BNInteractionHandlerCallbacks_showMessageBoxDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string text, MessageBoxButtonSet buttons, MessageBoxIcon icon);
+		public unsafe delegate void BNLogListener_logDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, LogLevel level, [MarshalAs(UnmanagedType.LPStr)] string msg);
+		public unsafe delegate void BNLogListener_closeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate LogLevel BNLogListener_getLogLevelDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void BNMainThreadCallbacks_addActionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNMainThreadAction* action);
+		public unsafe delegate char* BNNavigationHandler_getCurrentViewDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ulong BNNavigationHandler_getCurrentOffsetDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNNavigationHandler_navigateDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string view, ulong offset);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructBinaryViewDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructFileMetadataDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFileMetadata* file);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructFunctionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFunction* func);
+		public unsafe delegate void BNScriptingInstanceCallbacks_destroyInstanceDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate ScriptingProviderExecuteResult BNScriptingInstanceCallbacks_executeScriptInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string input);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBinaryViewDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentFunctionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFunction* func);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBasicBlockDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBasicBlock* block);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentAddressDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong addr);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentSelectionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong begin, ulong end);
+		public unsafe delegate void BNScriptingOutputListener_outputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text);
+		public unsafe delegate void BNScriptingOutputListener_errorDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text);
+		public unsafe delegate void BNScriptingOutputListener_inputReadyStateChangedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ScriptingProviderInputReadyState state);
+		public unsafe delegate BNScriptingInstance* BNScriptingProviderCallbacks_createInstanceDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void BNUndoAction_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void BNUndoAction_undoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate void BNUndoAction_redoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate char* BNUndoAction_serializeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void BNPluginCommand_defaultCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view);
+		public unsafe delegate void BNPluginCommand_addressCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate void BNPluginCommand_rangeCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate void BNPluginCommand_functionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNPluginCommand_lowLevelILFunctionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate void BNPluginCommand_lowLevelILInstructionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate void BNPluginCommand_mediumLevelILFunctionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate void BNPluginCommand_mediumLevelILInstructionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate bool BNPluginCommand_defaultIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view);
+		public unsafe delegate bool BNPluginCommand_addressIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate bool BNPluginCommand_rangeIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool BNPluginCommand_functionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate bool BNPluginCommand_lowLevelILFunctionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate bool BNPluginCommand_lowLevelILInstructionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate bool BNPluginCommand_mediumLevelILFunctionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate bool BNPluginCommand_mediumLevelILInstructionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate void callbackDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void progressDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong progress, ulong total);
+		public unsafe delegate void funcDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool progressDelegate1([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong progress, ulong total);
+		public unsafe delegate bool cbDelegate0([MarshalAs(UnmanagedType.LPStr)] string repoPath, [MarshalAs(UnmanagedType.LPStr)] string pluginPath, [MarshalAs(UnmanagedType.LPArray)] byte[] ctx);
+		public unsafe delegate void actionDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate bool isValidDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate void actionDelegate1([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate bool isValidDelegate1([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void actionDelegate2([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate bool isValidDelegate2([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate void actionDelegate3([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate bool isValidDelegate3([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate void actionDelegate4([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate bool isValidDelegate4([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate void actionDelegate5([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate bool isValidDelegate5([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate void actionDelegate6([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool isValidDelegate6([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool deserializeDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string data, _BNUndoAction* result);
+		public unsafe delegate void actionDelegate7([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate void actionDelegate8([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
 	}
 }

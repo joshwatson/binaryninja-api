@@ -62,7 +62,8 @@ namespace BinaryNinja
 
                 unsafe
                 {
-                    var types = Core.BNGetBinaryViewTypes(out ulong count);
+                    ulong count;
+                    var types = Core.BNGetBinaryViewTypes(&count);
 
                     result = new CoreBinaryViewType[count];
 
@@ -142,8 +143,11 @@ namespace BinaryNinja
 
                 view = FileMetadata.OpenExistingDatabase(filename);
 
-
+                return view;
             }
+
+            // TODO: finish
+            return null;
         }
     }
 
@@ -189,7 +193,7 @@ namespace BinaryNinja
             return Create(data);
         }
 
-        public void RegisterArchitecture(ulong ident, BNEndianness endian, Architecture arch)
+        public void RegisterArchitecture(uint ident, Endianness endian, Architecture arch)
         {
             unsafe
             {
