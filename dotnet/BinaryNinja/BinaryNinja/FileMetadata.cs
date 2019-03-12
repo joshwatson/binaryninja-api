@@ -57,5 +57,42 @@ namespace BinaryNinja
                 }
             }
         }
+
+        public bool Modified
+        {
+            get
+            {
+                unsafe
+                {
+                    return Core.BNIsFileModified(handle);
+                }
+            }
+
+            set
+            {
+                unsafe
+                {
+                    if (value)
+                    {
+                        Core.BNMarkFileModified(handle);
+                    }
+                    else
+                    {
+                        Core.BNMarkFileSaved(handle);
+                    }
+                }
+            }
+        }
+
+        public bool AnalysisChanged
+        {
+            get
+            {
+                unsafe
+                {
+                    return Core.BNIsAnalysisChanged(handle);
+                }
+            }
+        }
     }
 }

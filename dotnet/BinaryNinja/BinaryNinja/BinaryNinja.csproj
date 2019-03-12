@@ -68,8 +68,6 @@
     <Compile Include="BinaryView.cs" />
     <Compile Include="BinaryViewType.cs" />
     <Compile Include="Core\BinaryNinjaCore.cs" />
-    <Compile Include="Core\Callbacks.cs" />
-    <Compile Include="Core\Delegates.cs" />
     <Compile Include="DataBuffer.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FileAccessor.cs" />
