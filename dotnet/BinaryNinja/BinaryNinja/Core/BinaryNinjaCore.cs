@@ -25,6 +25,8 @@ namespace BinaryNinja
 			public ulong maxFunctionUpdateCount;
 			public ulong maxFunctionSubmitCount;
 			public bool suppressNewAutoFunctionAnalysis;
+			public bool alwaysAnalyzeIndirectBranches;
+			public ulong advancedAnalysisCacheSize;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -56,6 +58,14 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataVariableAddedDelegate dataVariableAdded;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataVariableRemovedDelegate dataVariableRemoved;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataVariableUpdatedDelegate dataVariableUpdated;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_dataMetadataUpdatedDelegate dataMetadataUpdated;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_tagTypeUpdatedDelegate tagTypeUpdated;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_tagAddedDelegate tagAdded;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_tagUpdatedDelegate tagUpdated;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_tagRemovedDelegate tagRemoved;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_symbolAddedDelegate symbolAdded;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_symbolUpdatedDelegate symbolUpdated;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_symbolRemovedDelegate symbolRemoved;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_stringFoundDelegate stringFound;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_stringRemovedDelegate stringRemoved;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNBinaryDataNotification_typeDefinedDelegate typeDefined;
@@ -172,6 +182,8 @@ namespace BinaryNinja
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_initDelegate init;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_freeObjectDelegate freeObject;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_externalRefTakenDelegate externalRefTaken;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_externalRefReleasedDelegate externalRefReleased;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_readDelegate read;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_writeDelegate write;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryView_insertDelegate insert;
@@ -201,6 +213,7 @@ namespace BinaryNinja
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryViewType_createDelegate create;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryViewType_isValidForDataDelegate isValidForData;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomBinaryViewType_getLoadSettingsForDataDelegate getLoadSettingsForData;
 		}
 
 		public struct _BNCustomBinaryViewType { };
@@ -250,6 +263,9 @@ namespace BinaryNinja
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_populateNodesDelegate populateNodes;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_completeLayoutDelegate completeLayout;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_updateDelegate update;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_freeObjectDelegate freeObject;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_externalRefTakenDelegate externalRefTaken;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNCustomFlowGraph_externalRefReleasedDelegate externalRefReleased;
 		}
 
 		public struct _BNCustomFlowGraph { };
@@ -289,6 +305,9 @@ namespace BinaryNinja
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNDisassemblySettings { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNDisassemblyTextRenderer { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNDownloadInstance { };
@@ -495,6 +514,13 @@ namespace BinaryNinja
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNMemoryUsageInfo
+		{
+			public char* name;
+			public ulong value;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNMetadata { };
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -660,11 +686,13 @@ namespace BinaryNinja
 			public void* context;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_destroyInstanceDelegate destroyInstance;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_executeScriptInputDelegate executeScriptInput;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_cancelScriptInputDelegate cancelScriptInput;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentBinaryViewDelegate setCurrentBinaryView;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentFunctionDelegate setCurrentFunction;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentBasicBlockDelegate setCurrentBasicBlock;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentAddressDelegate setCurrentAddress;
 			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_setCurrentSelectionDelegate setCurrentSelection;
+			[MarshalAs(UnmanagedType.FunctionPtr)] public BNScriptingInstanceCallbacks_completeInputDelegate completeInput;
 		}
 
 		public struct _BNScriptingInstanceCallbacks { };
@@ -699,6 +727,9 @@ namespace BinaryNinja
 		public struct BNSegment { };
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct BNSettings { };
+
+		[StructLayout(LayoutKind.Sequential)]
 		public struct BNSizeWithConfidence
 		{
 			public ulong value;
@@ -710,6 +741,12 @@ namespace BinaryNinja
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNSymbol { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNTag { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNTagType { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNTemporaryFile { };
@@ -733,6 +770,12 @@ namespace BinaryNinja
 
 		[StructLayout(LayoutKind.Sequential)]
 		public struct BNType { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNTypeLibrary { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNTypeLibraryMapping { };
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNTypeWithConfidence
@@ -777,30 +820,73 @@ namespace BinaryNinja
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNQualifiedNameAndType
+		public unsafe struct BNTagReference
 		{
+			public bool autoDefined;
+			public ulong addr;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNPossibleValueSet
+		public unsafe struct BNStackVariableReference
 		{
-			public long value;
-			public long offset;
-			public long* valueSet;
-			public ulong count;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNLowLevelILInstruction
-		{
-			public ulong size;
-			public uint flags;
 			public uint sourceOperand;
-			public fixed ulong operands[4];
-			public ulong address;
+			public byte typeConfidence;
+			public char* name;
+			public ulong varIdentifier;
+			public long referencedOffset;
+			public ulong size;
 		}
 
-		public struct _BNLowLevelILInstruction { };
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNStringReference
+		{
+			public ulong start;
+			public ulong length;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNDataVariable
+		{
+			public ulong address;
+			public bool autoDiscovered;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNAnalysisProgress
+		{
+			public ulong count;
+			public ulong total;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNNameAndType
+		{
+			public char* name;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public struct BNVariable
+		{
+			public uint index;
+			public long storage;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNFormInputField
+		{
+			public char* prompt;
+			public ulong currentAddress;
+			public char** choices;
+			public ulong count;
+			public char* ext;
+			public char* defaultName;
+			public long intResult;
+			public ulong addressResult;
+			public char* stringResult;
+			public ulong indexResult;
+		}
 
 		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNRelocationInfo
@@ -826,51 +912,18 @@ namespace BinaryNinja
 		public struct _BNRelocationInfo { };
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNFormInputField
+		public unsafe struct BNParameterVariablesWithConfidence
 		{
-			public char* prompt;
-			public ulong currentAddress;
-			public char** choices;
 			public ulong count;
-			public char* ext;
-			public char* defaultName;
-			public long intResult;
-			public ulong addressResult;
-			public char* stringResult;
-			public ulong indexResult;
+			public byte confidence;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct BNFlagConditionForSemanticClass
+		public unsafe struct BNActiveAnalysisInfo
 		{
-			public uint semanticClass;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNStackVariableReference
-		{
-			public uint sourceOperand;
-			public byte typeConfidence;
-			public char* name;
-			public ulong varIdentifier;
-			public long referencedOffset;
-			public ulong size;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNSystemCallInfo
-		{
-			public uint number;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct BNHighlightColor
-		{
-			public byte mix;
-			public byte r;
-			public byte g;
-			public byte b;
-			public byte alpha;
+			public ulong analysisTime;
+			public ulong updateCount;
+			public ulong submitCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -885,10 +938,22 @@ namespace BinaryNinja
 		public struct _BNMediumLevelILInstruction { };
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNBasicBlockEdge
+		public unsafe struct BNLowLevelILInstruction
 		{
+			public ulong size;
+			public uint flags;
+			public uint sourceOperand;
+			public fixed ulong operands[4];
+			public ulong address;
+		}
+
+		public struct _BNLowLevelILInstruction { };
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNFlowGraphEdge
+		{
+			public ulong pointCount;
 			public bool backEdge;
-			public bool fallThrough;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -900,18 +965,16 @@ namespace BinaryNinja
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNActiveAnalysisInfo
+		public unsafe struct BNSystemCallInfo
 		{
-			public ulong analysisTime;
-			public ulong updateCount;
-			public ulong submitCount;
+			public uint number;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct BNVariable
+		public unsafe struct BNAnalysisInfo
 		{
-			public uint index;
-			public long storage;
+			public ulong analysisTime;
+			public ulong count;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -941,27 +1004,18 @@ namespace BinaryNinja
 		public struct _BNPluginCommand { };
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNTypeParserResult
+		public unsafe struct BNQualifiedNameAndType
 		{
-			public ulong typeCount;
-			public ulong variableCount;
-			public ulong functionCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNDataVariable
+		public struct BNHighlightColor
 		{
-			public ulong address;
-			public bool autoDiscovered;
-			public byte typeConfidence;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNVariableNameAndType
-		{
-			public char* name;
-			public bool autoDefined;
-			public byte typeConfidence;
+			public byte mix;
+			public byte r;
+			public byte g;
+			public byte b;
+			public byte alpha;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -969,12 +1023,20 @@ namespace BinaryNinja
 		{
 			public char* text;
 			public ulong value;
+			public ulong width;
 			public ulong size;
 			public ulong operand;
 			public byte confidence;
 			public ulong address;
 			public char** typeNames;
 			public ulong namesCount;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNBasicBlockEdge
+		{
+			public bool backEdge;
+			public bool fallThrough;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -985,44 +1047,24 @@ namespace BinaryNinja
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public struct BNStringReference
+		public struct BNFlagConditionForSemanticClass
 		{
-			public ulong start;
-			public ulong length;
+			public uint semanticClass;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNParameterVariablesWithConfidence
+		public unsafe struct BNPossibleValueSet
+		{
+			public long value;
+			public long offset;
+			public long* valueSet;
+			public ulong count;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNInstructionTextLine
 		{
 			public ulong count;
-			public byte confidence;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct BNAnalysisProgress
-		{
-			public ulong count;
-			public ulong total;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNFlowGraphEdge
-		{
-			public ulong pointCount;
-			public bool backEdge;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public struct BNRegisterValueWithConfidence
-		{
-			public byte confidence;
-		}
-
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNNameAndType
-		{
-			public char* name;
-			public byte typeConfidence;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1034,18 +1076,35 @@ namespace BinaryNinja
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
+		public struct BNRegisterValueWithConfidence
+		{
+			public byte confidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
+		public unsafe struct BNVariableNameAndType
+		{
+			public char* name;
+			public bool autoDefined;
+			public byte typeConfidence;
+		}
+
+		[StructLayout(LayoutKind.Sequential)]
 		public unsafe struct BNDisassemblyTextLine
 		{
 			public ulong addr;
 			public ulong instrIndex;
 			public ulong count;
+			public BNTag** tags;
+			public ulong tagCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNAnalysisInfo
+		public unsafe struct BNTypeParserResult
 		{
-			public ulong analysisTime;
-			public ulong count;
+			public ulong typeCount;
+			public ulong variableCount;
+			public ulong functionCount;
 		}
 
 		[StructLayout(LayoutKind.Sequential)]
@@ -1054,27 +1113,29 @@ namespace BinaryNinja
 			public ulong lineOffset;
 		}
 
-		[StructLayout(LayoutKind.Sequential)]
-		public unsafe struct BNInstructionTextLine
-		{
-			public ulong count;
-		}
-
 		// Function definitions
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAbortAnalysis(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAbortFlowGraphLayoutRequest(BNFlowGraphLayoutRequest* graph);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNAnalysisCompletionEvent* BNAddAnalysisCompletionEvent(BNBinaryView* view, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] callbackDelegate0 callback);
+		public static extern unsafe BNAnalysisCompletionEvent* BNAddAnalysisCompletionEvent(BNBinaryView* view, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] callbackDelegate0 callback);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddAnalysisOption(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddArchitectureRedirection(BNArchitecture* arch, BNArchitecture* from, BNArchitecture* to);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddAutoAddressTag(BNFunction* func, BNArchitecture* arch, ulong addr, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddAutoDataTag(BNBinaryView* view, ulong addr, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddAutoFunctionTag(BNFunction* func, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddAutoSection(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name, ulong start, ulong length, SectionSemantics semantics, [MarshalAs(UnmanagedType.LPStr)] string type, ulong align, ulong entrySize, [MarshalAs(UnmanagedType.LPStr)] string linkedSection, [MarshalAs(UnmanagedType.LPStr)] string infoSection, ulong infoData);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddAutoSegment(BNBinaryView* view, ulong start, ulong length, ulong dataOffset, ulong dataLength, uint flags);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddBinaryViewTypeLibrary(BNBinaryView* view, BNTypeLibrary* lib);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddEntryPointForAnalysis(BNBinaryView* view, BNPlatform* platform, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1108,7 +1169,29 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddStructureMemberAtOffset(BNStructure* s, BNTypeWithConfidence* type, [MarshalAs(UnmanagedType.LPStr)] string name, ulong offset);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddTag(BNBinaryView* view, BNTag* tag, bool user);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddTagType(BNBinaryView* view, BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddTypeLibraryAlternateName(BNTypeLibrary* lib, [MarshalAs(UnmanagedType.LPStr)] string name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddTypeLibraryNamedObject(BNTypeLibrary* lib, BNQualifiedName* name, BNType* type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddTypeLibraryNamedType(BNTypeLibrary* lib, BNQualifiedName* name, BNType* type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddTypeLibraryPlatform(BNTypeLibrary* lib, BNPlatform* platform);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddUndoAction(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string type, _BNUndoAction* action);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddUserAddressTag(BNFunction* func, BNArchitecture* arch, ulong addr, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddUserCodeReference(BNFunction* func, BNArchitecture* fromArch, ulong fromAddr, ulong toAddr);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddUserDataReference(BNBinaryView* view, ulong fromAddr, ulong toAddr);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddUserDataTag(BNBinaryView* view, ulong addr, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNAddUserFunctionTag(BNFunction* func, BNTag* tag);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAddUserSection(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name, ulong start, ulong length, SectionSemantics semantics, [MarshalAs(UnmanagedType.LPStr)] string type, ulong align, ulong entrySize, [MarshalAs(UnmanagedType.LPStr)] string linkedSection, [MarshalAs(UnmanagedType.LPStr)] string infoSection, ulong infoData);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1122,7 +1205,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNAppendDataBuffer(BNDataBuffer* dest, BNDataBuffer* src);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNAppendDataBufferContents(BNDataBuffer* dest, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
+		public static extern unsafe void BNAppendDataBufferContents(BNDataBuffer* dest, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNApplyAutoDiscoveredFunctionType(BNFunction* func, BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1152,15 +1235,31 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNBasicBlockCanExit(BNBasicBlock* block);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNBasicBlockHasInvalidInstructions(BNBasicBlock* block);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNBasicBlockHasUndeterminedOutgoingEdges(BNBasicBlock* block);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBackgroundTask* BNBeginBackgroundTask([MarshalAs(UnmanagedType.LPStr)] string initialText, bool canCancel);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNBeginUndoActions(BNFileMetadata* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNBinaryViewExportObjectToTypeLibrary(BNBinaryView* view, BNTypeLibrary* lib, BNQualifiedName* name, BNType* type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNBinaryViewExportTypeToTypeLibrary(BNBinaryView* view, BNTypeLibrary* lib, BNQualifiedName* name, BNType* type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNSettings* BNBinaryViewGetLoadSettings(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string typeName);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char** BNBinaryViewGetLoadSettingsTypeNames(BNBinaryView* view, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNType* BNBinaryViewImportTypeLibraryObject(BNBinaryView* view, BNTypeLibrary* lib, BNQualifiedName* name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNType* BNBinaryViewImportTypeLibraryType(BNBinaryView* view, BNTypeLibrary* lib, BNQualifiedName* name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNMetadata* BNBinaryViewQueryMetadata(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string key);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNBinaryViewRemoveMetadata(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string key);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNBinaryViewSetLoadSettings(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string typeName, BNSettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNBinaryViewStoreMetadata(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string key, BNMetadata* value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1172,7 +1271,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNCancelBackgroundTask(BNBackgroundTask* task);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNCancelScriptInput(BNScriptingInstance* instance);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNClearDataBuffer(BNDataBuffer* buf);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNClearTypeLibraryPlatforms(BNTypeLibrary* lib);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNCloseFile(BNFileMetadata* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1192,7 +1295,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBinaryView* BNCreateBinaryDataViewFromBuffer(BNFileMetadata* file, BNDataBuffer* buf);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBinaryView* BNCreateBinaryDataViewFromData(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
+		public static extern unsafe BNBinaryView* BNCreateBinaryDataViewFromData(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBinaryView* BNCreateBinaryDataViewFromFile(BNFileMetadata* file, _BNFileAccessor* accessor);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1212,17 +1315,19 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNFlowGraph* BNCreateCustomFlowGraph(_BNCustomFlowGraph* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNDataBuffer* BNCreateDataBuffer([MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
+		public static extern unsafe BNDataBuffer* BNCreateDataBuffer([MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataRenderer* BNCreateDataRenderer(_BNCustomDataRenderer* renderer);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNCreateDatabase(BNBinaryView* data, [MarshalAs(UnmanagedType.LPStr)] string path);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNCreateDatabaseWithProgress(BNBinaryView* data, [MarshalAs(UnmanagedType.LPStr)] string path, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
+		public static extern unsafe bool BNCreateDatabaseWithProgress(BNBinaryView* data, [MarshalAs(UnmanagedType.LPStr)] string path, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNCreateDirectory([MarshalAs(UnmanagedType.LPStr)] string path, bool createSubdirectories);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDisassemblySettings* BNCreateDisassemblySettings();
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNDisassemblyTextRenderer* BNCreateDisassemblyTextRenderer(BNFunction* func, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDownloadInstance* BNCreateDownloadProviderInstance(BNDownloadProvider* provider);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1244,9 +1349,13 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNCreateIntegerType(ulong width, BNBoolWithConfidence* sign, [MarshalAs(UnmanagedType.LPStr)] string altName);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNDisassemblyTextRenderer* BNCreateLowLevelILDisassemblyTextRenderer(BNLowLevelILFunction* func, BNDisassemblySettings* settings);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNLowLevelILFunction* BNCreateLowLevelILFunction(BNArchitecture* arch, BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNFlowGraph* BNCreateLowLevelILFunctionGraph(BNLowLevelILFunction* func, BNDisassemblySettings* settings);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNDisassemblyTextRenderer* BNCreateMediumLevelILDisassemblyTextRenderer(BNMediumLevelILFunction* func, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNMediumLevelILFunction* BNCreateMediumLevelILFunction(BNArchitecture* arch, BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1294,13 +1403,19 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNSegment* BNCreateSegment(ulong start, ulong length, ulong dataOffset, ulong dataLength, uint flags, bool autoDefined);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNSettings* BNCreateSettings([MarshalAs(UnmanagedType.LPStr)] string schemaId);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNStructure* BNCreateStructure();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNCreateStructureType(BNStructure* s);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNStructure* BNCreateStructureWithOptions(StructureType type, bool packed);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNSymbol* BNCreateSymbol(SymbolType type, [MarshalAs(UnmanagedType.LPStr)] string shortName, [MarshalAs(UnmanagedType.LPStr)] string fullName, [MarshalAs(UnmanagedType.LPStr)] string rawName, ulong addr, SymbolBinding binding, BNNameSpace* nameSpace);
+		public static extern unsafe BNSymbol* BNCreateSymbol(SymbolType type, [MarshalAs(UnmanagedType.LPStr)] string shortName, [MarshalAs(UnmanagedType.LPStr)] string fullName, [MarshalAs(UnmanagedType.LPStr)] string rawName, ulong addr, SymbolBinding binding, BNNameSpace* nameSpace, ulong ordinal);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag* BNCreateTag(BNTagType* type, [MarshalAs(UnmanagedType.LPStr)] string data);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagType* BNCreateTagType(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNTemporaryFile* BNCreateTemporaryFile();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1360,19 +1475,27 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNDemangleMS(BNArchitecture* arch, [MarshalAs(UnmanagedType.LPStr)] string mangledName, BNType** outType, char*** outVarName, ulong* outVarNameElements);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNDeserializeSettings([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string contents, BNBinaryView* view, SettingsScope scope);
+		public static extern unsafe bool BNDeserializeSettings(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string contents, BNBinaryView* view, SettingsScope scope);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNDisablePlugins();
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNDisassemblyTextRendererHasDataFlow(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNDisassemblyTextLine* BNDisassemblyTextRendererWrapComment(BNDisassemblyTextRenderer* renderer, BNDisassemblyTextLine* inLine, ulong* outLineCount, [MarshalAs(UnmanagedType.LPStr)] string comment, bool hasAutoAnnotations, [MarshalAs(UnmanagedType.LPStr)] string leadingSpaces);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNDuplicateDataBuffer(BNDataBuffer* buf);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNDuplicateType(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary* BNDuplicateTypeLibrary(BNTypeLibrary* lib);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNEncode(BNTransform* xform, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNExecuteMainThreadAction(BNMainThreadAction* action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNMainThreadAction* BNExecuteOnMainThread([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
+		public static extern unsafe BNMainThreadAction* BNExecuteOnMainThread([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNExecuteOnMainThreadAndWait([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
+		public static extern unsafe void BNExecuteOnMainThreadAndWait([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ScriptingProviderExecuteResult BNExecuteScriptInput(BNScriptingInstance* instance, [MarshalAs(UnmanagedType.LPStr)] string input);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1384,17 +1507,19 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFinalizeMediumLevelILFunction(BNMediumLevelILFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFinalizeTypeLibrary(BNTypeLibrary* lib);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextConstant(BNBinaryView* view, ulong start, ulong constant, ulong* result, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextConstantWithProgress(BNBinaryView* view, ulong start, ulong end, ulong constant, ulong* result, BNDisassemblySettings* settings, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
+		public static extern unsafe bool BNFindNextConstantWithProgress(BNBinaryView* view, ulong start, ulong end, ulong constant, ulong* result, BNDisassemblySettings* settings, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextData(BNBinaryView* view, ulong start, BNDataBuffer* data, ulong* result, FindFlag flags);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextDataWithProgress(BNBinaryView* view, ulong start, ulong end, BNDataBuffer* data, ulong* result, FindFlag flags, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
+		public static extern unsafe bool BNFindNextDataWithProgress(BNBinaryView* view, ulong start, ulong end, BNDataBuffer* data, ulong* result, FindFlag flags, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNFindNextText(BNBinaryView* view, ulong start, [MarshalAs(UnmanagedType.LPStr)] string data, ulong* result, BNDisassemblySettings* settings, FindFlag flags);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNFindNextTextWithProgress(BNBinaryView* view, ulong start, ulong end, [MarshalAs(UnmanagedType.LPStr)] string data, ulong* result, BNDisassemblySettings* settings, FindFlag flags, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
+		public static extern unsafe bool BNFindNextTextWithProgress(BNBinaryView* view, ulong start, ulong end, [MarshalAs(UnmanagedType.LPStr)] string data, ulong* result, BNDisassemblySettings* settings, FindFlag flags, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFinishBackgroundTask(BNBackgroundTask* task);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1454,6 +1579,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeDisassemblyTextLines(BNDisassemblyTextLine* lines, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeDisassemblyTextRenderer(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeDownloadInstance(BNDownloadInstance* instance);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeDownloadProviderList(BNDownloadProvider** providers);
@@ -1472,9 +1599,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeFlowGraphNode(BNFlowGraphNode* node);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeFlowGraphNodeList(BNFlowGraphNode** nodes, ulong count);
+		public static extern unsafe void BNFreeFlowGraphNodeEdgeList(BNFlowGraphEdge* edges, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeFlowGraphNodeOutgoingEdgeList(BNFlowGraphEdge* edges, ulong count);
+		public static extern unsafe void BNFreeFlowGraphNodeList(BNFlowGraphNode** nodes, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeFormInputResults(BNFormInputField* fields, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1501,6 +1628,8 @@ namespace BinaryNinja
 		public static extern unsafe void BNFreeMainThreadAction(BNMainThreadAction* action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeMediumLevelILFunction(BNMediumLevelILFunction* func);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeMemoryUsageInfo(BNMemoryUsageInfo* info, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeMetadata(BNMetadata* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1534,6 +1663,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreePluginCommandList(_BNPluginCommand* commands);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreePluginPlatforms(char** platforms, ulong count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreePluginTypes(PluginType* r);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreePossibleValueSet(BNPossibleValueSet* value);
@@ -1549,6 +1680,8 @@ namespace BinaryNinja
 		public static extern unsafe void BNFreeRegisterSet(BNRegisterSetWithConfidence* regs);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeRegisterStackAdjustments(BNRegisterStackAdjustment* adjustments);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeRegisteredPluginLoadersList(char** pluginLoaders, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeRelocation(BNRelocation* reloc);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1578,15 +1711,19 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeSegmentList(BNSegment** segments, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeSettings(BNSettings* settings);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeStackVariableReferenceList(BNStackVariableReference* refs, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNFreeString(char* str);
+		public static extern unsafe void BNFreeString([MarshalAs(UnmanagedType.LPStr)] string str);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeStringList(char** strs, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeStringReferenceList(BNStringReference* strings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeStructure(BNStructure* s);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeStructureMember(BNStructureMember* s);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeStructureMemberList(BNStructureMember* members, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1596,6 +1733,16 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeSystemCallList(BNSystemCallInfo* syscalls, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeTag(BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeTagList(BNTag** tags, ulong count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeTagReferences(BNTagReference* refs, ulong count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeTagType(BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeTagTypeList(BNTagType** tagTypes, ulong count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeTemporaryFile(BNTemporaryFile* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeTransformParameterList(BNTransformParameterInfo* _params, ulong count);
@@ -1604,7 +1751,13 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeType(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeTypeLibrary(BNTypeLibrary* lib);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeTypeLibraryList(BNTypeLibrary** lib, ulong count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeTypeList(BNQualifiedNameAndType* types, ulong count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNFreeTypeNameList(BNQualifiedName* names, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNFreeTypeParameterList(BNFunctionParameter* types, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1642,6 +1795,14 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNGetAddressInput(ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, BNBinaryView* view, ulong currentAddr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetAddressTagReferences(BNFunction* func, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag** BNGetAddressTags(BNFunction* func, BNArchitecture* arch, ulong addr, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag** BNGetAddressTagsOfType(BNFunction* func, BNArchitecture* arch, ulong addr, BNTagType* tagType, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetAllAddressTagReferences(BNBinaryView* view, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint* BNGetAllArchitectureFlagWriteTypes(BNArchitecture* arch, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint* BNGetAllArchitectureFlags(BNArchitecture* arch, ulong* count);
@@ -1656,9 +1817,17 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint* BNGetAllArchitectureSemanticFlagGroups(BNArchitecture* arch, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetAllFunctionTagReferences(BNBinaryView* view, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNILBranchInstructionAndDependence* BNGetAllMediumLevelILBranchDependence(BNMediumLevelILFunction* func, ulong instr, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe _BNPluginCommand* BNGetAllPluginCommands(ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetAllTagReferences(BNBinaryView* view, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetAllTagReferencesOfType(BNBinaryView* view, BNTagType* tagType, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong BNGetAllTagReferencesOfTypeCount(BNBinaryView* view, BNTagType* tagType);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNAddressRange* BNGetAllocatedRanges(BNBinaryView* view, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1685,6 +1854,8 @@ namespace BinaryNinja
 		public static extern unsafe BNQualifiedNameAndType* BNGetAnalysisTypeList(BNBinaryView* view, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNQualifiedName BNGetAnalysisTypeNameById(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string id);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNQualifiedName* BNGetAnalysisTypeNames(BNBinaryView* view, ulong* count, [MarshalAs(UnmanagedType.LPStr)] string matching);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetArchitectureAddressSize(BNArchitecture* arch);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1770,6 +1941,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNCallingConvention* BNGetArchitectureStdcallCallingConvention(BNArchitecture* arch);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary** BNGetArchitectureTypeLibraries(BNArchitecture* arch, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNArchitecture* BNGetAssociatedArchitectureByAddress(BNArchitecture* arch, ulong* addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNPlatform* BNGetAssociatedPlatformByAddress(BNPlatform* platform, ulong* addr);
@@ -1788,11 +1961,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDisassemblyTextLine* BNGetBasicBlockDisassemblyText(BNBasicBlock* block, BNDisassemblySettings* settings, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBasicBlock** BNGetBasicBlockDominanceFrontier(BNBasicBlock* block, ulong* count);
+		public static extern unsafe BNBasicBlock** BNGetBasicBlockDominanceFrontier(BNBasicBlock* block, ulong* count, bool post);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBasicBlock** BNGetBasicBlockDominatorTreeChildren(BNBasicBlock* block, ulong* count);
+		public static extern unsafe BNBasicBlock** BNGetBasicBlockDominatorTreeChildren(BNBasicBlock* block, ulong* count, bool post);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBasicBlock** BNGetBasicBlockDominators(BNBasicBlock* block, ulong* count);
+		public static extern unsafe BNBasicBlock** BNGetBasicBlockDominators(BNBasicBlock* block, ulong* count, bool post);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetBasicBlockEnd(BNBasicBlock* block);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1800,7 +1973,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNHighlightColor BNGetBasicBlockHighlight(BNBasicBlock* block);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBasicBlock* BNGetBasicBlockImmediateDominator(BNBasicBlock* block);
+		public static extern unsafe BNBasicBlock* BNGetBasicBlockImmediateDominator(BNBasicBlock* block, bool post);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBasicBlockEdge* BNGetBasicBlockIncomingEdges(BNBasicBlock* block, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1816,9 +1989,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBasicBlockEdge* BNGetBasicBlockOutgoingEdges(BNBasicBlock* block, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNBasicBlock* BNGetBasicBlockSource(BNBasicBlock* block);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetBasicBlockStart(BNBasicBlock* block);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBasicBlock** BNGetBasicBlockStrictDominators(BNBasicBlock* block, ulong* count);
+		public static extern unsafe BNBasicBlock** BNGetBasicBlockStrictDominators(BNBasicBlock* block, ulong* count, bool post);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBasicBlock** BNGetBasicBlocksForAddress(BNBinaryView* view, ulong addr, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1826,9 +2001,17 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe Endianness BNGetBinaryReaderEndianness(BNBinaryReader* stream);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNSettings* BNGetBinaryViewDefaultLoadSettingsForData(BNBinaryViewType* type, BNBinaryView* data);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNSettings* BNGetBinaryViewLoadSettingsForData(BNBinaryViewType* type, BNBinaryView* data);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetBinaryViewTypeArchitectureConstant(BNArchitecture* arch, [MarshalAs(UnmanagedType.LPStr)] string type, [MarshalAs(UnmanagedType.LPStr)] string name, ulong defaultValue);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBinaryViewType* BNGetBinaryViewTypeByName([MarshalAs(UnmanagedType.LPStr)] string name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary** BNGetBinaryViewTypeLibraries(BNBinaryView* view, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary* BNGetBinaryViewTypeLibrary(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNGetBinaryViewTypeLongName(BNBinaryViewType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1852,7 +2035,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint* BNGetCalleeSavedRegisters(BNCallingConvention* cc, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong* BNGetCallees(BNBinaryView* view, BNReferenceSource* callSite, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint* BNGetCallerSavedRegisters(BNCallingConvention* cc, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNReferenceSource* BNGetCallers(BNBinaryView* view, ulong callee, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNArchitecture* BNGetCallingConventionArchitecture(BNCallingConvention* cc);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1863,6 +2050,10 @@ namespace BinaryNinja
 		public static extern unsafe bool BNGetChoiceInput(ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, char** choices, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNReferenceSource* BNGetCodeReferences(BNBinaryView* view, ulong addr, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong* BNGetCodeReferencesFrom(BNBinaryView* view, BNReferenceSource* src, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong* BNGetCodeReferencesFromInRange(BNBinaryView* view, BNReferenceSource* src, ulong len, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNReferenceSource* BNGetCodeReferencesInRange(BNBinaryView* view, ulong addr, ulong len, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1888,9 +2079,21 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong* BNGetDataReferences(BNBinaryView* view, ulong addr, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong* BNGetDataReferencesFrom(BNBinaryView* view, ulong addr, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong* BNGetDataReferencesFromInRange(BNBinaryView* view, ulong addr, ulong len, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong* BNGetDataReferencesInRange(BNBinaryView* view, ulong addr, ulong len, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataRendererContainer* BNGetDataRendererContainer();
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetDataTagReferences(BNBinaryView* view, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag** BNGetDataTags(BNBinaryView* view, ulong addr, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag** BNGetDataTagsInRange(BNBinaryView* view, ulong start, ulong end, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag** BNGetDataTagsOfType(BNBinaryView* view, ulong addr, BNTagType* tagType, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNGetDataVariableAtAddress(BNBinaryView* view, ulong addr, BNDataVariable* var);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1914,6 +2117,30 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetDisassemblyMaximumSymbolWidth(BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNArchitecture* BNGetDisassemblyTextRendererArchitecture(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNBasicBlock* BNGetDisassemblyTextRendererBasicBlock(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNFunction* BNGetDisassemblyTextRendererFunction(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNInstructionTextToken* BNGetDisassemblyTextRendererInstructionAnnotations(BNDisassemblyTextRenderer* renderer, ulong addr, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNGetDisassemblyTextRendererInstructionText(BNDisassemblyTextRenderer* renderer, ulong addr, ulong* len, BNDisassemblyTextLine** result, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNInstructionTextToken* BNGetDisassemblyTextRendererIntegerTokens(BNDisassemblyTextRenderer* renderer, BNInstructionTextToken* token, BNArchitecture* arch, ulong addr, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNGetDisassemblyTextRendererLines(BNDisassemblyTextRenderer* renderer, ulong addr, ulong* len, BNDisassemblyTextLine** result, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNLowLevelILFunction* BNGetDisassemblyTextRendererLowLevelILFunction(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNMediumLevelILFunction* BNGetDisassemblyTextRendererMediumLevelILFunction(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNDisassemblySettings* BNGetDisassemblyTextRendererSettings(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNInstructionTextToken* BNGetDisassemblyTextRendererStackVariableReferenceTokens(BNDisassemblyTextRenderer* renderer, BNStackVariableReference* _ref, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNGetDisassemblyTextRendererSymbolTokens(BNDisassemblyTextRenderer* renderer, ulong addr, ulong size, ulong operand, BNInstructionTextToken** result, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetDisassemblyWidth(BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDownloadProvider* BNGetDownloadProviderByName([MarshalAs(UnmanagedType.LPStr)] string name);
@@ -1923,6 +2150,8 @@ namespace BinaryNinja
 		public static extern unsafe char* BNGetDownloadProviderName(BNDownloadProvider* provider);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetEndOffset(BNBinaryView* view);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong BNGetEntropy(BNBinaryView* view, ulong offset, ulong len, ulong blockSize, float* result);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetEntryPoint(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1960,9 +2189,13 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNHighlightColor BNGetFlowGraphNodeHighlight(BNFlowGraphNode* node);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNFlowGraphEdge* BNGetFlowGraphNodeIncomingEdges(BNFlowGraphNode* node, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDisassemblyTextLine* BNGetFlowGraphNodeLines(BNFlowGraphNode* node, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNFlowGraphEdge* BNGetFlowGraphNodeOutgoingEdges(BNFlowGraphNode* node, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNFlowGraph* BNGetFlowGraphNodeOwner(BNFlowGraphNode* node);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe int BNGetFlowGraphNodeWidth(BNFlowGraphNode* node);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -1980,6 +2213,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint* BNGetFullWidthArchitectureRegisters(BNArchitecture* arch, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetFunctionAllTagReferences(BNFunction* func, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNPerformanceInfo* BNGetFunctionAnalysisPerformanceInfo(BNFunction* func, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe FunctionAnalysisSkipOverride BNGetFunctionAnalysisSkipOverride(BNFunction* func);
@@ -1991,6 +2226,8 @@ namespace BinaryNinja
 		public static extern unsafe BNBasicBlock** BNGetFunctionBasicBlockList(BNFunction* func, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNInstructionTextLine* BNGetFunctionBlockAnnotations(BNFunction* func, BNArchitecture* arch, ulong addr, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNReferenceSource* BNGetFunctionCallSites(BNFunction* func, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNCallingConventionWithConfidence BNGetFunctionCallingConvention(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2028,11 +2265,23 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNSymbol* BNGetFunctionSymbol(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetFunctionTagReferences(BNFunction* func, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetFunctionTagReferencesOfType(BNFunction* func, BNTagType* tagType, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag** BNGetFunctionTags(BNFunction* func, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag** BNGetFunctionTagsOfType(BNFunction* func, BNTagType* tagType, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNGetFunctionType(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDisassemblyTextLine* BNGetFunctionTypeTokens(BNFunction* func, BNDisassemblySettings* settings, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNVariableNameAndType* BNGetFunctionVariables(BNFunction* func, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNGetGlobalCommentForAddress(BNBinaryView* view, ulong addr);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong* BNGetGlobalCommentedAddresses(BNBinaryView* view, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint BNGetGlobalPointerRegister(BNCallingConvention* cc);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2096,7 +2345,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNLinearDisassemblyPosition BNGetLinearDisassemblyPositionForAddress(BNBinaryView* view, ulong addr, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNDisassemblyTextLine* BNGetLinesForData([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
+		public static extern unsafe BNDisassemblyTextLine* BNGetLinesForData([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBasicBlock* BNGetLowLevelILBasicBlockForInstruction(BNLowLevelILFunction* func, ulong i);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2294,6 +2543,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong* BNGetMediumLevelILVariableUses(BNMediumLevelILFunction* func, BNVariable* var, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNMemoryUsageInfo* BNGetMemoryUsageInfo(ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ModificationStatus BNGetModification(BNBinaryView* view, ulong offset);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetModificationArray(BNBinaryView* view, ulong offset, ModificationStatus* result, ulong len);
@@ -2308,7 +2559,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetNextDataAfterAddress(BNBinaryView* view, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNGetNextDataVariableAfterAddress(BNBinaryView* view, ulong addr);
+		public static extern unsafe ulong BNGetNextDataVariableStartAfterAddress(BNBinaryView* view, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetNextFunctionStartAfterAddress(BNBinaryView* view, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2350,7 +2601,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNPlatform* BNGetPlatformForViewType(BNBinaryViewType* type, uint id, BNArchitecture* arch);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNType* BNGetPlatformFunctionByName(BNPlatform* platform, BNQualifiedName* name);
+		public static extern unsafe BNType* BNGetPlatformFunctionByName(BNPlatform* platform, BNQualifiedName* name, bool exactMatch);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNQualifiedNameAndType* BNGetPlatformFunctions(BNPlatform* platform, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2378,6 +2629,10 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNGetPlatformTypeByName(BNPlatform* platform, BNQualifiedName* name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary** BNGetPlatformTypeLibraries(BNPlatform* platform, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary** BNGetPlatformTypeLibrariesByName(BNPlatform* platform, [MarshalAs(UnmanagedType.LPStr)] string depName, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNQualifiedNameAndType* BNGetPlatformTypes(BNPlatform* platform, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNGetPlatformVariableByName(BNPlatform* platform, BNQualifiedName* name);
@@ -2390,7 +2645,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetPreviousDataBeforeAddress(BNBinaryView* view, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNGetPreviousDataVariableBeforeAddress(BNBinaryView* view, ulong addr);
+		public static extern unsafe ulong BNGetPreviousDataVariableStartBeforeAddress(BNBinaryView* view, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetPreviousFunctionStartBeforeAddress(BNBinaryView* view, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2409,6 +2664,8 @@ namespace BinaryNinja
 		public static extern unsafe BNRegisterValue BNGetRegisterValueAfterInstruction(BNFunction* func, BNArchitecture* arch, ulong addr, uint reg);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNRegisterValue BNGetRegisterValueAtInstruction(BNFunction* func, BNArchitecture* arch, ulong addr, uint reg);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char** BNGetRegisteredPluginLoaders(ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe uint* BNGetRegistersReadByInstruction(BNFunction* func, BNArchitecture* arch, ulong addr, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2441,6 +2698,8 @@ namespace BinaryNinja
 		public static extern unsafe BNBackgroundTask** BNGetRunningBackgroundTasks(ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNGetSaveFileNameInput(char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNGetScriptingInstanceDelimiters(BNScriptingInstance* instance);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ScriptingProviderInputReadyState BNGetScriptingInstanceInputReadyState(BNScriptingInstance* instance);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2476,11 +2735,15 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetStartOffset(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNGetStringAtAddress(BNBinaryView* view, ulong addr, BNStringReference* strRef);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNStringReference* BNGetStrings(BNBinaryView* view, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNStringReference* BNGetStringsInRange(BNBinaryView* view, ulong start, ulong len, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetStructureAlignment(BNStructure* s);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNStructureMember* BNGetStructureMemberByName(BNStructure* s, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNStructureMember* BNGetStructureMembers(BNStructure* s, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2489,6 +2752,8 @@ namespace BinaryNinja
 		public static extern unsafe ulong BNGetStructureWidth(BNStructure* s);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetSymbolAddress(BNSymbol* sym);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char** BNGetSymbolAliases(BNSymbol* sym, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe SymbolBinding BNGetSymbolBinding(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2499,6 +2764,8 @@ namespace BinaryNinja
 		public static extern unsafe char* BNGetSymbolFullName(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNNameSpace BNGetSymbolNameSpace(BNSymbol* sym);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong BNGetSymbolOrdinal(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNGetSymbolRawName(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2515,6 +2782,18 @@ namespace BinaryNinja
 		public static extern unsafe BNSymbol** BNGetSymbolsOfType(BNBinaryView* view, SymbolType type, ulong* count, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNSymbol** BNGetSymbolsOfTypeInRange(BNBinaryView* view, SymbolType type, ulong start, ulong len, ulong* count, BNNameSpace* nameSpace);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag* BNGetTag(BNBinaryView* view, ulong tagId);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagReference* BNGetTagReferencesOfType(BNBinaryView* view, BNTagType* tagType, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong BNGetTagReferencesOfTypeCount(BNBinaryView* view, BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagType* BNGetTagType(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagType* BNGetTagTypeWithType(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name, TagTypeType type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagType** BNGetTagTypes(BNBinaryView* view, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNGetTemporaryFileContents(BNTemporaryFile* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2549,6 +2828,26 @@ namespace BinaryNinja
 		public static extern unsafe ulong BNGetTypeElementCount(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNEnumeration* BNGetTypeEnumeration(BNType* type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char** BNGetTypeLibraryAlternateNames(BNTypeLibrary* lib, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNArchitecture* BNGetTypeLibraryArchitecture(BNTypeLibrary* lib);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNGetTypeLibraryDependencyName(BNTypeLibrary* lib);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNGetTypeLibraryGuid(BNTypeLibrary* lib);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNGetTypeLibraryName(BNTypeLibrary* lib);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNType* BNGetTypeLibraryNamedObject(BNTypeLibrary* lib, BNQualifiedName* name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNQualifiedNameAndType* BNGetTypeLibraryNamedObjects(BNTypeLibrary* lib, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNType* BNGetTypeLibraryNamedType(BNTypeLibrary* lib, BNQualifiedName* name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNQualifiedNameAndType* BNGetTypeLibraryNamedTypes(BNTypeLibrary* lib, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char** BNGetTypeLibraryPlatforms(BNTypeLibrary* lib, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNNamedTypeReference* BNGetTypeNamedTypeReference(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2620,15 +2919,23 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetViewAddressSize(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNBinaryView* BNGetViewForFlowGraph(BNFlowGraph* graph);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetViewLength(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNGetViewType(BNBinaryView* view);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNSymbol** BNGetVisibleSymbols(BNBinaryView* view, ulong* count, BNNameSpace* nameSpace);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetWorkerThreadCount();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNGetWriterPosition(BNBinaryWriter* stream);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNHasDataVariables(BNBinaryView* view);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNHasFunctions(BNBinaryView* view);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNHasSymbols(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNSymbol* BNImportedFunctionFromImportAddressSymbol(BNSymbol* sym, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2644,7 +2951,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNInsertViewBuffer(BNBinaryView* view, ulong offset, BNDataBuffer* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNInsertViewData(BNBinaryView* view, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
+		public static extern unsafe ulong BNInsertViewData(BNBinaryView* view, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNInstallPendingUpdate(char** errors);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2692,6 +2999,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsFlowGraphLayoutRequestComplete(BNFlowGraphLayoutRequest* layout);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNIsFlowGraphOptionSet(BNFlowGraph* graph, FlowGraphOption option);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsFunctionAnalysisSkipped(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsFunctionTooLarge(BNFunction* func);
@@ -2700,7 +3009,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsILBasicBlock(BNBasicBlock* block);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNIsILDisassemblyTextRenderer(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsILFlowGraph(BNFlowGraph* graph);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNIsIntegerToken(InstructionTextTokenType type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsInvertBranchPatchAvailable(BNBinaryView* view, BNArchitecture* arch, ulong addr);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2709,6 +3022,8 @@ namespace BinaryNinja
 		public static extern unsafe bool BNIsLowLevelILBasicBlock(BNBasicBlock* block);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsLowLevelILFlowGraph(BNFlowGraph* graph);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNIsMainThread();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsMainThreadActionDone(BNMainThreadAction* action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2719,6 +3034,8 @@ namespace BinaryNinja
 		public static extern unsafe bool BNIsMediumLevelILSSAVarLive(BNMediumLevelILFunction* func, BNVariable* var, ulong version);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsNeverBranchPatchAvailable(BNBinaryView* view, BNArchitecture* arch, ulong addr);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNIsNodeValidForFlowGraph(BNFlowGraph* graph, BNFlowGraphNode* node);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsOffsetBackedByFile(BNBinaryView* view, ulong offset);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2737,6 +3054,8 @@ namespace BinaryNinja
 		public static extern unsafe bool BNIsPathDirectory([MarshalAs(UnmanagedType.LPStr)] string path);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsPathRegularFile([MarshalAs(UnmanagedType.LPStr)] string path);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNIsPluginsEnabled();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsRelocatable(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2766,7 +3085,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsUpdateInstallationPending();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNIsValidForData([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
+		public static extern unsafe bool BNIsValidForData([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNIsValidOffset(BNBinaryView* view, ulong offset);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2778,7 +3097,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNLlvmServicesInit();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNLoadPluginForApi([MarshalAs(UnmanagedType.LPStr)] string pluginApiName, [MarshalAs(UnmanagedType.LPStr)] string repoPath, [MarshalAs(UnmanagedType.LPStr)] string pluginPath);
+		public static extern unsafe bool BNLoadPluginForApi([MarshalAs(UnmanagedType.LPStr)] string pluginApiName, [MarshalAs(UnmanagedType.LPStr)] string repoPath, [MarshalAs(UnmanagedType.LPStr)] string pluginPath, bool force);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary* BNLoadTypeLibraryFromFile([MarshalAs(UnmanagedType.LPStr)] string path);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNLog(LogLevel level, [MarshalAs(UnmanagedType.LPStr)] string fmt);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2797,6 +3118,10 @@ namespace BinaryNinja
 		public static extern unsafe void BNLogToStdout(LogLevel minimumLevel);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNLogWarn([MarshalAs(UnmanagedType.LPStr)] string fmt);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary* BNLookupTypeLibraryByGuid(BNArchitecture* arch, [MarshalAs(UnmanagedType.LPStr)] string guid);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary* BNLookupTypeLibraryByName(BNArchitecture* arch, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNLowLevelILAddExpr(BNLowLevelILFunction* func, LowLevelILOperation operation, ulong size, uint flags, ulong a, ulong b, ulong c, ulong d);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2831,6 +3156,8 @@ namespace BinaryNinja
 		public static extern unsafe void BNLowLevelILMarkLabel(BNLowLevelILFunction* func, BNLowLevelILLabel* label);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNLowLevelILSetCurrentAddress(BNLowLevelILFunction* func, BNArchitecture* arch, ulong addr);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNLowLevelILSetCurrentSourceBlock(BNLowLevelILFunction* func, BNBasicBlock* source);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNLowLevelILSetExprSourceOperand(BNLowLevelILFunction* func, ulong expr, uint operand);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -2944,6 +3271,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDisassemblySettings* BNNewDisassemblySettingsReference(BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNDisassemblyTextRenderer* BNNewDisassemblyTextRendererReference(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDownloadInstance* BNNewDownloadInstanceReference(BNDownloadInstance* instance);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNEnumeration* BNNewEnumerationReference(BNEnumeration* e);
@@ -2988,11 +3317,21 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNSegment* BNNewSegmentReference(BNSegment* seg);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNSettings* BNNewSettingsReference(BNSettings* settings);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNStructure* BNNewStructureReference(BNStructure* s);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNSymbol* BNNewSymbolReference(BNSymbol* sym);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTag* BNNewTagReference(BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagType* BNNewTagTypeReference(BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNTemporaryFile* BNNewTemporaryFileReference(BNTemporaryFile* file);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary* BNNewTypeLibrary(BNArchitecture* arch, [MarshalAs(UnmanagedType.LPStr)] string name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTypeLibrary* BNNewTypeLibraryReference(BNTypeLibrary* lib);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNType* BNNewTypeReference(BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3012,9 +3351,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNNotifyProgressForDownloadInstance(BNDownloadInstance* instance, ulong progress, ulong total);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNBinaryView* BNOpenDatabaseForConfiguration(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPStr)] string path);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBinaryView* BNOpenExistingDatabase(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPStr)] string path);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNBinaryView* BNOpenExistingDatabaseWithProgress(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPStr)] string path, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
+		public static extern unsafe BNBinaryView* BNOpenExistingDatabaseWithProgress(BNFileMetadata* file, [MarshalAs(UnmanagedType.LPStr)] string path, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNParseExpression(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string expression, ulong* offset, ulong here, char** errorString);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3032,13 +3373,21 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNPluginDisable(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNPluginEnable(BNRepoPlugin* p);
+		public static extern unsafe bool BNPluginEnable(BNRepoPlugin* p, bool force);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNPluginGetApi(BNRepoPlugin* p);
+		public static extern unsafe char** BNPluginGetApis(BNRepoPlugin* p, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNPluginGetAuthor(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNPluginGetAuthorUrl(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNPluginGetCommit(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNPluginGetDescription(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNPluginGetInstallInstructions(BNRepoPlugin* p, [MarshalAs(UnmanagedType.LPStr)] string platform);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe ulong BNPluginGetLastUpdate(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNPluginGetLicense(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3046,29 +3395,53 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNPluginGetLongdescription(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNPluginGetMinimimVersions(BNRepoPlugin* p);
+		public static extern unsafe ulong BNPluginGetMinimimVersion(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNPluginGetName(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNPluginGetPackageUrl(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNPluginGetPath(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char** BNPluginGetPlatforms(BNRepoPlugin* p, ulong* count);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe PluginStatus BNPluginGetPluginStatus(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe PluginType* BNPluginGetPluginTypes(BNRepoPlugin* p, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe PluginUpdateStatus BNPluginGetPluginUpdateStatus(BNRepoPlugin* p);
+		public static extern unsafe char* BNPluginGetProjectData(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNPluginGetUrl(BNRepoPlugin* p);
+		public static extern unsafe char* BNPluginGetProjectUrl(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNPluginGetRepository(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNPluginGetVersion(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNPluginInstall(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNPluginIsBeingDeleted(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNPluginIsBeingUpdated(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNPluginIsDeletePending(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNPluginIsDisablePending(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNPluginIsEnabled(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNPluginIsInstalled(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNPluginSetEnabled(BNRepoPlugin* p, bool enabled);
+		public static extern unsafe bool BNPluginIsRunning(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNPluginIsUpdateAvailable(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNPluginIsUpdatePending(BNRepoPlugin* p);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNPluginUninstall(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNPluginUpdate(BNRepoPlugin* p);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNDisassemblyTextLine* BNPostProcessDisassemblyTextRendererLines(BNDisassemblyTextRenderer* renderer, ulong addr, ulong len, BNDisassemblyTextLine* inLines, ulong inCount, ulong* outCount);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNPrepareToCopyLowLevelILBasicBlock(BNLowLevelILFunction* func, BNBasicBlock* block);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3094,7 +3467,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNReadBE64(BNBinaryReader* stream, ulong* result);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNReadData(BNBinaryReader* stream, [MarshalAs(UnmanagedType.LPArray)] byte[] dest, ulong len);
+		public static extern unsafe bool BNReadData(BNBinaryReader* stream, [MarshalAs(UnmanagedType.LPVoid)] byte[] dest, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNReadLE16(BNBinaryReader* stream, ushort* result);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3104,7 +3477,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNReadViewBuffer(BNBinaryView* view, ulong offset, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNReadViewData(BNBinaryView* view, [MarshalAs(UnmanagedType.LPArray)] byte[] dest, ulong offset, ulong len);
+		public static extern unsafe ulong BNReadViewData(BNBinaryView* view, [MarshalAs(UnmanagedType.LPVoid)] byte[] dest, ulong offset, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNReanalyzeAllFunctions(BNBinaryView* view);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3132,7 +3505,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDownloadProvider* BNRegisterDownloadProvider([MarshalAs(UnmanagedType.LPStr)] string name, _BNDownloadProviderCallbacks* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterForPluginLoading([MarshalAs(UnmanagedType.LPStr)] string pluginApiName, [MarshalAs(UnmanagedType.FunctionPtr)] cbDelegate0 cb, [MarshalAs(UnmanagedType.LPArray)] byte[] ctx);
+		public static extern unsafe void BNRegisterForPluginLoading([MarshalAs(UnmanagedType.LPStr)] string pluginApiName, [MarshalAs(UnmanagedType.FunctionPtr)] cbDelegate0 cb, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctx);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterGenericDataRenderer(BNDataRendererContainer* container, BNDataRenderer* renderer);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3145,6 +3518,8 @@ namespace BinaryNinja
 		public static extern unsafe void BNRegisterMainThread(_BNMainThreadCallbacks* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterObjectDestructionCallbacks(_BNObjectDestructionCallbacks* callbacks);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void* BNRegisterObjectRefDebugTrace([MarshalAs(UnmanagedType.LPStr)] string typeName);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterPlatform([MarshalAs(UnmanagedType.LPStr)] string os, BNPlatform* platform);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3162,21 +3537,21 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterPlatformTypes(BNBinaryView* view, BNPlatform* platform);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommand([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommand([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForAddress([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForAddress([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate0 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate0 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate1 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate1 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate1 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate1 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForLowLevelILFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate2 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate2 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForLowLevelILFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate2 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate2 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForLowLevelILInstruction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate3 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate3 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForLowLevelILInstruction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate3 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate3 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate4 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate4 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILFunction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate4 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate4 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILInstruction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate5 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate5 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForMediumLevelILInstruction([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate5 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate5 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterPluginCommandForRange([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate6 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate6 isValid, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe void BNRegisterPluginCommandForRange([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPStr)] string description, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate6 action, [MarshalAs(UnmanagedType.FunctionPtr)] isValidDelegate6 isValid, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterScriptingInstanceOutputListener(BNScriptingInstance* instance, _BNScriptingOutputListener* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3186,7 +3561,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRegisterTypeSpecificDataRenderer(BNDataRendererContainer* container, BNDataRenderer* renderer);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNRegisterUndoActionType([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPArray)] byte[] typeContext, [MarshalAs(UnmanagedType.FunctionPtr)] deserializeDelegate0 deserialize);
+		public static extern unsafe void BNRegisterUndoActionType([MarshalAs(UnmanagedType.LPStr)] string name, [MarshalAs(UnmanagedType.LPVoid)] byte[] typeContext, [MarshalAs(UnmanagedType.FunctionPtr)] deserializeDelegate0 deserialize);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNReleaseAdvancedFunctionAnalysisData(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3212,6 +3587,12 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRemoveAnalysisFunction(BNBinaryView* view, BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveAutoAddressTag(BNFunction* func, BNArchitecture* arch, ulong addr, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveAutoDataTag(BNBinaryView* view, ulong addr, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveAutoFunctionTag(BNFunction* func, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRemoveAutoSection(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRemoveAutoSegment(BNBinaryView* view, ulong start, ulong length);
@@ -3220,7 +3601,23 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRemoveStructureMember(BNStructure* s, ulong idx);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveTag(BNBinaryView* view, BNTag* tag, bool user);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveTagReference(BNBinaryView* view, BNTagReference _ref);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveTagType(BNBinaryView* view, BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveUserAddressTag(BNFunction* func, BNArchitecture* arch, ulong addr, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveUserCodeReference(BNFunction* func, BNArchitecture* fromArch, ulong fromAddr, ulong toAddr);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveUserDataReference(BNBinaryView* view, ulong fromAddr, ulong toAddr);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveUserDataTag(BNBinaryView* view, ulong addr, BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRemoveUserFunction(BNBinaryView* view, BNFunction* func);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNRemoveUserFunctionTag(BNFunction* func, BNTag* tag);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRemoveUserSection(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3229,6 +3626,8 @@ namespace BinaryNinja
 		public static extern unsafe ulong BNRemoveViewData(BNBinaryView* view, ulong offset, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRenameAnalysisType(BNBinaryView* view, BNQualifiedName* oldName, BNQualifiedName* newName);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNRenameFile([MarshalAs(UnmanagedType.LPStr)] string source, [MarshalAs(UnmanagedType.LPStr)] string dest);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNReplaceEnumerationMember(BNEnumeration* e, ulong idx, [MarshalAs(UnmanagedType.LPStr)] string name, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3242,15 +3641,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRepositoryFreePluginDirectoryList(char** list, ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNRepositoryGetLocalReference(BNRepository* r);
-		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNRepoPlugin* BNRepositoryGetPluginByPath(BNRepository* r, [MarshalAs(UnmanagedType.LPStr)] string pluginPath);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNRepoPlugin** BNRepositoryGetPlugins(BNRepository* r, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNRepositoryGetPluginsPath(BNRepository* r);
-		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNRepositoryGetRemoteReference(BNRepository* r);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNRepositoryGetRepoPath(BNRepository* r);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3258,39 +3653,31 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe char* BNRepositoryGetUrl(BNRepository* r);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNRepositoryIsInitialized(BNRepository* r);
-		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNRepositoryManagerAddRepository(BNRepositoryManager* r, [MarshalAs(UnmanagedType.LPStr)] string url, [MarshalAs(UnmanagedType.LPStr)] string repoPath, [MarshalAs(UnmanagedType.LPStr)] string localReference, [MarshalAs(UnmanagedType.LPStr)] string remoteReference);
+		public static extern unsafe bool BNRepositoryManagerAddRepository(BNRepositoryManager* r, [MarshalAs(UnmanagedType.LPStr)] string url, [MarshalAs(UnmanagedType.LPStr)] string repoPath);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNRepositoryManagerCheckForUpdates(BNRepositoryManager* r);
-		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNRepositoryManagerDisablePlugin(BNRepositoryManager* r, [MarshalAs(UnmanagedType.LPStr)] string repoName, [MarshalAs(UnmanagedType.LPStr)] string pluginPath);
-		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNRepositoryManagerEnablePlugin(BNRepositoryManager* r, [MarshalAs(UnmanagedType.LPStr)] string repoName, [MarshalAs(UnmanagedType.LPStr)] string pluginPath);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNRepository* BNRepositoryManagerGetDefaultRepository(BNRepositoryManager* r);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNRepository** BNRepositoryManagerGetRepositories(BNRepositoryManager* r, ulong* count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNRepositoryManagerInstallPlugin(BNRepositoryManager* r, [MarshalAs(UnmanagedType.LPStr)] string repoName, [MarshalAs(UnmanagedType.LPStr)] string pluginPath);
-		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNRepositoryManagerUninstallPlugin(BNRepositoryManager* r, [MarshalAs(UnmanagedType.LPStr)] string repoName, [MarshalAs(UnmanagedType.LPStr)] string pluginPath);
-		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNRepositoryManagerUpdatePlugin(BNRepositoryManager* r, [MarshalAs(UnmanagedType.LPStr)] string repoName, [MarshalAs(UnmanagedType.LPStr)] string pluginPath);
-		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRequestAdvancedFunctionAnalysisData(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNRequestFunctionDebugReport(BNFunction* func, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNResetDisassemblyTextRendererDeduplicatedComments(BNDisassemblyTextRenderer* renderer);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNSaveAutoSnapshot(BNBinaryView* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSaveAutoSnapshotWithProgress(BNBinaryView* data, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
+		public static extern unsafe bool BNSaveAutoSnapshotWithProgress(BNBinaryView* data, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate0 progress);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSaveLastRun();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNSaveToFile(BNBinaryView* view, _BNFileAccessor* file);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNSaveToFilename(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string filename);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNScriptingInstanceCompleteInput(BNScriptingInstance* instance, [MarshalAs(UnmanagedType.LPStr)] string text, ulong state);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNSectionGetAlign(BNSection* section);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3354,7 +3741,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSegmentSetLength(BNSegment* segment, ulong length);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNSerializeSettings([MarshalAs(UnmanagedType.LPStr)] string registry, BNBinaryView* view, SettingsScope scope);
+		public static extern unsafe char* BNSerializeSettings(BNSettings* settings, BNBinaryView* view, SettingsScope scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetActiveUpdateChannel([MarshalAs(UnmanagedType.LPStr)] string channel);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3414,7 +3801,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetDataBufferByte(BNDataBuffer* buf, ulong offset, byte val);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNSetDataBufferContents(BNDataBuffer* buf, [MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
+		public static extern unsafe void BNSetDataBufferContents(BNDataBuffer* buf, [MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetDataBufferLength(BNDataBuffer* buf, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3425,6 +3812,12 @@ namespace BinaryNinja
 		public static extern unsafe void BNSetDisassemblyMaximumSymbolWidth(BNDisassemblySettings* settings, ulong width);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetDisassemblySettingsOption(BNDisassemblySettings* settings, DisassemblyOption option, bool state);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetDisassemblyTextRendererArchitecture(BNDisassemblyTextRenderer* renderer, BNArchitecture* arch);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetDisassemblyTextRendererBasicBlock(BNDisassemblyTextRenderer* renderer, BNBasicBlock* block);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetDisassemblyTextRendererSettings(BNDisassemblyTextRenderer* renderer, BNDisassemblySettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetDisassemblyWidth(BNDisassemblySettings* settings, ulong width);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3446,6 +3839,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetFlowGraphNodeMargins(BNFlowGraph* graph, int horiz, int vert);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetFlowGraphOption(BNFlowGraph* graph, FlowGraphOption option, bool value);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetFunctionAnalysisSkipOverride(BNFunction* func, FunctionAnalysisSkipOverride skip);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetFunctionAutoType(BNFunction* func, BNType* type);
@@ -3458,7 +3853,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetFunctionUserType(BNFunction* func, BNType* type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetGlobalCommentForAddress(BNBinaryView* view, ulong addr, [MarshalAs(UnmanagedType.LPStr)] string comment);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetIntegerConstantDisplayType(BNFunction* func, BNArchitecture* arch, ulong instrAddr, ulong value, ulong operand, IntegerDisplayType type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetLicense([MarshalAs(UnmanagedType.LPStr)] string licenseData);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetMaxFunctionSizeForAnalysis(BNBinaryView* view, ulong size);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3480,6 +3879,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetScriptingInstanceCurrentSelection(BNScriptingInstance* instance, ulong begin, ulong end);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetScriptingInstanceDelimiters(BNScriptingInstance* instance, [MarshalAs(UnmanagedType.LPStr)] string delimiters);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetStructureAlignment(BNStructure* s, ulong align);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetStructurePacked(BNStructure* s, bool packed);
@@ -3487,6 +3888,12 @@ namespace BinaryNinja
 		public static extern unsafe void BNSetStructureType(BNStructure* s, StructureType type);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetStructureWidth(BNStructure* s, ulong width);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetTypeLibraryDependencyName(BNTypeLibrary* lib, [MarshalAs(UnmanagedType.LPStr)] string name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetTypeLibraryGuid(BNTypeLibrary* lib, [MarshalAs(UnmanagedType.LPStr)] string name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetTypeLibraryName(BNTypeLibrary* lib, [MarshalAs(UnmanagedType.LPStr)] string name);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetTypeReferenceClass(BNNamedTypeReference* nt, NamedTypeReferenceClass cls);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3524,55 +3931,75 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetUserInstructionHighlight(BNFunction* func, BNArchitecture* arch, ulong addr, BNHighlightColor color);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNSetViewForFlowGraph(BNFlowGraph* graph, BNBinaryView* view);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNSetWorkerThreadCount(ulong count);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsGetBool([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, BNBinaryView* view, SettingsScope* scope);
+		public static extern unsafe bool BNSettingsContains(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe double BNSettingsGetDouble([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, BNBinaryView* view, SettingsScope* scope);
+		public static extern unsafe bool BNSettingsCopyValuesFrom(BNSettings* settings, BNSettings* source, SettingsScope scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe long BNSettingsGetInt64([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, BNBinaryView* view, SettingsScope* scope);
+		public static extern unsafe bool BNSettingsDeserializeSchema(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string schema, SettingsScope scope, bool merge);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNSettingsGetSchema([MarshalAs(UnmanagedType.LPStr)] string registry);
+		public static extern unsafe bool BNSettingsGetBool(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, BNBinaryView* view, SettingsScope* scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char* BNSettingsGetString([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, BNBinaryView* view, SettingsScope* scope);
+		public static extern unsafe double BNSettingsGetDouble(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, BNBinaryView* view, SettingsScope* scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe char** BNSettingsGetStringList([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, BNBinaryView* view, SettingsScope* scope, ulong* inoutSize);
+		public static extern unsafe long BNSettingsGetInt64(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, BNBinaryView* view, SettingsScope* scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNSettingsGetUInt64([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, BNBinaryView* view, SettingsScope* scope);
+		public static extern unsafe char* BNSettingsGetJson(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, BNBinaryView* view, SettingsScope* scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsRegisterGroup([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string group, [MarshalAs(UnmanagedType.LPStr)] string title);
+		public static extern unsafe char* BNSettingsGetString(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, BNBinaryView* view, SettingsScope* scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsRegisterSetting([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string properties);
+		public static extern unsafe char** BNSettingsGetStringList(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, BNBinaryView* view, SettingsScope* scope, ulong* inoutSize);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsReset([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, BNBinaryView* view, SettingsScope scope);
+		public static extern unsafe ulong BNSettingsGetUInt64(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, BNBinaryView* view, SettingsScope* scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsResetAll([MarshalAs(UnmanagedType.LPStr)] string registry, BNBinaryView* view, SettingsScope scope);
+		public static extern unsafe bool BNSettingsIsEmpty(BNSettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsSetBool([MarshalAs(UnmanagedType.LPStr)] string registry, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string id, bool value);
+		public static extern unsafe char** BNSettingsKeysList(BNSettings* settings, ulong* inoutSize);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsSetDouble([MarshalAs(UnmanagedType.LPStr)] string registry, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string id, double value);
+		public static extern unsafe char** BNSettingsQueryPropertyStringList(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string property, ulong* inoutSize);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsSetInt64([MarshalAs(UnmanagedType.LPStr)] string registry, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string id, long value);
+		public static extern unsafe bool BNSettingsRegisterGroup(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string group, [MarshalAs(UnmanagedType.LPStr)] string title);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsSetString([MarshalAs(UnmanagedType.LPStr)] string registry, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string value);
+		public static extern unsafe bool BNSettingsRegisterSetting(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string properties);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsSetStringList([MarshalAs(UnmanagedType.LPStr)] string registry, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string id, char** value, ulong size);
+		public static extern unsafe bool BNSettingsReset(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, BNBinaryView* view, SettingsScope scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsSetUInt64([MarshalAs(UnmanagedType.LPStr)] string registry, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string id, ulong value);
+		public static extern unsafe bool BNSettingsResetAll(BNSettings* settings, BNBinaryView* view, SettingsScope scope);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsUpdateBoolProperty([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string property, bool value);
+		public static extern unsafe char* BNSettingsSerializeSchema(BNSettings* settings);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsUpdateDoubleProperty([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string property, double value);
+		public static extern unsafe bool BNSettingsSetBool(BNSettings* settings, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string key, bool value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsUpdateInt64Property([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string property, long value);
+		public static extern unsafe bool BNSettingsSetDouble(BNSettings* settings, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string key, double value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsUpdateProperty([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string property);
+		public static extern unsafe bool BNSettingsSetInt64(BNSettings* settings, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string key, long value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsUpdateStringListProperty([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string property, char** value, ulong size);
+		public static extern unsafe bool BNSettingsSetJson(BNSettings* settings, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsUpdateStringProperty([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string property, [MarshalAs(UnmanagedType.LPStr)] string value);
+		public static extern unsafe void BNSettingsSetResourceId(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string resourceId);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNSettingsUpdateUInt64Property([MarshalAs(UnmanagedType.LPStr)] string registry, [MarshalAs(UnmanagedType.LPStr)] string id, [MarshalAs(UnmanagedType.LPStr)] string property, ulong value);
+		public static extern unsafe bool BNSettingsSetString(BNSettings* settings, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string value);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsSetStringList(BNSettings* settings, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string key, char** value, ulong size);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsSetUInt64(BNSettings* settings, BNBinaryView* view, SettingsScope scope, [MarshalAs(UnmanagedType.LPStr)] string key, ulong value);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsUpdateBoolProperty(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string property, bool value);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsUpdateDoubleProperty(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string property, double value);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsUpdateInt64Property(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string property, long value);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsUpdateProperty(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string property);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsUpdateStringListProperty(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string property, char** value, ulong size);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsUpdateStringProperty(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string property, [MarshalAs(UnmanagedType.LPStr)] string value);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNSettingsUpdateUInt64Property(BNSettings* settings, [MarshalAs(UnmanagedType.LPStr)] string key, [MarshalAs(UnmanagedType.LPStr)] string property, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNShowGraphReport(BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, BNFlowGraph* graph);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3590,7 +4017,31 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNSkipAndReturnValue(BNBinaryView* view, BNArchitecture* arch, ulong addr, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe BNFlowGraphLayoutRequest* BNStartFlowGraphLayout(BNFlowGraph* graph, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
+		public static extern unsafe BNFlowGraphLayoutRequest* BNStartFlowGraphLayout(BNFlowGraph* graph, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] funcDelegate0 func);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNTagGetData(BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNTagType* BNTagGetType(BNTag* tag);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNTagSetData(BNTag* tag, [MarshalAs(UnmanagedType.LPStr)] string data);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNTagTypeGetIcon(BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe char* BNTagTypeGetName(BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe TagTypeType BNTagTypeGetType(BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNBinaryView* BNTagTypeGetView(BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe bool BNTagTypeGetVisible(BNTagType* tagType);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNTagTypeSetIcon(BNTagType* tagType, [MarshalAs(UnmanagedType.LPStr)] string icon);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNTagTypeSetName(BNTagType* tagType, [MarshalAs(UnmanagedType.LPStr)] string name);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNTagTypeSetType(BNTagType* tagType, TagTypeType type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNTagTypeSetVisible(BNTagType* tagType, bool visible);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNToVariableIdentifier(BNVariable* var);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3603,6 +4054,12 @@ namespace BinaryNinja
 		public static extern unsafe BNQualifiedName BNTypeGetTypeName(BNType* nt);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNBoolWithConfidence BNTypeHasVariableArguments(BNType* type);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe BNMetadata* BNTypeLibraryQueryMetadata(BNTypeLibrary* lib, [MarshalAs(UnmanagedType.LPStr)] string key);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNTypeLibraryRemoveMetadata(BNTypeLibrary* lib, [MarshalAs(UnmanagedType.LPStr)] string key);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNTypeLibraryStoreMetadata(BNTypeLibrary* lib, [MarshalAs(UnmanagedType.LPStr)] string key, BNMetadata* value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNTypeSetConst(BNType* type, BNBoolWithConfidence* cnst);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3638,6 +4095,8 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUnregisterObjectDestructionCallbacks(_BNObjectDestructionCallbacks* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNUnregisterObjectRefDebugTrace([MarshalAs(UnmanagedType.LPStr)] string typeName, [MarshalAs(UnmanagedType.LPVoid)] byte[] trace);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUnregisterScriptingInstanceOutputListener(BNScriptingInstance* instance, _BNScriptingOutputListener* callbacks);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUpdateAnalysis(BNBinaryView* view);
@@ -3652,9 +4111,9 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUpdateMediumLevelILOperand(BNMediumLevelILFunction* func, ulong instr, ulong operandIndex, ulong value);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe UpdateResult BNUpdateToLatestVersion([MarshalAs(UnmanagedType.LPStr)] string channel, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe UpdateResult BNUpdateToLatestVersion([MarshalAs(UnmanagedType.LPStr)] string channel, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe UpdateResult BNUpdateToVersion([MarshalAs(UnmanagedType.LPStr)] string channel, [MarshalAs(UnmanagedType.LPStr)] string version, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, [MarshalAs(UnmanagedType.LPArray)] byte[] context);
+		public static extern unsafe UpdateResult BNUpdateToVersion([MarshalAs(UnmanagedType.LPStr)] string channel, [MarshalAs(UnmanagedType.LPStr)] string version, char** errors, [MarshalAs(UnmanagedType.FunctionPtr)] progressDelegate1 progress, [MarshalAs(UnmanagedType.LPVoid)] byte[] context);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe void BNUpdatesChecked();
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3662,11 +4121,11 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWasFunctionAutomaticallyDiscovered(BNFunction* func);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerEnqueue([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate7 action);
+		public static extern unsafe void BNWorkerEnqueue([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate7 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerInteractiveEnqueue([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
+		public static extern unsafe void BNWorkerInteractiveEnqueue([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe void BNWorkerPriorityEnqueue([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
+		public static extern unsafe void BNWorkerPriorityEnqueue([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.FunctionPtr)] actionDelegate8 action);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWrite16(BNBinaryWriter* stream, ushort val);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3682,7 +4141,7 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWriteBE64(BNBinaryWriter* stream, ulong val);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe bool BNWriteData(BNBinaryWriter* stream, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
+		public static extern unsafe bool BNWriteData(BNBinaryWriter* stream, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNWriteDataForDownloadInstance(BNDownloadInstance* instance, byte* data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
@@ -3692,227 +4151,245 @@ namespace BinaryNinja
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe bool BNWriteLE64(BNBinaryWriter* stream, ulong val);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
+		public static extern unsafe void BNWriteTypeLibraryToFile(BNTypeLibrary* lib, [MarshalAs(UnmanagedType.LPStr)] string path);
+		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe ulong BNWriteViewBuffer(BNBinaryView* view, ulong offset, BNDataBuffer* data);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
-		public static extern unsafe ulong BNWriteViewData(BNBinaryView* view, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] data, ulong len);
+		public static extern unsafe ulong BNWriteViewData(BNBinaryView* view, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] data, ulong len);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNZlibCompress(BNDataBuffer* buf);
 		[DllImport("C:\\Program Files\\Vector35\\BinaryNinja\\binaryninjacore.dll")]
 		public static extern unsafe BNDataBuffer* BNZlibDecompress(BNDataBuffer* buf);
 		// Delegate definitions
-		public unsafe delegate void BNBinaryDataNotification_dataWrittenDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_dataInsertedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_dataRemovedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_functionAddedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionRemovedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionUpdatedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_functionUpdateRequestedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableAddedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableRemovedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_dataVariableUpdatedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
-		public unsafe delegate void BNBinaryDataNotification_stringFoundDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_stringRemovedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
-		public unsafe delegate void BNBinaryDataNotification_typeDefinedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
-		public unsafe delegate void BNBinaryDataNotification_typeUndefinedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
-		public unsafe delegate void BNCustomArchitecture_initDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] context, BNArchitecture* obj);
-		public unsafe delegate Endianness BNCustomArchitecture_getEndiannessDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getAddressSizeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getDefaultIntegerSizeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getInstructionAlignmentDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getMaxInstructionLengthDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomArchitecture_getOpcodeDisplayLengthDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate BNArchitecture* BNCustomArchitecture_getAssociatedArchitectureByAddressDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* addr);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionInfoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong maxLen, _BNInstructionInfo* result);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionTextDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong* len, BNInstructionTextToken** result, ulong* count);
+		public unsafe delegate void BNBinaryDataNotification_dataWrittenDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_dataInsertedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_dataRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_functionAddedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionUpdatedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_functionUpdateRequestedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableAddedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_dataVariableUpdatedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNDataVariable* var);
+		public unsafe delegate void BNBinaryDataNotification_dataMetadataUpdatedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong offset);
+		public unsafe delegate void BNBinaryDataNotification_tagTypeUpdatedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNTagType* tagType);
+		public unsafe delegate void BNBinaryDataNotification_tagAddedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNTagReference* tagRef);
+		public unsafe delegate void BNBinaryDataNotification_tagUpdatedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNTagReference* tagRef);
+		public unsafe delegate void BNBinaryDataNotification_tagRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNTagReference* tagRef);
+		public unsafe delegate void BNBinaryDataNotification_symbolAddedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNSymbol* sym);
+		public unsafe delegate void BNBinaryDataNotification_symbolUpdatedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNSymbol* sym);
+		public unsafe delegate void BNBinaryDataNotification_symbolRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNSymbol* sym);
+		public unsafe delegate void BNBinaryDataNotification_stringFoundDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_stringRemovedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, StringType type, ulong offset, ulong len);
+		public unsafe delegate void BNBinaryDataNotification_typeDefinedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
+		public unsafe delegate void BNBinaryDataNotification_typeUndefinedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNQualifiedName* name, BNType* type);
+		public unsafe delegate void BNCustomArchitecture_initDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] context, BNArchitecture* obj);
+		public unsafe delegate Endianness BNCustomArchitecture_getEndiannessDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getAddressSizeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getDefaultIntegerSizeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getInstructionAlignmentDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getMaxInstructionLengthDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomArchitecture_getOpcodeDisplayLengthDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate BNArchitecture* BNCustomArchitecture_getAssociatedArchitectureByAddressDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* addr);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionInfoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong maxLen, _BNInstructionInfo* result);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionTextDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong* len, BNInstructionTextToken** result, ulong* count);
 		public unsafe delegate void BNCustomArchitecture_freeInstructionTextDelegate(BNInstructionTextToken* tokens, ulong count);
-		public unsafe delegate bool BNCustomArchitecture_getInstructionLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong* len, BNLowLevelILFunction* il);
-		public unsafe delegate char* BNCustomArchitecture_getRegisterNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint reg);
-		public unsafe delegate char* BNCustomArchitecture_getFlagNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint flag);
-		public unsafe delegate char* BNCustomArchitecture_getFlagWriteTypeNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint flags);
-		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagClassNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semClass);
-		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagGroupNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semGroup);
-		public unsafe delegate uint* BNCustomArchitecture_getFullWidthRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllFlagsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllFlagWriteTypesDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagClassesDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagGroupsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate FlagRole BNCustomArchitecture_getFlagRoleDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint flag, uint semClass);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForFlagConditionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, LowLevelILFlagCondition cond, uint semClass, ulong* count);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semGroup, ulong* count);
-		public unsafe delegate BNFlagConditionForSemanticClass* BNCustomArchitecture_getFlagConditionsForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semGroup, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeFlagConditionsForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFlagConditionForSemanticClass* conditions);
-		public unsafe delegate uint* BNCustomArchitecture_getFlagsWrittenByFlagWriteTypeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint writeType, ulong* count);
-		public unsafe delegate uint BNCustomArchitecture_getSemanticClassForFlagWriteTypeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint writeType);
-		public unsafe delegate ulong BNCustomArchitecture_getFlagWriteLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, LowLevelILOperation op, ulong size, uint flagWriteType, uint flag, BNRegisterOrConstant* operands, ulong operandCount, BNLowLevelILFunction* il);
-		public unsafe delegate ulong BNCustomArchitecture_getFlagConditionLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, LowLevelILFlagCondition cond, uint semClass, BNLowLevelILFunction* il);
-		public unsafe delegate ulong BNCustomArchitecture_getSemanticFlagGroupLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint semGroup, BNLowLevelILFunction* il);
-		public unsafe delegate void BNCustomArchitecture_freeRegisterListDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint* regs);
-		public unsafe delegate void BNCustomArchitecture_getRegisterInfoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint reg, BNRegisterInfo* result);
-		public unsafe delegate uint BNCustomArchitecture_getStackPointerRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate uint BNCustomArchitecture_getLinkRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate uint* BNCustomArchitecture_getGlobalRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate char* BNCustomArchitecture_getRegisterStackNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint regStack);
-		public unsafe delegate uint* BNCustomArchitecture_getAllRegisterStacksDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_getRegisterStackInfoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint regStack, BNRegisterStackInfo* result);
-		public unsafe delegate char* BNCustomArchitecture_getIntrinsicNameDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint intrinsic);
-		public unsafe delegate uint* BNCustomArchitecture_getAllIntrinsicsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate BNNameAndType* BNCustomArchitecture_getIntrinsicInputsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint intrinsic, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeNameAndTypeListDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNNameAndType* nt, ulong count);
-		public unsafe delegate BNTypeWithConfidence* BNCustomArchitecture_getIntrinsicOutputsDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint intrinsic, ulong* count);
-		public unsafe delegate void BNCustomArchitecture_freeTypeListDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNTypeWithConfidence* types, ulong count);
-		public unsafe delegate bool BNCustomArchitecture_assembleDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string code, ulong addr, BNDataBuffer* result, char** errors);
-		public unsafe delegate bool BNCustomArchitecture_isNeverBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isAlwaysBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isInvertBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnZeroPatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnValuePatchAvailableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_convertToNopDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_alwaysBranchDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_invertBranchDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len);
-		public unsafe delegate bool BNCustomArchitecture_skipAndReturnValueDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong len, ulong value);
-		public unsafe delegate bool BNCustomBinaryView_initDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void BNCustomBinaryView_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_readDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPArray)] byte[] dest, ulong offset, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_writeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_insertDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
-		public unsafe delegate ulong BNCustomBinaryView_removeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset, ulong len);
-		public unsafe delegate ModificationStatus BNCustomBinaryView_getModificationDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isValidOffsetDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetReadableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetWritableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetExecutableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
-		public unsafe delegate bool BNCustomBinaryView_isOffsetBackedByFileDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
-		public unsafe delegate ulong BNCustomBinaryView_getNextValidOffsetDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset);
-		public unsafe delegate ulong BNCustomBinaryView_getStartDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getLengthDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getEntryPointDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNCustomBinaryView_isExecutableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate Endianness BNCustomBinaryView_getDefaultEndiannessDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNCustomBinaryView_isRelocatableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNCustomBinaryView_getAddressSizeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNCustomBinaryView_saveDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, _BNFileAccessor* accessor);
-		public unsafe delegate BNBinaryView* BNCustomBinaryViewType_createDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data);
-		public unsafe delegate bool BNCustomBinaryViewType_isValidForDataDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data);
-		public unsafe delegate void BNCustomCallingConvention_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate uint* BNCustomCallingConvention_getCallerSavedRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getCalleeSavedRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getIntegerArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate uint* BNCustomCallingConvention_getFloatArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate void BNCustomCallingConvention_freeRegisterListDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint* regs);
-		public unsafe delegate bool BNCustomCallingConvention_areArgumentRegistersSharedIndexDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNCustomCallingConvention_isStackReservedForArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNCustomCallingConvention_isStackAdjustedOnReturnDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getIntegerReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getHighIntegerReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getFloatReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate uint BNCustomCallingConvention_getGlobalPointerRegisterDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate uint* BNCustomCallingConvention_getImplicitlyDefinedRegistersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingRegisterValueDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint reg, BNFunction* func, BNRegisterValue* result);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingFlagValueDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, uint flag, BNFunction* func, BNRegisterValue* result);
-		public unsafe delegate void BNCustomCallingConvention_getIncomingVariableForParameterVariableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
-		public unsafe delegate void BNCustomCallingConvention_getParameterVariableForIncomingVariableDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
-		public unsafe delegate void BNCustomDataRenderer_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNCustomDataRenderer_isValidForDataDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
-		public unsafe delegate BNDisassemblyTextLine* BNCustomDataRenderer_getLinesForDataDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
-		public unsafe delegate void BNCustomFlowGraph_prepareForLayoutDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void BNCustomFlowGraph_populateNodesDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void BNCustomFlowGraph_completeLayoutDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate BNFlowGraph* BNCustomFlowGraph_updateDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void BNCustomRelocationHandler_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNCustomRelocationHandler_getRelocationInfoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNArchitecture* arch, _BNRelocationInfo* result, ulong resultCount);
-		public unsafe delegate bool BNCustomRelocationHandler_applyRelocationDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNArchitecture* arch, BNRelocation* reloc, byte* dest, ulong len);
-		public unsafe delegate ulong BNCustomRelocationHandler_getOperandForExternalRelocationDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, byte* data, ulong addr, ulong length, BNLowLevelILFunction* il, BNRelocation* relocation);
-		public unsafe delegate BNTransformParameterInfo* BNCustomTransform_getParametersDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* count);
+		public unsafe delegate bool BNCustomArchitecture_getInstructionLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong* len, BNLowLevelILFunction* il);
+		public unsafe delegate char* BNCustomArchitecture_getRegisterNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint reg);
+		public unsafe delegate char* BNCustomArchitecture_getFlagNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint flag);
+		public unsafe delegate char* BNCustomArchitecture_getFlagWriteTypeNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint flags);
+		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagClassNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semClass);
+		public unsafe delegate char* BNCustomArchitecture_getSemanticFlagGroupNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semGroup);
+		public unsafe delegate uint* BNCustomArchitecture_getFullWidthRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllFlagsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllFlagWriteTypesDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagClassesDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getAllSemanticFlagGroupsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate FlagRole BNCustomArchitecture_getFlagRoleDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint flag, uint semClass);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForFlagConditionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, LowLevelILFlagCondition cond, uint semClass, ulong* count);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsRequiredForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semGroup, ulong* count);
+		public unsafe delegate BNFlagConditionForSemanticClass* BNCustomArchitecture_getFlagConditionsForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semGroup, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeFlagConditionsForSemanticFlagGroupDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFlagConditionForSemanticClass* conditions);
+		public unsafe delegate uint* BNCustomArchitecture_getFlagsWrittenByFlagWriteTypeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint writeType, ulong* count);
+		public unsafe delegate uint BNCustomArchitecture_getSemanticClassForFlagWriteTypeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint writeType);
+		public unsafe delegate ulong BNCustomArchitecture_getFlagWriteLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, LowLevelILOperation op, ulong size, uint flagWriteType, uint flag, BNRegisterOrConstant* operands, ulong operandCount, BNLowLevelILFunction* il);
+		public unsafe delegate ulong BNCustomArchitecture_getFlagConditionLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, LowLevelILFlagCondition cond, uint semClass, BNLowLevelILFunction* il);
+		public unsafe delegate ulong BNCustomArchitecture_getSemanticFlagGroupLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint semGroup, BNLowLevelILFunction* il);
+		public unsafe delegate void BNCustomArchitecture_freeRegisterListDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint* regs);
+		public unsafe delegate void BNCustomArchitecture_getRegisterInfoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint reg, BNRegisterInfo* result);
+		public unsafe delegate uint BNCustomArchitecture_getStackPointerRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate uint BNCustomArchitecture_getLinkRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate uint* BNCustomArchitecture_getGlobalRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate char* BNCustomArchitecture_getRegisterStackNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint regStack);
+		public unsafe delegate uint* BNCustomArchitecture_getAllRegisterStacksDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_getRegisterStackInfoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint regStack, BNRegisterStackInfo* result);
+		public unsafe delegate char* BNCustomArchitecture_getIntrinsicNameDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint intrinsic);
+		public unsafe delegate uint* BNCustomArchitecture_getAllIntrinsicsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate BNNameAndType* BNCustomArchitecture_getIntrinsicInputsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint intrinsic, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeNameAndTypeListDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNNameAndType* nt, ulong count);
+		public unsafe delegate BNTypeWithConfidence* BNCustomArchitecture_getIntrinsicOutputsDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint intrinsic, ulong* count);
+		public unsafe delegate void BNCustomArchitecture_freeTypeListDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNTypeWithConfidence* types, ulong count);
+		public unsafe delegate bool BNCustomArchitecture_assembleDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string code, ulong addr, BNDataBuffer* result, char** errors);
+		public unsafe delegate bool BNCustomArchitecture_isNeverBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isAlwaysBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isInvertBranchPatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnZeroPatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_isSkipAndReturnValuePatchAvailableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_convertToNopDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_alwaysBranchDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_invertBranchDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len);
+		public unsafe delegate bool BNCustomArchitecture_skipAndReturnValueDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong len, ulong value);
+		public unsafe delegate bool BNCustomBinaryView_initDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomBinaryView_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomBinaryView_externalRefTakenDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomBinaryView_externalRefReleasedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_readDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPVoid)] byte[] dest, ulong offset, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_writeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_insertDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
+		public unsafe delegate ulong BNCustomBinaryView_removeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset, ulong len);
+		public unsafe delegate ModificationStatus BNCustomBinaryView_getModificationDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isValidOffsetDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetReadableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetWritableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetExecutableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
+		public unsafe delegate bool BNCustomBinaryView_isOffsetBackedByFileDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
+		public unsafe delegate ulong BNCustomBinaryView_getNextValidOffsetDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset);
+		public unsafe delegate ulong BNCustomBinaryView_getStartDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getLengthDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getEntryPointDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNCustomBinaryView_isExecutableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate Endianness BNCustomBinaryView_getDefaultEndiannessDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNCustomBinaryView_isRelocatableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNCustomBinaryView_getAddressSizeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNCustomBinaryView_saveDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, _BNFileAccessor* accessor);
+		public unsafe delegate BNBinaryView* BNCustomBinaryViewType_createDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate bool BNCustomBinaryViewType_isValidForDataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate BNSettings* BNCustomBinaryViewType_getLoadSettingsForDataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate void BNCustomCallingConvention_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate uint* BNCustomCallingConvention_getCallerSavedRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getCalleeSavedRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getIntegerArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate uint* BNCustomCallingConvention_getFloatArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate void BNCustomCallingConvention_freeRegisterListDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint* regs);
+		public unsafe delegate bool BNCustomCallingConvention_areArgumentRegistersSharedIndexDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNCustomCallingConvention_isStackReservedForArgumentRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNCustomCallingConvention_isStackAdjustedOnReturnDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getIntegerReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getHighIntegerReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getFloatReturnValueRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate uint BNCustomCallingConvention_getGlobalPointerRegisterDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate uint* BNCustomCallingConvention_getImplicitlyDefinedRegistersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingRegisterValueDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint reg, BNFunction* func, BNRegisterValue* result);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingFlagValueDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, uint flag, BNFunction* func, BNRegisterValue* result);
+		public unsafe delegate void BNCustomCallingConvention_getIncomingVariableForParameterVariableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
+		public unsafe delegate void BNCustomCallingConvention_getParameterVariableForIncomingVariableDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNVariable* var, BNFunction* func, BNVariable* result);
+		public unsafe delegate void BNCustomDataRenderer_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNCustomDataRenderer_isValidForDataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNType** typeCtx, ulong ctxCount);
+		public unsafe delegate BNDisassemblyTextLine* BNCustomDataRenderer_getLinesForDataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, BNType* type, BNInstructionTextToken* prefix, ulong prefixCount, ulong width, ulong* count, BNType** typeCtx, ulong ctxCount);
+		public unsafe delegate void BNCustomFlowGraph_prepareForLayoutDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomFlowGraph_populateNodesDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomFlowGraph_completeLayoutDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate BNFlowGraph* BNCustomFlowGraph_updateDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomFlowGraph_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomFlowGraph_externalRefTakenDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomFlowGraph_externalRefReleasedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNCustomRelocationHandler_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNCustomRelocationHandler_getRelocationInfoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNArchitecture* arch, _BNRelocationInfo* result, ulong resultCount);
+		public unsafe delegate bool BNCustomRelocationHandler_applyRelocationDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNArchitecture* arch, BNRelocation* reloc, byte* dest, ulong len);
+		public unsafe delegate ulong BNCustomRelocationHandler_getOperandForExternalRelocationDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, byte* data, ulong addr, ulong length, BNLowLevelILFunction* il, BNRelocation* relocation);
+		public unsafe delegate BNTransformParameterInfo* BNCustomTransform_getParametersDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* count);
 		public unsafe delegate void BNCustomTransform_freeParametersDelegate(BNTransformParameterInfo* _params, ulong count);
-		public unsafe delegate bool BNCustomTransform_decodeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
-		public unsafe delegate bool BNCustomTransform_encodeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
-		public unsafe delegate void BNDownloadInstanceCallbacks_destroyInstanceDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate int BNDownloadInstanceCallbacks_performRequestDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string url);
-		public unsafe delegate ulong BNDownloadInstanceOutputCallbacks_writeCallbackDelegate(byte* data, ulong len, [MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNDownloadInstanceOutputCallbacks_progressCallbackDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong progress, ulong total);
-		public unsafe delegate BNDownloadInstance* BNDownloadProviderCallbacks_createInstanceDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNFileAccessor_getLengthDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNFileAccessor_readDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPArray)] byte[] dest, ulong offset, ulong len);
-		public unsafe delegate ulong BNFileAccessor_writeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPArray)] byte[] src, ulong len);
-		public unsafe delegate bool BNFunctionRecognizer_recognizeLowLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data, BNFunction* func, BNLowLevelILFunction* il);
-		public unsafe delegate bool BNFunctionRecognizer_recognizeMediumLevelILDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data, BNFunction* func, BNMediumLevelILFunction* il);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showPlainTextReportDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showMarkdownReportDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents, [MarshalAs(UnmanagedType.LPStr)] string plaintext);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showHTMLReportDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents, [MarshalAs(UnmanagedType.LPStr)] string plaintext);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showGraphReportDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, BNFlowGraph* graph);
-		public unsafe delegate void BNInteractionHandlerCallbacks_showReportCollectionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string title, BNReportCollection* reports);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getTextLineInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getIntegerInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, long* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getAddressInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, BNBinaryView* view, ulong currentAddr);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getChoiceInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, char** choices, ulong count);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getOpenFileNameInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getSaveFileNameInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getDirectoryNameInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
-		public unsafe delegate bool BNInteractionHandlerCallbacks_getFormInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFormInputField* fields, ulong count, [MarshalAs(UnmanagedType.LPStr)] string title);
-		public unsafe delegate MessageBoxButtonResult BNInteractionHandlerCallbacks_showMessageBoxDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string text, MessageBoxButtonSet buttons, MessageBoxIcon icon);
-		public unsafe delegate void BNLogListener_logDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, LogLevel level, [MarshalAs(UnmanagedType.LPStr)] string msg);
-		public unsafe delegate void BNLogListener_closeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate LogLevel BNLogListener_getLogLevelDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void BNMainThreadCallbacks_addActionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNMainThreadAction* action);
-		public unsafe delegate char* BNNavigationHandler_getCurrentViewDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ulong BNNavigationHandler_getCurrentOffsetDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool BNNavigationHandler_navigateDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string view, ulong offset);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructBinaryViewDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructFileMetadataDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFileMetadata* file);
-		public unsafe delegate void BNObjectDestructionCallbacks_destructFunctionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFunction* func);
-		public unsafe delegate void BNScriptingInstanceCallbacks_destroyInstanceDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate ScriptingProviderExecuteResult BNScriptingInstanceCallbacks_executeScriptInputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string input);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBinaryViewDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentFunctionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNFunction* func);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBasicBlockDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBasicBlock* block);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentAddressDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong addr);
-		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentSelectionDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong begin, ulong end);
-		public unsafe delegate void BNScriptingOutputListener_outputDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text);
-		public unsafe delegate void BNScriptingOutputListener_errorDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text);
-		public unsafe delegate void BNScriptingOutputListener_inputReadyStateChangedDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ScriptingProviderInputReadyState state);
-		public unsafe delegate BNScriptingInstance* BNScriptingProviderCallbacks_createInstanceDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void BNUndoAction_freeObjectDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void BNUndoAction_undoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data);
-		public unsafe delegate void BNUndoAction_redoDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* data);
-		public unsafe delegate char* BNUndoAction_serializeDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void BNPluginCommand_defaultCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view);
-		public unsafe delegate void BNPluginCommand_addressCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate void BNPluginCommand_rangeCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate void BNPluginCommand_functionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void BNPluginCommand_lowLevelILFunctionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate void BNPluginCommand_lowLevelILInstructionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate void BNPluginCommand_mediumLevelILFunctionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate void BNPluginCommand_mediumLevelILInstructionCommandDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate bool BNPluginCommand_defaultIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view);
-		public unsafe delegate bool BNPluginCommand_addressIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate bool BNPluginCommand_rangeIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate bool BNPluginCommand_functionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate bool BNPluginCommand_lowLevelILFunctionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate bool BNPluginCommand_lowLevelILInstructionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate bool BNPluginCommand_mediumLevelILFunctionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate bool BNPluginCommand_mediumLevelILInstructionIsValidDelegate([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate void callbackDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void progressDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong progress, ulong total);
-		public unsafe delegate void funcDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate bool progressDelegate1([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, ulong progress, ulong total);
-		public unsafe delegate bool cbDelegate0([MarshalAs(UnmanagedType.LPStr)] string repoPath, [MarshalAs(UnmanagedType.LPStr)] string pluginPath, [MarshalAs(UnmanagedType.LPArray)] byte[] ctx);
-		public unsafe delegate void actionDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate bool isValidDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr);
-		public unsafe delegate void actionDelegate1([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate bool isValidDelegate1([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
-		public unsafe delegate void actionDelegate2([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate bool isValidDelegate2([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
-		public unsafe delegate void actionDelegate3([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate bool isValidDelegate3([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
-		public unsafe delegate void actionDelegate4([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate bool isValidDelegate4([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
-		public unsafe delegate void actionDelegate5([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate bool isValidDelegate5([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
-		public unsafe delegate void actionDelegate6([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate bool isValidDelegate6([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
-		public unsafe delegate bool deserializeDelegate0([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string data, _BNUndoAction* result);
-		public unsafe delegate void actionDelegate7([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
-		public unsafe delegate void actionDelegate8([MarshalAs(UnmanagedType.LPArray)] byte[] ctxt);
+		public unsafe delegate bool BNCustomTransform_decodeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
+		public unsafe delegate bool BNCustomTransform_encodeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNDataBuffer* input, BNDataBuffer* output, BNTransformParameter* _params, ulong paramCount);
+		public unsafe delegate void BNDownloadInstanceCallbacks_destroyInstanceDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate int BNDownloadInstanceCallbacks_performRequestDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string url);
+		public unsafe delegate ulong BNDownloadInstanceOutputCallbacks_writeCallbackDelegate(byte* data, ulong len, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNDownloadInstanceOutputCallbacks_progressCallbackDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong progress, ulong total);
+		public unsafe delegate BNDownloadInstance* BNDownloadProviderCallbacks_createInstanceDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNFileAccessor_getLengthDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNFileAccessor_readDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPVoid)] byte[] dest, ulong offset, ulong len);
+		public unsafe delegate ulong BNFileAccessor_writeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong offset, [MarshalAs(UnmanagedType.LPVoid)] byte[] src, ulong len);
+		public unsafe delegate bool BNFunctionRecognizer_recognizeLowLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data, BNFunction* func, BNLowLevelILFunction* il);
+		public unsafe delegate bool BNFunctionRecognizer_recognizeMediumLevelILDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data, BNFunction* func, BNMediumLevelILFunction* il);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showPlainTextReportDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showMarkdownReportDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents, [MarshalAs(UnmanagedType.LPStr)] string plaintext);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showHTMLReportDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string contents, [MarshalAs(UnmanagedType.LPStr)] string plaintext);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showGraphReportDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, [MarshalAs(UnmanagedType.LPStr)] string title, BNFlowGraph* graph);
+		public unsafe delegate void BNInteractionHandlerCallbacks_showReportCollectionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string title, BNReportCollection* reports);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getTextLineInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getIntegerInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, long* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getAddressInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, BNBinaryView* view, ulong currentAddr);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getChoiceInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong* result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string title, char** choices, ulong count);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getOpenFileNameInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getSaveFileNameInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string ext, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getDirectoryNameInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, char** result, [MarshalAs(UnmanagedType.LPStr)] string prompt, [MarshalAs(UnmanagedType.LPStr)] string defaultName);
+		public unsafe delegate bool BNInteractionHandlerCallbacks_getFormInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFormInputField* fields, ulong count, [MarshalAs(UnmanagedType.LPStr)] string title);
+		public unsafe delegate MessageBoxButtonResult BNInteractionHandlerCallbacks_showMessageBoxDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string title, [MarshalAs(UnmanagedType.LPStr)] string text, MessageBoxButtonSet buttons, MessageBoxIcon icon);
+		public unsafe delegate void BNLogListener_logDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, LogLevel level, [MarshalAs(UnmanagedType.LPStr)] string msg);
+		public unsafe delegate void BNLogListener_closeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate LogLevel BNLogListener_getLogLevelDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNMainThreadCallbacks_addActionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNMainThreadAction* action);
+		public unsafe delegate char* BNNavigationHandler_getCurrentViewDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ulong BNNavigationHandler_getCurrentOffsetDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool BNNavigationHandler_navigateDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string view, ulong offset);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructBinaryViewDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructFileMetadataDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFileMetadata* file);
+		public unsafe delegate void BNObjectDestructionCallbacks_destructFunctionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFunction* func);
+		public unsafe delegate void BNScriptingInstanceCallbacks_destroyInstanceDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate ScriptingProviderExecuteResult BNScriptingInstanceCallbacks_executeScriptInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string input);
+		public unsafe delegate void BNScriptingInstanceCallbacks_cancelScriptInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBinaryViewDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentFunctionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNFunction* func);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentBasicBlockDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBasicBlock* block);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentAddressDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong addr);
+		public unsafe delegate void BNScriptingInstanceCallbacks_setCurrentSelectionDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong begin, ulong end);
+		public unsafe delegate char* BNScriptingInstanceCallbacks_completeInputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text, ulong state);
+		public unsafe delegate void BNScriptingOutputListener_outputDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text);
+		public unsafe delegate void BNScriptingOutputListener_errorDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string text);
+		public unsafe delegate void BNScriptingOutputListener_inputReadyStateChangedDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ScriptingProviderInputReadyState state);
+		public unsafe delegate BNScriptingInstance* BNScriptingProviderCallbacks_createInstanceDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNUndoAction_freeObjectDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNUndoAction_undoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate void BNUndoAction_redoDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* data);
+		public unsafe delegate char* BNUndoAction_serializeDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void BNPluginCommand_defaultCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view);
+		public unsafe delegate void BNPluginCommand_addressCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate void BNPluginCommand_rangeCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate void BNPluginCommand_functionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void BNPluginCommand_lowLevelILFunctionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate void BNPluginCommand_lowLevelILInstructionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate void BNPluginCommand_mediumLevelILFunctionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate void BNPluginCommand_mediumLevelILInstructionCommandDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate bool BNPluginCommand_defaultIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view);
+		public unsafe delegate bool BNPluginCommand_addressIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate bool BNPluginCommand_rangeIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool BNPluginCommand_functionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate bool BNPluginCommand_lowLevelILFunctionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate bool BNPluginCommand_lowLevelILInstructionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate bool BNPluginCommand_mediumLevelILFunctionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate bool BNPluginCommand_mediumLevelILInstructionIsValidDelegate([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate void callbackDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void progressDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong progress, ulong total);
+		public unsafe delegate void funcDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate bool progressDelegate1([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, ulong progress, ulong total);
+		public unsafe delegate bool cbDelegate0([MarshalAs(UnmanagedType.LPStr)] string repoPath, [MarshalAs(UnmanagedType.LPStr)] string pluginPath, bool force, [MarshalAs(UnmanagedType.LPVoid)] byte[] ctx);
+		public unsafe delegate void actionDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate bool isValidDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr);
+		public unsafe delegate void actionDelegate1([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate bool isValidDelegate1([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNFunction* func);
+		public unsafe delegate void actionDelegate2([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate bool isValidDelegate2([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func);
+		public unsafe delegate void actionDelegate3([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate bool isValidDelegate3([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNLowLevelILFunction* func, ulong instr);
+		public unsafe delegate void actionDelegate4([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate bool isValidDelegate4([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func);
+		public unsafe delegate void actionDelegate5([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate bool isValidDelegate5([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, BNMediumLevelILFunction* func, ulong instr);
+		public unsafe delegate void actionDelegate6([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool isValidDelegate6([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, BNBinaryView* view, ulong addr, ulong len);
+		public unsafe delegate bool deserializeDelegate0([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt, [MarshalAs(UnmanagedType.LPStr)] string data, _BNUndoAction* result);
+		public unsafe delegate void actionDelegate7([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
+		public unsafe delegate void actionDelegate8([MarshalAs(UnmanagedType.LPVoid)] byte[] ctxt);
 	}
 }
