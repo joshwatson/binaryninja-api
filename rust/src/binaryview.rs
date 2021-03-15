@@ -610,6 +610,57 @@ pub trait BinaryViewExt: BinaryViewBase {
             );
         }
     }
+
+    fn string_at_address(&self, addr: u64) -> Result<StringReference> {
+        let mut result = BNStringReference {
+            length: 0,
+            start: 0,
+            type_: BNStringType::AsciiString,
+        };
+
+        unsafe {
+            if !BNGetStringAtAddress(self.as_ref().handle, addr, &mut result) {
+                return Err(());
+            }
+        }
+
+        Ok(StringReference(result))
+    }
+
+    fn strings(&self) -> Array<StringReference> {
+        unsafe {
+            let mut count: usize = 0;
+
+            let strings = BNGetStrings(self.as_ref().handle, &mut count);
+
+            Array::new(strings, count, ())
+        }
+    }
+
+    fn get_strings(&self, start: u64, end: u64) -> Array<StringReference> {
+        let mut count: usize = 0;
+
+        unsafe {
+            let strings = BNGetStringsInRange(self.as_ref().handle, start, end, &mut count);
+
+            Array::new(strings, count, ())
+        }
+    }
+}
+
+///////////////////
+// StringReference
+
+#[repr(transparent)]
+pub struct StringReference(pub(crate) BNStringReference);
+
+unsafe impl CoreOwnedArrayProvider for StringReference {
+    type Raw = BNStringReference;
+    type Context = ();
+
+    unsafe fn free(raw: *mut Self::Raw, _count: usize, _context: &Self::Context) {
+        BNFreeStringReferenceList(raw);
+    }
 }
 
 impl<T: BinaryViewBase> BinaryViewExt for T {}
