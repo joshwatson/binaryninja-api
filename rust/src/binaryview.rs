@@ -663,6 +663,14 @@ unsafe impl CoreOwnedArrayProvider for StringReference {
     }
 }
 
+unsafe impl<'a> CoreOwnedArrayWrapper<'a> for StringReference {
+    type Wrapped = Guard<'a, StringReference>;
+
+    unsafe fn wrap_raw(raw: &'a Self::Raw, context: &'a Self::Context) -> Self::Wrapped {
+        Guard::new(StringReference(*raw), context)
+    }
+}
+
 impl<T: BinaryViewBase> BinaryViewExt for T {}
 
 #[derive(PartialEq, Eq, Hash)]
