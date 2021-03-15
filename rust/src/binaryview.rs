@@ -654,6 +654,23 @@ pub trait BinaryViewExt: BinaryViewBase {
 #[repr(transparent)]
 pub struct StringReference(pub(crate) BNStringReference);
 
+impl StringReference {
+    #[inline]
+    pub fn start(&self) -> u64 {
+        self.0.start
+    }
+
+    #[inline]
+    pub fn length(&self) -> usize {
+        self.0.length
+    }
+
+    #[inline]
+    pub fn type_(&self) -> BNStringType {
+        self.0.type_
+    }
+}
+
 unsafe impl CoreOwnedArrayProvider for StringReference {
     type Raw = BNStringReference;
     type Context = ();
